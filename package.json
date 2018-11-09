@@ -22,5 +22,11 @@
     "express": "^4.16.4",
     "react": "^16.6.1",
     "react-dom": "^16.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-react": "^7.11.1"
   }
 }
