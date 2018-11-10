@@ -2,9 +2,14 @@ import Link from "next/link"
 
 const Index = () =>(
   <div>
-    <Link href="feed" style={{ fontSize: 40}}>
-      {/* <a style={{ fontSize: 40}}>Feed</a> */}
-      <div style={{ fontSize: 40}}>Feed</div>
+    <Link href="feed">
+      <a style={{ fontSize: 40}}>Feed</a>
+    </Link>
+    <Link href="login">
+      <a style={{ fontSize: 40}}>Login</a>
+    </Link>
+    <Link href="signup">
+      <a style={{ fontSize: 40}}>Signup</a>
     </Link>
     <h1>
       Welcome to Lyre Byrd
