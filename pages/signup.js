@@ -26,13 +26,13 @@ class Signup extends React.Component {
   }
 
   handleSubmit(e) {
-    axios.post('/api/signup', {
+    axios.post('/auth/signup', {
       username: this.state.username, 
       password: this.state.password
     })
     .then((res) => {
       console.log(JSON.stringify(res.data));
-      Router.push('/feed');
+      // Router.push('/feed');
     })
     .catch((err) => {
       console.log(err);
