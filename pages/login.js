@@ -31,7 +31,7 @@ class Login extends React.Component {
       password: this.state.password
     })
     .then((res) => {
-      console.log(JSON.stringify(res.data));
+      // console.log(JSON.stringify(res.data));
       Router.push('/feed');
     })
     .catch((err) => {
@@ -39,15 +39,39 @@ class Login extends React.Component {
     });
     e.preventDefault();
   }
+  // handleYTSubmit(e) {
+  //   axios.get('/auth/google')
+  //   .then((res) => {
+  //     console.log(JSON.stringify(res.data));
+  //     // Router.push('/feed');
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  //   e.preventDefault();
+  // }
 
   render() {
     return (
+      <div>
+
       <form onSubmit={this.handleSubmit}>
         <h1> Login </h1>
-        <input type='username' value={this.state.username} onChange={this.onUserChange}/>
-        <input type='password' value={this.state.password} onChange={this.onPssChange}/>
-        <input type='submit' onClick={this.handleSubmit}/>
+        <div>
+          <input type='username' value={this.state.username} onChange={this.onUserChange}/>
+        </div>
+        <div>
+          <input type='password' value={this.state.password} onChange={this.onPssChange}/>
+        </div>
+        <div>
+          <input type='submit' onClick={this.handleSubmit}/>
+        </div>
       </form>
+        <div>
+          <a href='/auth/youtube'>login with youtube</a>
+          <a href='/auth/spotify'>login with spotify</a>
+        </div>
+      </div>
     )
   }
 
