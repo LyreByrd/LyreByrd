@@ -77,3 +77,9 @@ typings/
 
 # package-lock
 package-lock.json
+
+# ec2 key
+ec2-nodejs-lyrebyrd.pem
+
+# vscode config
+.vscode

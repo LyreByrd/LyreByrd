@@ -32,7 +32,7 @@ class Signup extends React.Component {
     })
     .then((res) => {
       console.log(JSON.stringify(res.data));
-      // Router.push('/feed');
+      Router.push('/feed');
     })
     .catch((err) => {
       console.log(err);
