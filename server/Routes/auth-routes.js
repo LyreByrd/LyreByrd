@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 const { User } = require('../../db/db');
 
 
@@ -47,7 +48,7 @@ router.post('/signup', (req, res) => {
     const newUser = new User({
       username,
       password: hash
-    });
+    })
     User.findOneAndUpdate({username}, newUser, {upsert:true}, (err, data) => {
       if (err) {
         console.log(err, ' db errroor');
@@ -74,10 +75,8 @@ router.get('/spotify', passport.authenticate('spotify', {
 
 
 router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => {
-
   res.redirect('/feed');
 });
 
 module.exports = router;
 
-module.exports = router;

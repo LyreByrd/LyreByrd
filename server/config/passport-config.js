@@ -24,7 +24,7 @@ passport.use(
       if (err) {
         done(err);
       } else {
-        console.log(user.password);
+        console.log(user);
         //Check password match here
         bcrypt.compare(password, user.password, (err, res) => {
           if (res) {
@@ -36,7 +36,6 @@ passport.use(
             return done(err, null);
           }
         });
-
       }
       });
   })
