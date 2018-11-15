@@ -8,13 +8,16 @@ class Login extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      Token: ''
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onPssChange = this.onPssChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  // componentDidUpdate(){
+    
+  // }
   onUserChange(e) {
     this.setState({
       username: e.target.value
@@ -32,8 +35,11 @@ class Login extends React.Component {
       password: this.state.password
     })
     .then((res) => {
-      // console.log(JSON.stringify(res.data));
+      console.log(res.data);
+      localStorage.setItem('jwt', res.data.token);
+      localStorage.setItem("username", JSON.stringify(res.data.username));
       Router.push('/feed');
+      
     })
     .catch((err) => {
       console.log(err);

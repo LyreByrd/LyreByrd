@@ -17,7 +17,6 @@ require("../config/passport-config");
 
 router.post("/login",  function(req, res) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
-    console.log("User: ", user);
     if (err || !user) {
       return res.status(400).json({
         message: "Something is not right",
@@ -27,11 +26,12 @@ router.post("/login",  function(req, res) {
     req.login(user, { session: false }, err => {
       console.log("logging user in...");
       if (err) {
-        return res.send(err);
+        return res.send(err + ' error in routes');
       }
       // generate a signed son web token with the contents of user object and return it in the response
-      // const token = jwt.sign(user, "Memes are cool");
-      return res.json({ user });
+      const token = jwt.sign(user.username, "its a chiansaw, no, its a bird");
+      console.log(user, ' user from routes');
+      return res.send(JSON.stringify({username:user.username, token}));
     });
   })(req,res);
 });
