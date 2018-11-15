@@ -1,6 +1,6 @@
 const Feed = () => (
   <div>
-    <h1>Main Feed</h1>
+    <h1>Main Feed Ly</h1>
   </div>
 );
 
