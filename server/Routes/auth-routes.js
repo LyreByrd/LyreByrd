@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const User = require('../../db/db');
+const { User } = require('../../db/db');
 
 
 const jwt = require("jsonwebtoken");
@@ -53,7 +53,7 @@ router.post('/signup', (req, res) => {
         console.log(err, ' db errroor');
         return;
       }
-      console.log(data, 'datata');
+      return res.json(data)
     });
   });
 });
