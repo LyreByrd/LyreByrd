@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import React from 'react';
 import axios from 'axios';
+import NavBar from './components/NavBar.js';
 
 class Login extends React.Component {
   constructor(props) {
@@ -54,14 +55,21 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-
+      <header>
+        <NavBar/>
+      </header>
       <form onSubmit={this.handleSubmit}>
         <h1> Login </h1>
         <div>
-          <input type='username' value={this.state.username} onChange={this.onUserChange}/>
+          <input type='username' 
+            value={this.state.username} 
+            onChange={this.onUserChange}/>
         </div>
         <div>
-          <input type='password' value={this.state.password} onChange={this.onPssChange}/>
+          <input type='password' 
+            value={this.state.password} 
+            onChange={this.onPssChange}
+          />
         </div>
         <div>
           <input type='submit' onClick={this.handleSubmit}/>

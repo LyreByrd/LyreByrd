@@ -1,16 +1,12 @@
 import Link from "next/link"
 
+import NavBar from "./components/NavBar.js";
+
 const Index = () =>(
   <div>
-    <Link href="feed">
-      <a style={{ fontSize: 40, margin: 10}}>Feed</a>
-    </Link>
-    <Link href="login">
-      <a style={{ fontSize: 40, margin: 10}}>Login</a>
-    </Link>
-    <Link href="signup">
-      <a style={{ fontSize: 40, margin: 10}}>Signup</a>
-    </Link>
+    <header>
+      <NavBar/>
+    </header>
     <h1>
       Welcome to Lyre Byrd
     </h1>
