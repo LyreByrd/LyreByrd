@@ -1,6 +1,11 @@
+import NavBar from './components/NavBar.js';
+
 const Feed = () => (
   <div>
-    <h1>Main Feed Ly</h1>
+    <header>
+      <NavBar />
+    </header>
+    <h1>Main Feed</h1>
   </div>
 );
 

@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import React from 'react';
 import axios from 'axios';
+import NavBar from './components/NavBar.js';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Signup extends React.Component {
   }
 
   handleSubmit(e) {
-    axios.post('/api/signup', {
+    axios.post('/auth/signup', {
       username: this.state.username, 
       password: this.state.password
     })
@@ -42,12 +43,23 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-      <h1> Signup </h1>
-        <input type='username' value={this.state.username} onChange={this.onUserChange}/>
-        <input type='password' value={this.state.password} onChange={this.onPssChange}/>
-        <input type='submit' onClick={this.handleSubmit}/>
-      </form>
+      <div>
+        <header>
+          <NavBar/>
+        </header>
+        <form onSubmit={this.handleSubmit}>
+        <h1> Signup </h1>
+          <input type='username' 
+            value={this.state.username} 
+            onChange={this.onUserChange}
+          />
+          <input type='password' 
+            value={this.state.password} 
+            onChange={this.onPssChange}
+          />
+          <input type='submit' onClick={this.handleSubmit}/>
+        </form>
+      </div>
     )
   }
 
