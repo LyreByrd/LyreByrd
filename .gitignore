@@ -77,3 +77,6 @@ typings/
 
 # package-lock
 package-lock.json
+
+#Private Key
+ec2-nodejs-lyrebyrd.pem
