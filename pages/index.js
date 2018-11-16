@@ -10,7 +10,9 @@ const Index = () => (
       <div className="top signup">Signup button</div>
       <div className=" social-logins">
         <div className="login-link icon">
-          <div>Login</div>
+          <div>
+            <Link href="login">Login</Link>
+          </div>
           <div />
         </div>
         <div className="login-link spotify icon">
@@ -75,10 +77,8 @@ const Index = () => (
       }
 
       .google {
-        background-color: #db3236;
       }
       .spotify {
-        background-color: #84bd00;
       }
 
       .icon {
