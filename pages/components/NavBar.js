@@ -56,6 +56,12 @@ class NavBar extends React.Component {
                 <Input icon='search' placeholder='Search...' />
               </Menu.Item>
               <Menu.Item
+                name = 'create feed'
+                active={this.state.activeItem === 'createFeed'}
+                onClick={this.handleItemClick}
+                href="/createFeed"
+              />
+              <Menu.Item
               name='profile'
               active={this.state.activeItem === 'profile'}
               onClick={this.handleItemClick}
