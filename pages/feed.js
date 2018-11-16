@@ -3,7 +3,7 @@ import NavBar from './components/NavBar.js';
 const Feed = () => (
   <div>
     <header>
-      <NavBar/>
+      <NavBar />
     </header>
     <h1>Main Feed</h1>
   </div>
