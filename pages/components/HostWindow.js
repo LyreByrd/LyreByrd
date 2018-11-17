@@ -53,21 +53,29 @@ class HostWindow extends React.Component {
   }
 }
 
+ClientWindow.propTypes = {
+  hostingName: propTypes.string.isRequired,
+  isActive: propTypes.bool.isRequired,
+  clientComponentProp: propTypes.element,
+  resetToLobby: propTypes.function.isRequired,
+}
+
 export default HostWindow;
 
 /* Props:
  * 
  * isActive - 
  *    determines whether it should be visible or a collapsed span
+ *    (useful for loading the script early)
  * 
  * resetToLobby - 
  *    a function to be called in the event of a server error
  *    that requires regeneration of the session
  * 
  * hostingName - 
- *    unique identifier with which to host
+ *    unique identifier with which to define hosted session
  * 
  *  hostComponentProp - 
- *    optional passing-down of the component if we already have it loaded
+ *    optional passing-down of the player component if we already have it loaded
  *    in a higher element
  */

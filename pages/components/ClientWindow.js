@@ -9,7 +9,9 @@ ClientPlayer.loaded = false;
 class ClientWindow extends React.Component {
   constructor(props) {
     super(props);
-    this.props.sessionHost = this.props.hostingName;
+    if (!this.props.sessionHost) {
+      this.props.sessionHost = this.props.hostingName;
+    }
     this.state = {
       hasLoaded: false,
     }
@@ -54,6 +56,20 @@ class ClientWindow extends React.Component {
   }
 }
 
+ClientWindow.propTypes = {
+  hostingName: propTypes.string,
+  sessionHost: (props, propName, componentName) => {
+    if(props.sessionHost && typeof props.sessionHost !== 'string') {
+      return new Error(`Invalid props supplied to ${componentName}: sessionHost must be a string if it is supplied.`);
+    } else if (!props.sessionHost && typeof props.hostingName !== 'string') {
+      return new Error(`Invalid props supplied to ${componentName}: if sessionHost is not supplied, hostingName must be a string`);
+    }
+  },
+  isActive: propTypes.bool.isRequired,
+  clientComponentProp: propTypes.element,
+  resetToLobby: propTypes.function.isRequired,
+}
+
 export default ClientWindow;
 
 /* Props:
@@ -65,10 +81,11 @@ export default ClientWindow;
  *    a function to be called in the event of a server error
  *    that requires regeneration of the session
  * 
- * hostingName - 
- *    unique identifier with which to host
+ * hostingName / sessionHost - 
+ *    unique identifier of the session to join. hostingName 
+ *    will be used as a fallback for nonexistent sessionHost
  * 
  *  clientComponentProp - 
- *    optional passing-down of the component if we already have it loaded
+ *    optional passing-down of the player component if we already have it loaded
  *    in a higher element
  */
