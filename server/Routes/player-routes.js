@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 const syncServerUrl = process.env.SYNC_SERVER_URL || 'localhost';
-const syncServerPort = process.env.SYNC_SERVER_PORT || 3000;
+const syncServerPort = process.env.SYNC_SERVER_PORT || 1234;
 
 router.get('/host', (req, res) => {
   axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/host`)
