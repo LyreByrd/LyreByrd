@@ -6,9 +6,13 @@ const next = require('next')
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const passport = require('passport');
+const axios = require('axios');
 
 // todo move this later
 const { Player } = require('../db/db.js')
+
+const syncServerUrl = process.env.SYNC_SERVER_URL || 'localhost';
+const syncServerPort = process.env.SYNC_SERVER_PORT || 1234;
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -61,11 +65,18 @@ app.prepare()
         host: host,
         path: path
       }
+      const syncSessionStart = axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host});
       Player.findOneAndUpdate({ host }, playerStream, {upsert:true}, (err, data) => {
         if (err) {
           console.log('error saving player stream to db in server.js', err)
+          res.sendStatus(500)
         } else {
-          return res.json(data);
+          syncSessionStart.then(response => {
+            res.status(201).send({sync: response.data, db: JSON.stringify(data)});
+          })
+          .catch(err => {
+            res.sendStatus(500);
+          });
         }
       })
     })
