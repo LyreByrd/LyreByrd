@@ -17,11 +17,19 @@ const userSchema = mongoose.Schema({
   password: String
 });
 
+const playerSchema = mongoose.Schema({
+  host: String,
+  path: String
+});
+
 const UserYS = mongoose.model('UsersYS', userYSSchema);
 const User = mongoose.model('Users', userSchema);
+
+const Player = mongoose.model('Players', playerSchema);
 
 
 
 
 module.exports.UserYS = UserYS;
 module.exports.User = User;
+module.exports.Player = Player;

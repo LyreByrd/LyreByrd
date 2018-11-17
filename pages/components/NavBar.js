@@ -1,29 +1,45 @@
 import React from 'react';
 import { Dropdown, Icon, Menu, Input } from 'semantic-ui-react';
-import {Link} from "next/link";
+import { Link, withRouter, Button } from "next/link";
 import Head from "next/head";
+import axios from 'axios';
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeItem: 'home',
-      Token: null
+      Token: null,
+      user: ''
     };
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
   componentDidMount(){
     this.setState({ 
-      Token: localStorage.getItem('jwt')
+      Token: localStorage.getItem('jwt'),
+      user: JSON.parse(localStorage.getItem('username'))
     });
   }
+
 
   handleItemClick (e, { name }) { 
     console.log(name);
     this.setState({ 
       activeItem: name,
     });
+    if (name === 'create player stream') {
+      axios.post('/player/create', {
+        host: this.state.user,
+        path: `/player?host=${this.state.user}`
+      })
+      .then(data => {
+        console.log('data returned from creating player stream page in db save in Navbar.js', data)
+      })
+      .catch(err => {
+        console.log('error creating player stream in navbar.js', err)
+      })
+    }
     // if (name == 'logout') {
     //   this.props.logout();  
     // }
@@ -55,20 +71,33 @@ class NavBar extends React.Component {
               <Menu.Item>
                 <Input icon='search' placeholder='Search...' />
               </Menu.Item>
+              
               <Menu.Item
-              name='profile'
-              active={this.state.activeItem === 'profile'}
-              onClick={this.handleItemClick}
-              href="/profile"
+                name = 'create player stream'
+                // user={this.state.user}
+                active={this.state.activeItem === 'player'}
+                onClick={this.handleItemClick}
+                href = {`/player?host=${this.state.user}`}
+                as={Link}
+              />
+              
+              <Menu.Item
+                name='profile'
+                active={this.state.activeItem === 'profile'}
+                onClick={this.handleItemClick}
+                href="/profile"
               />
               <Menu.Item
-              name='logout'
-              active={this.state.activeItem === 'logout'}
-              onClick={this.logout}
-              href="/"
+                name='logout'
+                active={this.state.activeItem === 'logout'}
+                onClick={this.logout}
+                href="/"
               />
             </Menu.Menu>
           </Menu>
+          <div>
+            nav user is: {this.state.user}
+          </div>
         </div>
       )
     } else {
