@@ -13,7 +13,7 @@ router.get('/feeds', (req, res) => {
     if (err) {
       console.log('err finding player feed data on server.js', err)
     } else {
-      console.log('data', data);
+      // console.log('data', data);
       res.json(data);
     }
   })

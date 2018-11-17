@@ -1,7 +1,7 @@
 const express = require('express');
 const userRoutes = require('./Routes/user-routes');
 const authRoutes = require('./Routes/auth-routes');
-const chatRoutes = require('./Routes/chat-routes');
+// const chatRoutes = require('./Routes/chat-routes');
 const playerRoutes = require('./Routes/player-routes');
 const next = require('next')
 const bodyParser = require("body-parser");
@@ -28,18 +28,12 @@ app.prepare()
     server.use(passport.session());
     server.use('/user', userRoutes);
     server.use('/auth', authRoutes);
-    server.use('/chat', chatRoutes);
+    // server.use('/chat', chatRoutes);
     server.use('/player', playerRoutes);
     
-  
-
     server.get('*', (req, res) => {
       return handle(req, res);
     });
-
-  
-
-
 
     server.listen(port, (err) => {
       if (err) throw err;
