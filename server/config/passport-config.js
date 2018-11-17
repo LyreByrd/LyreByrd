@@ -11,20 +11,24 @@ const {UserYS} = require('../../db/db');
 
 require('dotenv').config();
 
-passport.use(new JWTStrategy({
-  jwtFromRequest: ExtractJWT.fromUrlQueryParameter('Token'),
-  secretOrKey   : 'Memes are cool'
-},
-function (jwtPayload, cb) {
-  db.findUserJWT(jwtPayload.username, jwtPayload.password, function(err, user){
-    if (!user || err) {
-      console.log('Ran into issue: ',err, user);
-      return cb(err, false, { message: "Failure" });
-    }
-    //Check password match here
-    return cb(null, user[0], { message: "Success", username: user[0] });
+
+// TODO protected routes with token in query
+passport.use(
+  new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromUrlQueryParameter('Token'),
+    secretOrKey   : 'Memes are cool'
+  },
+  function (jwtPayload, cb) {
+    db.findUserJWT(jwtPayload.username, jwtPayload.password, function(err, user){
+      if (!user || err) {
+        console.log('Ran into issue: ',err, user);
+        return cb(err, false, { message: "Failure" });
+      }
+      //Check password match here
+      return cb(null, user[0], { message: "Success", username: user[0] });
+    });
   })
-}))
+);
 
 
 passport.use(
@@ -33,25 +37,23 @@ passport.use(
     passwordField: 'password'
   },
   (username, password, done) => {
-    User.findOne({ username }, (err, user) => {
-      if (err) {
-        done(err);
-      } else {
-        console.log(user, 'passport config');
-        //Check password match here
-        bcrypt.compare(password, user.password, (err, res) => {
-          if (err) {
-            console.log('Compare problem...')
-            return done(err, null);
-          } else {
-            console.log(`${user.username} found`);
-            console.log(res, ' res from db in config');
-            delete user.password;
-            return done(null, user);
-          }
-        });
+    User.findOne({ username })
+    .then((user) => {
+      if (!user) {
+        return done(null, user);
       }
-      });
+        //Check password match here
+        bcrypt.compare(password, user.password)
+        .then((res) => {
+          return done(null, res, username);
+        })
+        .catch((err) => {
+          return done(err, null);
+        });
+    })
+    .catch((err) => {
+      return done(err, null);
+    });
   })
 );
 

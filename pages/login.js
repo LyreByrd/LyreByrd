@@ -39,10 +39,11 @@ class Login extends React.Component {
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem("username", JSON.stringify(res.data.username));
       Router.push('/feed');
-      
     })
     .catch((err) => {
-      console.log(err);
+      err = err.response;
+      console.log(JSON.stringify(err.statusText));
+      console.log(JSON.stringify(err.data.message));
     });
     e.preventDefault();
   }
