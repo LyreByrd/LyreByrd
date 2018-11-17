@@ -53,6 +53,8 @@ class HostWindow extends React.Component {
   }
 }
 
+export default HostWindow;
+
 /* Props:
  * 
  * isActive - 
