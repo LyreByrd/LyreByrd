@@ -32,7 +32,7 @@ class Chat extends react.Component {
       user: currentUser
     })
 
-    const socket = io('http://localhost:3000');
+    const socket = io('http://localhost:8000');
     // socket.connect();
 
     socket.on('connect', () => {

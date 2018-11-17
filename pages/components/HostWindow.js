@@ -13,7 +13,7 @@ class HostWindow extends React.Component {
       hasLoaded: false,
     }
     this.hostComponentReady = this.hostComponentReady.bind(this);
-    if (this.props.hostElementProp) {
+    if (this.props.hostComponentProp) {
       HostPlayer = this.props.hostComponentProp;
     }
   }
@@ -29,8 +29,8 @@ class HostWindow extends React.Component {
   }
 
   componentDidMount() {
-    if(HostComponent.loaded === false) {
-      loadHost = new Promise((resolve) => {
+    if(HostPlayer.loaded === false) {
+      let loadHost = new Promise((resolve) => {
         const tag = document.createElement('script');
         tag.src = hostSrcUrl;
         const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -53,12 +53,12 @@ class HostWindow extends React.Component {
   }
 }
 
-ClientWindow.propTypes = {
-  hostingName: propTypes.string.isRequired,
-  isActive: propTypes.bool.isRequired,
-  clientComponentProp: propTypes.element,
-  resetToLobby: propTypes.function.isRequired,
-}
+// HostWindow.propTypes = {
+//   hostingName: propTypes.string.isRequired,
+//   isActive: propTypes.bool.isRequired,
+//   hostComponentProp: propTypes.element,
+//   resetToLobby: propTypes.function.isRequired,
+// }
 
 export default HostWindow;
 

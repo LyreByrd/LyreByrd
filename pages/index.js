@@ -42,6 +42,10 @@ const Index = () => (
         border-radius: 6px;
         background-image: url(https://via.placeholder.com/1364X600);
       }
+      `}
+    </style>
+  </div>)
+
 
 export default Index
 

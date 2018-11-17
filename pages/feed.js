@@ -84,3 +84,4 @@ export default class Feed extends React.Component {
     );
   }
 }
+//  export default feed

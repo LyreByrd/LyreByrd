@@ -57,8 +57,19 @@ router.post('/create', (req, res) => {
   Player.findOneAndUpdate({ host }, playerStream, {upsert:true}, (err, data) => {
     if (err) {
       console.log('error saving player stream to db in server.js', err)
+      res.sendStatus(500)
     } else {
-      return res.json(data);
+      axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host})
+        .then(response => {
+          if (response.status === 403) {
+            res.sendStatus(403);
+          } else {
+            res.status(201).send({sync: response.data, db: JSON.stringify(data)});
+          }
+        })
+        .catch(err => {
+          res.sendStatus(500);
+        });
     }
   })
 })
