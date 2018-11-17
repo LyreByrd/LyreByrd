@@ -18,13 +18,10 @@ class Feed extends React.Component {
   getFeeds() {
     axios.get('/playerFeeds')
     .then(feeds => {
-      console.log('feeds', feeds.data);
       let newFeeds = [];
       feeds.data.forEach(feed => {
         newFeeds.push([feed.host, feed.path])
       })
-      console.log('feed data from db', newFeeds)
-      console.log('thisstate length', this.state.feeds.length)
       if (this.state.feeds.length === 0) {
         this.setState({
           feeds: newFeeds
@@ -49,7 +46,7 @@ class Feed extends React.Component {
         <h1>Main Feed</h1>
         <div>
           {this.state.feeds.map((feed, i) => {
-            return <div key={i}>host: {feed}</div>
+            return <div key={i}>host: {feed[0]} path:{feed[1]}</div>
           })}
         </div>
       </div>
