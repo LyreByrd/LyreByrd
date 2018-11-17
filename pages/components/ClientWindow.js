@@ -13,7 +13,7 @@ class ClientWindow extends React.Component {
       hasLoaded: false,
     }
     this.clientComponentReady = this.clientComponentReady.bind(this);
-    if (this.props.clientElementProp) {
+    if (this.props.clientComponentProp) {
       ClientPlayer = this.props.clientComponentProp;
     }
   }
@@ -29,8 +29,8 @@ class ClientWindow extends React.Component {
   }
 
   componentDidMount() {
-    if(ClientComponent.loaded === false) {
-      loadClient = new Promise((resolve) => {
+    if(ClientPlayer.loaded === false) {
+      let loadClient = new Promise((resolve) => {
         const tag = document.createElement('script');
         tag.src = clientSrcUrl;
         const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -57,21 +57,21 @@ class ClientWindow extends React.Component {
   }
 }
 
-ClientWindow.propTypes = {
-  hostingName: propTypes.string,
-  sessionHost: (props, propName, componentName) => {
-    if(props.sessionHost && typeof props.sessionHost !== 'string') {
-      return new Error(`Invalid props supplied to ${componentName}: sessionHost must be a string if it is supplied.`);
-    } else if (!props.sessionHost && typeof props.hostingName !== 'string') {
-      return new Error(`Invalid props supplied to ${componentName}: if sessionHost is not supplied, hostingName must be a string`);
-    } else if (props.hostingName && props.hostingName !== props.sessionHost) {
-      return new Error(`Invalid props supplied to ${componentName}: sessionHost and hostingName must be identical if both supplied.`)
-    }
-  },
-  isActive: propTypes.bool.isRequired,
-  clientComponentProp: propTypes.element,
-  resetToLobby: propTypes.function.isRequired,
-}
+// ClientWindow.propTypes = {
+//   hostingName: propTypes.string,
+//   sessionHost: (props, propName, componentName) => {
+//     if(props.sessionHost && typeof props.sessionHost !== 'string') {
+//       return new Error(`Invalid props supplied to ${componentName}: sessionHost must be a string if it is supplied.`);
+//     } else if (!props.sessionHost && typeof props.hostingName !== 'string') {
+//       return new Error(`Invalid props supplied to ${componentName}: if sessionHost is not supplied, hostingName must be a string`);
+//     } else if (props.hostingName && props.hostingName !== props.sessionHost) {
+//       return new Error(`Invalid props supplied to ${componentName}: sessionHost and hostingName must be identical if both supplied.`)
+//     }
+//   },
+//   isActive: propTypes.bool.isRequired,
+//   clientComponentProp: propTypes.element,
+//   resetToLobby: propTypes.function.isRequired,
+// }
 
 export default ClientWindow;
 
