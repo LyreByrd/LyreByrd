@@ -97,9 +97,6 @@ class NavBar extends React.Component {
               />
             </Menu.Menu>
           </Menu>
-          <div>
-            nav user is: {this.state.user}
-          </div>
         </div>
       )
     } else {

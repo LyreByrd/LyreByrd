@@ -1,18 +1,23 @@
+// import react from 'react';
 import NavBar from './components/NavBar.js';
-import react from 'react';
+import Chat from './components/chat.js'
+import {withRouter} from 'next/router';
 
 class Player extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      host: this.props.user
+      host: '',
+      path: ''
     }
   }
 
   componentDidMount() {
-    let currentHost = JSON.parse(localStorage.getItem('username'));
+    console.log('url query', this.props.url.query)
+    let currentHost = this.props.url.query.host;
     this.setState({
-      host: currentHost
+      host: currentHost,
+      path: `/player?host=${currentHost}`
     })
   }
 
@@ -22,7 +27,11 @@ class Player extends React.Component {
         <header>
           <NavBar/>
         </header>
-        <h1>Host is: {this.state.host}</h1>
+        <h1>host: {this.state.host}</h1>
+        <Chat 
+          user={this.props.user}
+          path={this.state.path}
+        />
       </div>
     )
   }
