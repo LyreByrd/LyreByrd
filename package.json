@@ -27,6 +27,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "golang": "^0.1.5-stable",
+    "micro-react": "^1.0.0-5",
     "mongodb": "^3.1.9",
     "mongoose": "^5.3.11",
     "next": "^7.0.2",
@@ -39,8 +40,8 @@
     "passport-youtube-v3": "^2.1.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "styled-jsx": "^3.1.1",
-    "semantic-ui-react": "*"
+    "semantic-ui-react": "*",
+    "styled-jsx": "^3.1.1"
   },
   "devDependencies": {
     "eslint": "^5.8.0",

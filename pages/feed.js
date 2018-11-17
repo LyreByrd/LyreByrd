@@ -16,7 +16,7 @@ class Feed extends React.Component {
   }
 
   getFeeds() {
-    axios.get('/playerFeeds')
+    axios.get('/player/feeds')
     .then(feeds => {
       let newFeeds = [];
       feeds.data.forEach(feed => {

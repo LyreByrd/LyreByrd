@@ -1,5 +1,6 @@
 import NavBar from './components/NavBar.js';
 import react from 'react';
+import Chat from './components/chat.js'
 
 class Player extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Player extends React.Component {
           <NavBar/>
         </header>
         <h1>Host is: {this.state.host}</h1>
+        <Chat/>
       </div>
     )
   }
