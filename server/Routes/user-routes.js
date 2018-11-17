@@ -22,4 +22,5 @@ router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => 
   res.redirect('/feed');
 });
 
+
 module.exports = router;
