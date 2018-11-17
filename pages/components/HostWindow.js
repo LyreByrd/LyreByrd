@@ -76,6 +76,6 @@ export default HostWindow;
  *    unique identifier with which to define hosted session
  * 
  *  hostComponentProp - 
- *    optional passing-down of the player component if we already have it loaded
- *    in a higher element
+ *    optional passing-down of the player component if we already 
+ *    have it loaded in a higher element
  */

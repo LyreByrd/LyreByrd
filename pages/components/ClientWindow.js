@@ -76,6 +76,7 @@ export default ClientWindow;
  * 
  * isActive - 
  *    determines whether it should be visible or a collapsed span
+ *    (useful for loading the script early)
  * 
  * resetToLobby - 
  *    a function to be called in the event of a server error
