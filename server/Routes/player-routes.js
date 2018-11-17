@@ -8,11 +8,11 @@ const syncServerPort = process.env.SYNC_SERVER_PORT || 1234;
 router.get('/host', (req, res) => {
   axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/host`)
     .then(response => {
-      res.setStatus(200).send(response.body);
+      res.status(200).send(response.data);
     })
     .catch(err => {
       if(err.status) {
-        res.setStatus(err.status).send(err);
+        res.status(err.status).send(err);
       } else {
         res.sendStatus(500);
       }
@@ -22,11 +22,11 @@ router.get('/host', (req, res) => {
 router.get('/client', (req, res) => {
   axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/client`)
     .then(response => {
-      res.setStatus(200).send(response.body);
+      res.status(200).send(response.data);
     })
     .catch(err => {
       if(err.status) {
-        res.setStatus(err.status).send(err);
+        res.status(err.status).send(err);
       } else {
         res.sendStatus(500);
       }
