@@ -9,9 +9,6 @@ ClientPlayer.loaded = false;
 class ClientWindow extends React.Component {
   constructor(props) {
     super(props);
-    if (!this.props.sessionHost) {
-      this.props.sessionHost = this.props.hostingName;
-    }
     this.state = {
       hasLoaded: false,
     }
@@ -48,8 +45,12 @@ class ClientWindow extends React.Component {
 
   render() {
     if (this.props.isActive) {
+      let props = {...this.props};
+      if(props.hostingName && !props.sessionHost) {
+        props.sessionHost = props.hostingName;
+      }
       return (<div>
-        {this.state.hasLoaded ? <ClientPlayer {...this.props} /> : 'Loading...'}
+        {this.state.hasLoaded ? <ClientPlayer {...props} /> : 'Loading...'}
       </div>);
     }
     return <span></span>;
@@ -63,6 +64,8 @@ ClientWindow.propTypes = {
       return new Error(`Invalid props supplied to ${componentName}: sessionHost must be a string if it is supplied.`);
     } else if (!props.sessionHost && typeof props.hostingName !== 'string') {
       return new Error(`Invalid props supplied to ${componentName}: if sessionHost is not supplied, hostingName must be a string`);
+    } else if (props.hostingName && props.hostingName !== props.sessionHost) {
+      return new Error(`Invalid props supplied to ${componentName}: sessionHost and hostingName must be identical if both supplied.`)
     }
   },
   isActive: propTypes.bool.isRequired,
