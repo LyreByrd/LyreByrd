@@ -1,5 +1,5 @@
 import NavBar from './components/NavBar.js';
-import react from 'react';
+import React from 'react';
 import axios from 'axios';
 import Block from './components/block';
 

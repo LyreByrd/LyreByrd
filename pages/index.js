@@ -1,6 +1,5 @@
-import Link from 'next/link';
 
-import NavBar from './components/NavBar.js';
+import Link from "next/link"
 
 const Index = () => (
   <div className="container">
@@ -44,50 +43,5 @@ const Index = () => (
         background-image: url(https://via.placeholder.com/1364X600);
       }
 
-      .left-img {
-        grid-column-start: 1;
-        background-image: url(https://via.placeholder.com/165x100);
-      }
+export default Index
 
-      .top {
-        border-radius: 6px;
-        padding-left: 15px;
-        border: 1px solid #dfdcd4;
-      }
-      .app-name {
-        display: flex;
-        grid-column-start: 2;
-
-        justify-contnet: center;
-      }
-      .signup {
-        display: flex;
-        grid-column-start: 3;
-      }
-
-      .social-logins {
-        display: grid;
-        grid-template-rows: repeat(3, 1fr);
-        grid-gap: 5px;
-      }
-
-      .login-link {
-        border: 1px solid #dfdcd4;
-        border-radius: 6px;
-      }
-
-      .google {
-      }
-      .spotify {
-      }
-
-      .icon {
-        display: grid;
-        grid-template-columns: 160px;
-      }
-    `}</style>
-  </div>
-);
-
-
-export default Index;
