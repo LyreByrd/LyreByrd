@@ -1,5 +1,4 @@
-
-import Link from "next/link"
+import Link from 'next/link';
 
 const Index = () => (
   <div className="container">
@@ -42,6 +41,7 @@ const Index = () => (
         border-radius: 6px;
         background-image: url(https://via.placeholder.com/1364X600);
       }
-
-export default Index
-
+    `}</style>
+  </div>
+);
+export default Index;
