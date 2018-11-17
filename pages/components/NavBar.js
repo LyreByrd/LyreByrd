@@ -10,24 +10,26 @@ class NavBar extends React.Component {
       activeItem: 'home',
       Token: null
     };
-    this.handleItemClick = this.handleItemClick.bind(this);
   }
+    // this.handleItemClick = this.handleItemClick.bind(this);
+   
+  
 
   componentDidMount(){
     this.setState({ 
-      Token: localStorage.getItem('jwt')
+      Token: localStorage.getItem('jwt') || null
     });
   }
 
-  handleItemClick (e, { name }) { 
-    console.log(name);
-    this.setState({ 
-      activeItem: name,
-    });
-    // if (name == 'logout') {
-    //   this.props.logout();  
-    // }
-  }
+  // handleItemClick (e, { name }) { 
+  //   console.log(name);
+  //   this.setState({ 
+  //     activeItem: name,
+  //   });
+  //   // if (name == 'logout') {
+  //   //   this.props.logout();  
+  //   // }
+  // }
 
   logout(){
     localStorage.clear();
@@ -75,6 +77,18 @@ class NavBar extends React.Component {
       return (
       <div>
         <Menu>
+          <Menu.Item 
+          name='home' 
+          active={this.state.activeItem === 'home'} 
+          onClick={this.handleItemClick} 
+          href="/index"
+          />
+          <Menu.Item 
+          name='feed' 
+          active={this.state.activeItem === 'feed'} 
+          onClick={this.handleItemClick} 
+          href="/feed"
+          />
           <Menu.Menu position='right'>
             <Menu.Item>
               <Input icon='search' placeholder='Search...' />
@@ -101,7 +115,7 @@ class NavBar extends React.Component {
 
 
   render() {
-    const { activeItem } = this.state;
+    // const { activeItem } = this.state;
 
     return (
       <div>
@@ -113,8 +127,42 @@ class NavBar extends React.Component {
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
           />
+          <link rel="stylesheet" href="../../styles/style.css"/>
         </Head>
        {this.LogSignRender()}
+        <div>
+          {/* <Menu>
+            <Menu.Item 
+            name='home' 
+            // // active={this.state.activeItem === 'home'} 
+            onClick={this.handleItemClick} 
+            href="/index"
+            />
+            <Menu.Item 
+            name='feed' 
+            // // active={this.state.activeItem === 'feed'} 
+            onClick={this.handleItemClick} 
+            href="/feed"
+            />
+            <Menu.Menu position='right'>
+              <Menu.Item>
+                <Input icon='search' placeholder='Search...' />
+              </Menu.Item>
+              <Menu.Item
+              name='profile'
+              // // active={this.state.activeItem === 'profile'}
+              onClick={this.handleItemClick}
+              href="/profile"
+              />
+              <Menu.Item
+              name='logout'
+              // // active={this.state.activeItem === 'logout'}
+              onClick={this.logout}
+              href="/"
+              />
+            </Menu.Menu>
+          </Menu> */}
+        </div>
       </div>
     )
   }

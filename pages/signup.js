@@ -32,7 +32,9 @@ class Signup extends React.Component {
       password: this.state.password
     })
     .then((res) => {
-      console.log(JSON.stringify(res.data));
+      console.log(res.data);
+      localStorage.setItem('jwt', res.data.token);
+      localStorage.setItem("username", JSON.stringify(res.data.username));
       Router.push('/feed');
     })
     .catch((err) => {
