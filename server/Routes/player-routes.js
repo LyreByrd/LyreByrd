@@ -59,6 +59,7 @@ router.post('/create', (req, res) => {
       console.log('error saving player stream to db in server.js', err)
       res.sendStatus(500)
     } else {
+      console.log('attempting to create sync session')
       axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host})
         .then(response => {
           if (response.status === 403) {
@@ -68,6 +69,7 @@ router.post('/create', (req, res) => {
           }
         })
         .catch(err => {
+          console.log('error (timeout?)')
           res.sendStatus(500);
         });
     }

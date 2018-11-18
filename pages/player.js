@@ -11,14 +11,17 @@ class Player extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      user: '',
       host: props.router.query.host,
       //host: this.props.user
       isReady: false,
+      initialMountDone: false,
     }
     this.resetToLobby = this.resetToLobby.bind(this);
   }
 
-  resetToLobby() {
+  resetToLobby(error) {
+    console.log('error in lobby reset', error)
     console.log('Make this do something useful!');
     this.setState({isReady: false}, () => {
       setTimeout(() => this.regenSession(), 5000);
@@ -28,11 +31,16 @@ class Player extends React.Component {
   componentDidMount() {
     console.log('url query', this.props.url.query)
     let currentHost = this.props.url.query.host;
+    let currentUser = JSON.parse(localStorage.getItem('username'));
     this.setState({
-      host: currentHost,
-      path: `/player?host=${currentHost}`
+      // host: currentHost,
+      user: currentUser,
+      path: `/player?host=${currentHost}`,
+      initialMountDone: true,
     }, () => {
-      if (this.state.host === this.props.user) {
+      console.log(this.state.host, 'host')
+      console.log(this.state.user, 'user')
+      if (this.state.host === this.state.user) {
         this.tryClaimHost();
       } else {
         this.setState({isReady: true});
@@ -42,10 +50,14 @@ class Player extends React.Component {
 
   regenSession() {
     if (this.state.host === this.props.user) { 
-      axios.post('/host', {hostingName: this.state.hostingName})
+      axios.post('api/player/create', {
+        host: this.state.user,
+        path: `/player?host=${this.state.user}`
+      })
+      //axios.post('/host', {hostingName: this.state.hostingName})
         .then((res) => {
           //console.log('host claim response: ', res);
-          if(res.data.hostName === this.state.hostingName) {
+          if(true) {
             this.setState({isReady: true});
           }
         })
@@ -81,16 +93,21 @@ class Player extends React.Component {
   }
 
   render() {
+    let playerElement;
+    if (this.state.initialMountDone) {
+      playerElement = this.state.host === this.state.user ? 
+        <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
+        <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
+    } else {
+      playerElement = <span></span>
+    }
     return (
       <div>
         <header>
           <NavBar/>
         </header>
         <h1>Host is: {this.state.host}</h1>
-        {this.state.host === this.props.user ? 
-          <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
-          <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
-        }
+        {playerElement}
         <Chat 
           user={this.props.user}
           path={this.state.path}

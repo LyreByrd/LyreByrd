@@ -76,7 +76,7 @@ class NavBar extends React.Component {
               
               <Menu.Item
                 name = 'create player stream'
-                // user={this.state.user}
+                user={this.state.user}
                 active={this.state.activeItem === 'player'}
                 onClick={this.handleItemClick}
                 href = {`/player?host=${this.state.user}`}

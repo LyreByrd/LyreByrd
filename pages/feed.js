@@ -22,10 +22,13 @@ export default class Feed extends React.Component {
       feeds.data.forEach(feed => {
         newFeeds.push([feed.host, feed.path])
       })
-      .catch(err => {
-        console.log('err getting feeds from db', err);
-      });
+    })
+    .catch(err => {
+      console.log('err getting feeds from db', err);
+    })
+      
   }
+  
 
   render() {
     return (
