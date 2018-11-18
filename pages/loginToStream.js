@@ -2,19 +2,23 @@ import Router from 'next/router';
 import React from 'react';
 import axios from 'axios';
 import Layout from './components/Layout.js';
+import Link from 'next/link';
 
-class Signup extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      Token: ''
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onPssChange = this.onPssChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  // componentDidUpdate(){
+    
+  // }
   onUserChange(e) {
     this.setState({
       username: e.target.value
@@ -27,42 +31,43 @@ class Signup extends React.Component {
   }
 
   handleSubmit(e) {
-    axios.post('/auth/signup', {
+    axios.post('/auth/login', {
       username: this.state.username, 
       password: this.state.password
     })
     .then((res) => {
       console.log(res.data);
       localStorage.setItem('jwt', res.data.token);
-      localStorage.setItem("username", res.data.username);
-      Router.push('/feed');
+      localStorage.setItem("username", JSON.stringify(res.data.username));
+      Router.push('/player');
     })
     .catch((err) => {
-      console.log(err);
+      err = err.response;
+      console.log(JSON.stringify(err.statusText));
+      console.log(JSON.stringify(err.data.message));
     });
     e.preventDefault();
   }
+  // handleYTSubmit(e) {
+  //   axios.get('/auth/google')
+  //   .then((res) => {
+  //     console.log(JSON.stringify(res.data));
+  //     // Router.push('/feed');
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  //   e.preventDefault();
+  // }
 
   render() {
     return (
       <Layout>
-        {/* <form onSubmit={this.handleSubmit}>
-        <h1> Signup </h1>
-          <input type='username' 
-            value={this.state.username} 
-            onChange={this.onUserChange}
-          />
-          <input type='password' 
-            value={this.state.password} 
-            onChange={this.onPssChange}
-          />
-          <input type='submit' onClick={this.handleSubmit}/>
-        </form> */}
         <div className="ui middle aligned center aligned grid" className="login-block">
           <div className="column">
             <h2 className="ui teal image header">
               <div className="content">
-                Signup
+                Log-in to your account
               </div>
             </h2>
             <form className="ui large form" onSubmit={this.handleSubmit}>
@@ -70,10 +75,7 @@ class Signup extends React.Component {
                 <div className="field">
                   <div className="ui left icon input">
                     <i className="user icon"></i>
-                    <input 
-                      type="username" 
-                      name="username" 
-                      placeholder="username" 
+                    <input type="username" name="username" placeholder="username" 
                       value={this.state.username} 
                       onChange={this.onUserChange}
                     />
@@ -91,18 +93,20 @@ class Signup extends React.Component {
                     />
                   </div>
                 </div>
-                <input value="Signup" type="submit" onClick={this.handleSubmit} className="ui fluid large teal submit button"/>
+                <input value="Login" type="submit" onClick={this.handleSubmit} className="ui fluid large teal submit button"/>
               </div>
+
               <div className="ui error message"></div>
+
             </form>
-            {/* <div>
+            <div>
             <a href='/auth/youtube'>login with youtube</a>
             <a href='/auth/spotify'>login with spotify</a>
-          </div> */}
+          </div>
 
-            {/* <div className="ui message">
+            <div className="ui message">
               New to us? <a href="/signup">Sign Up</a>
-            </div> */}
+            </div>
           </div>
           <style jsx>{`
             .login-block{
@@ -113,9 +117,10 @@ class Signup extends React.Component {
           `}</style>
         </div>
       </Layout>
+
     )
   }
 
 }
 
-export default Signup;
+export default Login;
