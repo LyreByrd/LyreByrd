@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar.js';
+import Layout from './components/Layout.js';
 import react from 'react';
 
 class Player extends React.Component {
@@ -10,7 +10,7 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    let currentHost = JSON.parse(localStorage.getItem('username'));
+    let currentHost = localStorage.getItem('username');
     this.setState({
       host: currentHost
     })
@@ -18,12 +18,9 @@ class Player extends React.Component {
 
   render() {
     return (
-      <div>
-        <header>
-          <NavBar/>
-        </header>
+      <Layout>
         <h1>Host is: {this.state.host}</h1>
-      </div>
+      </Layout>
     )
   }
 }

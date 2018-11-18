@@ -1,17 +1,14 @@
 
 import Link from "next/link"
 
-import NavBar from "./components/NavBar.js";
+import Layout from "./components/Layout.js";
 
 const Index = () =>(
-  <div>
-    <header>
-      <NavBar/>
-    </header>
+  <Layout>
     <h1>
       Welcome to Lyre Byrd
     </h1>
-  </div>
+  </Layout>
 )
 
 

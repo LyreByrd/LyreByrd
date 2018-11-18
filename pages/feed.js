@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar.js';
+import Layout from './components/Layout.js';
 import React from 'react';
 import axios from 'axios';
 
@@ -11,7 +11,7 @@ class Feed extends React.Component {
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getFeeds()
   }
 
@@ -39,17 +39,14 @@ class Feed extends React.Component {
 
   render() {
     return (
-      <div>
-        <header>
-          <NavBar />
-        </header>
+      <Layout>
         <h1>Main Feed</h1>
         <div>
           {this.state.feeds.map((feed, i) => {
             return <div key={i}>host: {feed[0]} path:{feed[1]}</div>
           })}
         </div>
-      </div>
+      </Layout>
     )
   }
 }
