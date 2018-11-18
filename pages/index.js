@@ -5,25 +5,6 @@ import Layout from './components/Layout.js';
 const Index = () => (
   <Layout>
     <div className="container">
-      <div className="top-bar">
-        <div className="top left-img">image</div>
-        <div className="top app-name">App Name</div>
-        <div className="top signup">Signup button</div>
-        <div className=" social-logins">
-          <div className="login-link icon">
-            <div>
-              <Link href="login">Login</Link>
-            </div>
-            <div />
-          </div>
-          <div className="login-link spotify icon">
-            Login with Spotify <div className="icon" />
-          </div>
-          <div className="login-link google icon">
-            Login with Google <div className="icon" />
-          </div>
-        </div>
-      </div>
       <div className="img-header" />
       <style jsx>
         {`
