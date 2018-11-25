@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar.js';
+import Layout from './components/Layout.js';
 import React from 'react';
 import axios from 'axios';
 import Block from './components/block';
@@ -11,8 +11,9 @@ export default class Feed extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getFeeds();
+
+  componentWillMount() {
+    this.getFeeds()
   }
 
   getFeeds() {
@@ -29,10 +30,8 @@ export default class Feed extends React.Component {
 
   render() {
     return (
-      <div className="body">
-        <header>
-          <NavBar />
-        </header>
+     <div className="body">
+      <Layout>
         <div className="container">
           <div className="feed heading popular">
             <Block />
@@ -52,6 +51,7 @@ export default class Feed extends React.Component {
           </div>
           <div className="sidebar" />
         </div>
+        </Layout>
         <style jsx>{`
           .body {
             background-color: #dfdcd4;

@@ -1,5 +1,4 @@
-// import react from 'react';
-import NavBar from './components/NavBar.js';
+import Layout from './components/Layout.js';
 import react from 'react';
 import {withRouter} from 'next/router';
 import HostWindow from './components/HostWindow.js';
@@ -82,20 +81,15 @@ class Player extends React.Component {
 
   render() {
     return (
-      <div>
-        <header>
-          <NavBar/>
-        </header>
-        <h1>Host is: {this.state.host}</h1>
-        {this.state.host === this.props.user ? 
-          <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
-          <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
-        }
-        <Chat 
-          user={this.props.user}
-          path={this.state.path}
-        />
-      </div>
+      <Layout>
+        <div>
+          <h1>Host is: {this.state.host}</h1>
+          {this.state.host === this.props.user ? 
+            <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
+            <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
+          }
+        </div>
+      </Layout>
     )
   }
 }

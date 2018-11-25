@@ -1,28 +1,25 @@
 import React from 'react';
-import NavBar from './components/NavBar.js';
+import Layout from './components/Layout.js';
 
 class profile extends React.Component {
   constructor(props) {
     super(props);
+    // console.log(props)
     this.state = {
       username: null
     };
   }
 
   componentDidMount(){
-    this.setState({ 
-      username: localStorage.getItem('username')
-    });
+    const username =  JSON.parse(localStorage.getItem('username'))
+    this.setState({ username })
   }
 
   render() {
     return (
-      <div>
-        <header>
-          <NavBar/>
-        </header>
-        <h1>Hi {this.state.username}</h1>
-      </div>
+      <Layout>
+        <h1>Hi { this.state.username}</h1>
+      </Layout>
     );
   }
 }
