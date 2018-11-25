@@ -20,16 +20,16 @@ class NavBar extends React.Component {
   componentDidMount(){
     this.setState({ 
       Token: localStorage.getItem('jwt'),
-      user: JSON.parse(localStorage.getItem('username'))
+      user: localStorage.getItem('username')
     });
   }
 
 
   handleItemClick (e, { name }) { 
     console.log(name);
-    this.setState({ 
-      activeItem: name,
-    });
+    // this.setState({ 
+    //   activeItem: name,
+    // });
     if (name === 'create player stream') {
       axios.post('/player/create', {
         host: this.state.user,
@@ -58,7 +58,8 @@ class NavBar extends React.Component {
         <div>
           <Menu>
             <Menu.Item 
-            name='home' 
+            name='home'
+
             active={this.state.activeItem === 'home'} 
             onClick={this.handleItemClick} 
             href="/index"
@@ -73,28 +74,28 @@ class NavBar extends React.Component {
               <Menu.Item>
                 <Input icon='search' placeholder='Search...' />
               </Menu.Item>
-              
               <Menu.Item
-                name = 'create player stream'
-                user={this.state.user}
+                icon="video"
+                name = 'create stream'
+                // user={this.state.user}
                 active={this.state.activeItem === 'player'}
                 onClick={this.handleItemClick}
                 href = {`/player?host=${this.state.user}`}
                 as={Link}
               />
-              
-              <Menu.Item
-                name='profile'
-                active={this.state.activeItem === 'profile'}
-                onClick={this.handleItemClick}
-                href="/profile"
-              />
-              <Menu.Item
-                name='logout'
-                active={this.state.activeItem === 'logout'}
-                onClick={this.logout}
-                href="/"
-              />
+              <Dropdown icon='user' item>
+                <Dropdown.Menu>
+                  <Dropdown.Item  
+                    name='profile'
+                    active={this.state.activeItem === 'profile'}
+                    onClick={this.handleItemClick}
+                    href="/profile">account</Dropdown.Item>
+                  <Dropdown.Item name='logout'
+                    active={this.state.activeItem === 'logout'}
+                    onClick={this.logout}
+                    href="/">logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Menu.Menu>
           </Menu>
         </div>
@@ -110,6 +111,7 @@ class NavBar extends React.Component {
           href="/index"
           />
           <Menu.Item 
+          as={  Link }
           name='feed' 
           active={this.state.activeItem === 'feed'} 
           onClick={this.handleItemClick} 
@@ -120,17 +122,27 @@ class NavBar extends React.Component {
               <Input icon='search' placeholder='Search...' />
             </Menu.Item>
             <Menu.Item
-            name='login'
-            active={this.state.activeItem === 'login'}
-            onClick={this.handleItemClick}
-            href="/login"
+              icon= "video"
+              name = 'create stream'
+              // user={this.state.user}
+              active={this.state.activeItem === 'player'}
+              onClick={this.handleItemClick}
+              href = "/loginToStream"
             />
-            <Menu.Item
-            name='signup'
-            active={this.state.activeItem === 'signup'}
-            onClick={this.handleItemClick}
-            href="/signup"
-            />
+            <Dropdown icon='user' item>
+                <Dropdown.Menu>
+                  <Dropdown.Item name='logout'
+                    name='login'
+                    active={this.state.activeItem === 'login'}
+                    onClick={this.handleItemClick}
+                    href="/login">login</Dropdown.Item>
+                  <Dropdown.Item  
+                    name='signup'
+                    active={this.state.activeItem === 'signup'}
+                    onClick={this.handleItemClick}
+                    href="/signup">signup</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
           </Menu.Menu>
         </Menu>
       </div>
@@ -153,42 +165,9 @@ class NavBar extends React.Component {
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
           />
-          <link rel="stylesheet" href="../../styles/style.css"/>
+          <link rel="stylesheet" href={"../../styles/style.css"}/>
         </Head>
        {this.LogSignRender()}
-        <div>
-          {/* <Menu>
-            <Menu.Item 
-            name='home' 
-            // // active={this.state.activeItem === 'home'} 
-            onClick={this.handleItemClick} 
-            href="/index"
-            />
-            <Menu.Item 
-            name='feed' 
-            // // active={this.state.activeItem === 'feed'} 
-            onClick={this.handleItemClick} 
-            href="/feed"
-            />
-            <Menu.Menu position='right'>
-              <Menu.Item>
-                <Input icon='search' placeholder='Search...' />
-              </Menu.Item>
-              <Menu.Item
-              name='profile'
-              // // active={this.state.activeItem === 'profile'}
-              onClick={this.handleItemClick}
-              href="/profile"
-              />
-              <Menu.Item
-              name='logout'
-              // // active={this.state.activeItem === 'logout'}
-              onClick={this.logout}
-              href="/"
-              />
-            </Menu.Menu>
-          </Menu> */}
-        </div>
       </div>
     )
   }

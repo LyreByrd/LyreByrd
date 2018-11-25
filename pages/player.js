@@ -1,5 +1,4 @@
-// import react from 'react';
-import NavBar from './components/NavBar.js';
+import Layout from './components/Layout.js';
 import react from 'react';
 import {withRouter} from 'next/router';
 import HostWindow from './components/HostWindow.js';
@@ -54,8 +53,8 @@ class Player extends React.Component {
 
   regenSession() {
     // console.log('checking to see if user should be host');
-    // console.log('this.state.host :', this.state.host);
-    // console.log('this.state.user :', this.state.user);
+    console.log('this.state.host :', this.state.host);
+    console.log('this.state.user :', this.state.user);
     if (this.state.host === this.state.user) { 
       // console.log('attempting to recreate sync session');
       axios.post('api/player/create', {
@@ -110,20 +109,19 @@ class Player extends React.Component {
       playerElement = <span></span>
     }
     return (
-      <div>
-        <header>
-          <NavBar/>
-        </header>
-        {/* <h1>Host is: {this.state.host}</h1> */}
-        <div style={ playerContainer }>
-          {playerElement}
+      <Layout>
+        <div style={playerContainer}>
+          {this.state.host === this.props.user ? 
+            <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
+            <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
+          }
           <Chat 
             user={this.props.user}
             path={this.state.path}
             host={this.state.host}
           />
         </div>
-      </div>
+      </Layout>
     )
   }
 }

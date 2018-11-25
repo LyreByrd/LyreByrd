@@ -52,9 +52,9 @@ router.post('/signup', (req, res) => {
           return res.send(err + ' error in routes');
         }
         // generate a signed son web token with the contents of user object and return it in the response
-        const token = jwt.sign(user.username, "its a chiansaw, no, its a bird");
+        const token = jwt.sign(user.username, "its a chainsaw, no, its a bird");
         console.log(user.username, 'user login after sign up');
-        return res.status(200).json(JSON.stringify({username: user.username, token}));
+        return res.status(200).json({username: user.username, token});
       });
     });
   });
@@ -80,4 +80,5 @@ router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => 
 });
 
 module.exports = router;
+
 
