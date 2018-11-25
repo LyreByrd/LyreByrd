@@ -1,5 +1,6 @@
 import react from 'react';
 import io from 'socket.io-client'
+import moment from 'moment';
 
 class CreateMessage extends react.Component {
   constructor(props) {
@@ -8,17 +9,26 @@ class CreateMessage extends react.Component {
       newMessage: {
         user: this.props.user,
         message: '',
-        room: this.props.host
-      },
-
+        room: this.props.host,
+        timeStamp: '12:00 am'
+      }
     }
   }
   
   submitMessage = (e) => {
     e.preventDefault();
     const socket = io('http://localhost:8000');
-    
-
+    const now = moment();
+    console.log('now :', now);
+    this.setState({
+      newMessage: {
+        user: this.props.user,
+        message: this.state.message,
+        room: this.props.host,
+        timeStamp: now
+      }
+    })
+    console.log('this.state.newMessage :', this.state.newMessage);
     socket.emit('chat message', this.state.newMessage);
     this.setState({
       newMessage: {
@@ -30,11 +40,13 @@ class CreateMessage extends react.Component {
   }
 
   handleMessageChange = (message) => {
+    const now = moment();
     this.setState({
       newMessage: {
         user: this.props.user,
         message: message,
         host: this.props.host,
+        timeStamp: now,
       }
     })
   }

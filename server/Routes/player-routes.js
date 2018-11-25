@@ -54,6 +54,7 @@ router.post('/create', (req, res) => {
     host: host,
     path: path
   }
+  console.log('message res at /api/create');
   Player.findOneAndUpdate({ host }, playerStream, {upsert:true}, (err, data) => {
     if (err) {
       console.log('error saving player stream to db in server.js', err)

@@ -20,7 +20,6 @@ class Chat extends react.Component {
       user: '',
       users: {},
       messages: [],
-      usernameInput: '',
       host: ''
     }
     this.messageRef = React.createRef();
@@ -28,6 +27,7 @@ class Chat extends react.Component {
 
   componentDidMount() {
 
+    //sets current user and host
     let currentUser = JSON.parse(localStorage.getItem('username'));
     this.setState({
       user: currentUser,
@@ -105,7 +105,8 @@ class Chat extends react.Component {
         <div 
           style={messagesStyle}
           ref={(el) => this.messageRef = el}>
-          <Messages 
+          <Messages
+            user={this.state.user} 
             messages={this.state.messages}
           />
           <div style={{ float:"left", clear: "both" }}
