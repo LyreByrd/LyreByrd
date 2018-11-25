@@ -7,7 +7,8 @@ class CreateMessage extends react.Component {
     this.state = {
       newMessage: {
         user: this.props.user,
-        message: ''
+        message: '',
+        room: this.props.host
       },
 
     }
@@ -15,12 +16,15 @@ class CreateMessage extends react.Component {
   
   submitMessage = (e) => {
     e.preventDefault();
-    const socket = io('http://localhost:3000');
+    const socket = io('http://localhost:8000');
+    
+
     socket.emit('chat message', this.state.newMessage);
     this.setState({
       newMessage: {
         user: this.props.user,
-        message: ''
+        message: '',
+        room: this.props.host
       }
     })
   }
@@ -29,7 +33,8 @@ class CreateMessage extends react.Component {
     this.setState({
       newMessage: {
         user: this.props.user,
-        message: message
+        message: message,
+        host: this.props.host,
       }
     })
   }

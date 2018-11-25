@@ -29,7 +29,6 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    console.log('url query', this.props.url.query)
     let currentHost = this.props.url.query.host;
     let currentUser = JSON.parse(localStorage.getItem('username'));
     this.setState({
@@ -38,8 +37,6 @@ class Player extends React.Component {
       path: `/player?host=${currentHost}`,
       initialMountDone: true,
     }, () => {
-      console.log(this.state.host, 'host')
-      console.log(this.state.user, 'user')
       if (this.state.host === this.state.user) {
         this.tryClaimHost();
       } else {
@@ -111,6 +108,7 @@ class Player extends React.Component {
         <Chat 
           user={this.props.user}
           path={this.state.path}
+          host={this.state.host}
         />
       </div>
     )

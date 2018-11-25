@@ -20,7 +20,8 @@ class Chat extends react.Component {
       user: '',
       users: {},
       messages: [],
-      usernameInput: ''
+      usernameInput: '',
+      host: ''
     }
     this.messageRef = React.createRef();
   }
@@ -29,109 +30,95 @@ class Chat extends react.Component {
 
     let currentUser = JSON.parse(localStorage.getItem('username'));
     this.setState({
-      user: currentUser
+      user: currentUser,
+      host: this.props.host
     })
 
+    //socket.io connection
     const socket = io('http://localhost:8000');
     // socket.connect();
 
+    //on user connect
     socket.on('connect', () => {
-      console.log(this.props.location)
-      // socket.room = props.path
-      console.log('this user: ', this.state.user)
+      socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
+      socket.on('fetch messages', messages => {
+        this.setState({
+          messages: [...messages]
+        })
+      })
     })
 
-    socket.on('online users', usersObj => {
-      // console.log('init users', usersObj);
-      // console.log('socket username ', socket.username)
+
+    //handles changes in online users
+    socket.on('update users', users => {
       this.setState({
-        users: usersObj
+        users: [...users]
       })
     })
 
+    //updates message array on new message
     socket.on('chat message', message => {
-      // console.log('chat message on client from socket.io', message);
-      // console.log('chat message on client from socket.io', Array.isArray(message));
-      if(typeof message[0] === 'string') {
-        message = message.map(string => {
-          return JSON.parse(string)
-        })
-      }
-
-      // console.log('message', message);
-      // todo this is bad. im sending all messages to all users on new connection
-      // todo need to make socket only send to new connection
-      // todo will be easier once rooms are set up
-      if (this.state.messages.length !== message.length) {
-        this.setState((prevState) => ({
-          messages: [...prevState.messages, ...message]
-        }))
-      } 
+      this.setState((prevState) => ({
+        messages: [...prevState.messages, ...message]
+      }))
     })
 
-      socket.on('user connected', usersObj => {
-        // console.log('socket username ', socket.username)
-        // console.log('user connected', usersObj);
-        this.setState({
-          users: usersObj
-        })
-        // console.log('users ',this.state.users)
+    socket.on('user disconnected', (users) => {
+      // console.log('user disconnected', usersObj);
+      this.setState({
+        users: [...users]
       })
+    })
 
-      socket.on('user disconnected', (usersObj) => {
-        // console.log('user disconnected', usersObj);
-        this.setState({
-          users: usersObj
-        })
+    this.messagesScrollDown();
+  }
+
+  componentDidUpdate() {
+    this.messagesScrollDown();
+  }
+
+  messagesScrollDown = () => {
+    const scrollHeight = this.messageRef.scrollHeight;
+    const height = this.messageRef.clientHeight;
+    const maxScrollTop = scrollHeight - height;
+    this.messageRef.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  }
+
+  onlineUsers(users) {
+    if (Object.keys(users).length > 0) {
+      return Object.values(users).map((user, i) => {
+        return <div key={i}>{user}</div>
       })
-
-      this.messagesScrollDown();
-    }
-
-    componentDidUpdate() {
-      this.messagesScrollDown();
-    }
-
-    messagesScrollDown = () => {
-      const scrollHeight = this.messageRef.scrollHeight;
-      const height = this.messageRef.clientHeight;
-      const maxScrollTop = scrollHeight - height;
-      this.messageRef.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
-    }
-
-    onlineUsers(users) {
-      if (Object.keys(users).length > 0) {
-        return Object.values(users).map((user, i) => {
-          return <div key={i}>{user}</div>
-        })
-      }
-    }
-
-
-    render() {
-      return (
-        <div>
-          <div>
-           <div>Online Users:</div>
-           {this.onlineUsers(this.state.users)}
-          </div>
-          <div 
-            style={messagesStyle}
-            ref={(el) => this.messageRef = el}>
-            <Messages 
-              messages={this.state.messages}
-            />
-            <div style={{ float:"left", clear: "both" }}
-                 ref={(el) => { this.messageRef = el; }}>
-            </div>
-          </div>
-          <CreateMessage 
-            user={this.state.user}
-          />
-        </div>
-      )
     }
   }
+
+
+  render() {
+    return (
+      <div>
+        <div>
+          <div>Message Host: {this.state.host}</div>
+          <div>Online Users:</div>
+          {this.onlineUsers(this.state.users)}
+        </div>
+        <div 
+          style={messagesStyle}
+          ref={(el) => this.messageRef = el}>
+          <Messages 
+            messages={this.state.messages}
+          />
+          <div style={{ float:"left", clear: "both" }}
+                ref={(el) => { this.messageRef = el; }}>
+          </div>
+        </div>
+        <CreateMessage 
+          user={this.state.user}
+          host={this.state.host}
+        />
+      </div>
+    )
+  }
+}
 
   export default Chat;
