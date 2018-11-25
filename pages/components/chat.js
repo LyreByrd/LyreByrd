@@ -18,6 +18,7 @@ class Chat extends react.Component {
     super(props)
     this.state = {
       user: '',
+      userAvatar: '',
       users: {},
       messages: [],
       host: ''
@@ -98,7 +99,6 @@ class Chat extends react.Component {
     return (
       <div>
         <div>
-          <div>Message Host: {this.state.host}</div>
           <div>Online Users:</div>
           {this.onlineUsers(this.state.users)}
         </div>

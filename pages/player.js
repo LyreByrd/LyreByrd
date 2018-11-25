@@ -7,6 +7,13 @@ import ClientWindow from './components/ClientWindow.js';
 import axios from 'axios';
 import Chat from './components/chat.js'
 
+const playerContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexBasis: 'auto',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+}
 class Player extends React.Component {
   constructor(props) {
     super(props)
@@ -46,11 +53,11 @@ class Player extends React.Component {
   }
 
   regenSession() {
-    console.log('checking to see if user should be host');
-    console.log('this.state.host :', this.state.host);
-    console.log('this.state.user :', this.state.user);
+    // console.log('checking to see if user should be host');
+    // console.log('this.state.host :', this.state.host);
+    // console.log('this.state.user :', this.state.user);
     if (this.state.host === this.state.user) { 
-      console.log('attempting to recreate sync session');
+      // console.log('attempting to recreate sync session');
       axios.post('api/player/create', {
         host: this.state.user,
         path: `/player?host=${this.state.user}`
@@ -107,13 +114,15 @@ class Player extends React.Component {
         <header>
           <NavBar/>
         </header>
-        <h1>Host is: {this.state.host}</h1>
-        {playerElement}
-        <Chat 
-          user={this.props.user}
-          path={this.state.path}
-          host={this.state.host}
-        />
+        {/* <h1>Host is: {this.state.host}</h1> */}
+        <div style={ playerContainer }>
+          {playerElement}
+          <Chat 
+            user={this.props.user}
+            path={this.state.path}
+            host={this.state.host}
+          />
+        </div>
       </div>
     )
   }

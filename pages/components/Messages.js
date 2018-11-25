@@ -20,7 +20,12 @@ const Messages = ({messages}) => {
     <div>
       {messages.map((message, i) => {
         message = JSON.parse(message);
-        return <div key={i}>{message.user}: {message.message} <span style={timeStampStyle}>{ago(message.timeStamp)}</span></div>
+        return (
+          <div key={i}>
+            {message.user} <span style={timeStampStyle}>{ago(message.timeStamp)}</span>
+            <div>{message.message}</div>
+          </div>
+        )
       })}
     </div>
   )
