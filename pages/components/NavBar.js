@@ -20,7 +20,7 @@ class NavBar extends React.Component {
   componentDidMount(){
     this.setState({ 
       Token: localStorage.getItem('jwt'),
-      user: localStorage.getItem('username')
+      user: JSON.parse(localStorage.getItem('username'))
     });
   }
 
@@ -98,9 +98,6 @@ class NavBar extends React.Component {
               </Dropdown>
             </Menu.Menu>
           </Menu>
-          <div>
-            nav user is: {this.state.user}
-          </div>
         </div>
       )
     } else {

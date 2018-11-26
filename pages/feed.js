@@ -17,27 +17,19 @@ export default class Feed extends React.Component {
   }
 
   getFeeds() {
-    axios
-      .get('/playerFeeds')
-      .then(feeds => {
-        let newFeeds = [];
-        feeds.data.forEach(feed => {
-          newFeeds.push([feed.host, feed.path]);
-        });
-        if (this.state.feeds.length === 0) {
-          this.setState({
-            feeds: newFeeds,
-          });
-        } else {
-          this.setState(prevState => {
-            feeds: [...prevState.feeds, ...newFeeds];
-          });
-        }
+    axios.get('/player/feeds')
+    .then(feeds => {
+      let newFeeds = [];
+      feeds.data.forEach(feed => {
+        newFeeds.push([feed.host, feed.path])
       })
-      .catch(err => {
-        console.log('err getting feeds from db', err);
-      });
+    })
+    .catch(err => {
+      console.log('err getting feeds from db', err);
+    })
+      
   }
+  
 
   render() {
     return (
@@ -95,3 +87,4 @@ export default class Feed extends React.Component {
     );
   }
 }
+//  export default feed
