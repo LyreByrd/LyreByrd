@@ -103,7 +103,7 @@ class NavBar extends React.Component {
               </Dropdown>
             </Menu.Menu>
           </Menu>
-          <div>nav user is: {this.state.user}</div>
+          {/* <div>nav user is: {this.state.user}</div> */}
         </div>
       );
     } else {
