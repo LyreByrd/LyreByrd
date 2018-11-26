@@ -11,9 +11,8 @@ export default class Feed extends React.Component {
     };
   }
 
-
   componentWillMount() {
-    this.getFeeds()
+    this.getFeeds();
   }
 
   getFeeds() {
@@ -41,29 +40,36 @@ export default class Feed extends React.Component {
 
   render() {
     return (
-     <div className="body">
-      <Layout>
-        <div className="container">
-          <div className="feed heading popular">
-            <Block />
-            <Block />
-            <Block />
-            <Block />
-            <Block />
-            <Block />
+      <div className="body">
+        <Layout>
+          <div className="container">
+            <div className="feed heading popular">
+              <Block />
+              <Block />
+              <Block />
+              <Block />
+              <Block />
+              <Block />
 
-            {this.state.feeds.map((feed, i) => {
-              return (
-                <div key={i}>
-                  host: {feed[0]} path:{feed[1]}
-                </div>
-              );
-            })}
+              {this.state.feeds.map((feed, i) => {
+                return (
+                  <div key={i}>
+                    host: {feed[0]} path:{feed[1]}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="sidebar" />
           </div>
-          <div className="sidebar" />
-        </div>
         </Layout>
         <style jsx>{`
+          * {
+          margin: 0;
+          padding: 0;
+          box-sizing: inherit;
+          box-sizing: border-box;
+          }
+
           .body {
             background-color: #dfdcd4;
           }
@@ -73,7 +79,7 @@ export default class Feed extends React.Component {
             grid-template-columns: 8fr 2fr;
             background-color: white;
             height: 2000.75px;
-            margin: 0 100px;
+        margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
           }
 
