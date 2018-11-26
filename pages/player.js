@@ -53,8 +53,8 @@ class Player extends React.Component {
 
   regenSession() {
     // console.log('checking to see if user should be host');
-    console.log('this.state.host :', this.state.host);
-    console.log('this.state.user :', this.state.user);
+    //console.log('this.state.host :', this.state.host);
+    //console.log('this.state.user :', this.state.user);
     if (this.state.host === this.state.user) { 
       console.log('attempting to recreate sync session');
       axios.post('api/player/create', {
@@ -82,7 +82,7 @@ class Player extends React.Component {
 
   tryClaimHost() {
     //maybe host definitely has been created once we navigate here?
-    this.setState({isReady: true});
+    this.regenSession();
     // axios.post('/host', {hostingName: this.state.hostingName})
     // .then((res) => {
     //   //console.log('host claim response: ', res);
