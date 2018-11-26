@@ -37,8 +37,6 @@ const Index = () => (
     }
       .body {
         background-color: #dfdcd4;
-
-
       }
       .container {
         display: grid;

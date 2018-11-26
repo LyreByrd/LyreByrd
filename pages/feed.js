@@ -16,19 +16,18 @@ export default class Feed extends React.Component {
   }
 
   getFeeds() {
-    axios.get('/player/feeds')
-    .then(feeds => {
-      let newFeeds = [];
-      feeds.data.forEach(feed => {
-        newFeeds.push([feed.host, feed.path])
+    axios
+      .get('/player/feeds')
+      .then(feeds => {
+        let newFeeds = [];
+        feeds.data.forEach(feed => {
+          newFeeds.push([feed.host, feed.path]);
+        });
       })
-    })
-    .catch(err => {
-      console.log('err getting feeds from db', err);
-    })
-      
+      .catch(err => {
+        console.log('err getting feeds from db', err);
+      });
   }
-  
 
   render() {
     return (
@@ -80,7 +79,6 @@ export default class Feed extends React.Component {
             grid-row-start: 1;
             grid-auto-rows: 327px;
             width: 100%;
-
             padding: 10px;
             grid-gap 5px;
           }
