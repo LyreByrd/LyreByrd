@@ -19,7 +19,6 @@ class CreateMessage extends react.Component {
     e.preventDefault();
     const socket = io('http://localhost:8000');
     const now = moment();
-    console.log('now :', now);
     this.setState({
       newMessage: {
         user: this.props.user,
@@ -28,7 +27,6 @@ class CreateMessage extends react.Component {
         timeStamp: now
       }
     })
-    console.log('this.state.newMessage :', this.state.newMessage);
     socket.emit('chat message', this.state.newMessage);
     this.setState({
       newMessage: {

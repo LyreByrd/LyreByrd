@@ -50,11 +50,13 @@ router.get('/feeds', (req, res) => {
 router.post('/create', (req, res) => {
   let host = req.body.host;
   let path = req.body.path;
+  console.log('host :', host);
+  console.log('path :', path);
   const playerStream = {
     host: host,
     path: path
   }
-  console.log('message res at /api/create');
+  console.log('message res at /api/create', res);
   Player.findOneAndUpdate({ host }, playerStream, {upsert:true}, (err, data) => {
     if (err) {
       console.log('error saving player stream to db in server.js', err)

@@ -4,15 +4,29 @@ import CreateMessage from './CreateMessage';
 import Messages from './Messages'
 // import axios from 'axios';
 // import { runInThisContext } from 'vm';
+const container = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+}
 
 const messagesStyle = {
-  border: 'solid 1px black',
+  // border: '1px black solid',
+  background: '#cfcfcf',
   display: 'flex',
   flex: '1 1 auto',
   height: '500px',
   width: '400px',
-  overflowY: 'scroll'
+  overflowY: 'scroll',
+  float: 'right',
+  marginTop: '10px',
 }
+
+const onlineUsersStyle = {
+  marginLeft: '10px',
+  marginTop: '10px',
+}
+
 class Chat extends react.Component {
   constructor(props) {
     super(props)
@@ -98,25 +112,30 @@ class Chat extends react.Component {
   render() {
     return (
       <div>
-        <div>
-          <div>Online Users:</div>
-          {this.onlineUsers(this.state.users)}
-        </div>
-        <div 
-          style={messagesStyle}
-          ref={(el) => this.messageRef = el}>
-          <Messages
-            user={this.state.user} 
-            messages={this.state.messages}
-          />
-          <div style={{ float:"left", clear: "both" }}
-                ref={(el) => { this.messageRef = el; }}>
+        <div style={container}>
+          <div></div>
+          <div 
+            style={messagesStyle}
+            ref={(el) => this.messageRef = el}>
+            <Messages
+              host={this.state.host}
+              user={this.state.user} 
+              messages={this.state.messages}
+            />
+            <div style={{ float:"left", clear: "both" }}
+              ref={(el) => { this.messageRef = el; }}>
+            </div>
           </div>
+          <div style={onlineUsersStyle}>
+            <div>Online Users:</div>
+            {this.onlineUsers(this.state.users)}
+          </div>
+
         </div>
-        <CreateMessage 
-          user={this.state.user}
-          host={this.state.host}
-        />
+          <CreateMessage 
+            user={this.state.user}
+            host={this.state.host}
+          />
       </div>
     )
   }
