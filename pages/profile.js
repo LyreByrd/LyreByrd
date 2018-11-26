@@ -6,8 +6,10 @@ class profile extends React.Component {
     super(props);
     // console.log(props)
     this.state = {
-      username: null
+      username: null,
+      avatar: null
     };
+    this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
   componentDidMount(){
@@ -15,16 +17,30 @@ class profile extends React.Component {
     this.setState({ username })
   }
 
+  handleFileUpload(e) {
+    e.preventDefault();
+    this.setState({
+      avatar: URL.createObjectURL(e.target.files[0])
+    })
+  }
+
   render() {
     return (
       <Layout>
         <h1>Hi { this.state.username}</h1>
-        <form 
+        
+        <img src={this.state.avatar}/>
+        <form
           action='/users/profile/avatar' 
           method='post' 
           encType='multipart/form-data'>
-            <input type='file' name='avatar' />
-            <input type='submit' name='Submit' />
+            <input
+              id='avatarFileInput'
+              type='file' 
+              name='avatar'
+              onChange={this.handleFileUpload}
+            />
+            <button name='Submit'>Submit</button>
           </form>
       </Layout>
     );

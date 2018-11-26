@@ -85,3 +85,5 @@ ec2-nodejs-lyrebyrd.pem
 
 # vscode config
 .vscode
+
+.DS_Store
