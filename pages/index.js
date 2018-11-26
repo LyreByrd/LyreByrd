@@ -6,7 +6,7 @@ const Index = () => (
   <div className="body">
     <Layout>
       <div className="container">
-        <div className="hero">Hero</div>
+        <div className="hero" />
         <div className="searchbar">
           <input
             icon="search"

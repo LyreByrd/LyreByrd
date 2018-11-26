@@ -70,7 +70,7 @@ export default class Feed extends React.Component {
             grid-template-columns: 8fr 2fr;
             background-color: white;
             height: 2000.75px;
-        margin: 0 100px 0 100px;
+            margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
           }
 
