@@ -106,7 +106,7 @@ class Player extends React.Component {
         <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
         <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
     } else {
-      playerElement = <span></span>
+      playerElement = <span>Loading...</span>
     }
     return (
       <Layout>
