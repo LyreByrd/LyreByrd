@@ -111,10 +111,7 @@ class Player extends React.Component {
     return (
       <Layout>
         <div style={playerContainer}>
-          {this.state.host === this.state.user ? 
-            <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
-            <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
-          }
+          {playerElement}
           <Chat 
             user={this.props.user}
             path={this.state.path}
