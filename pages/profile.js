@@ -24,6 +24,7 @@ class profile extends React.Component {
           method='post' 
           encType='multipart/form-data'>
             <input type='file' name='avatar' />
+            <input type='submit' name='Submit' />
           </form>
       </Layout>
     );

@@ -72,7 +72,7 @@ const Messages = ({messages, user, host}) => {
     borderBottom: '10px solid #90caf9',
     borderLeft: '10px solid transparent',
     alignSelf: 'flex-end',
-    filter: 'drop-shadow(0 10px 0.9rem #9e9e9e)',
+    // filter: 'drop-shadow(0 10px 0.9rem #9e9e9e)',
     'zIndex': '1',
     position: 'relative',
   }
@@ -89,40 +89,38 @@ const Messages = ({messages, user, host}) => {
     
   }
 
-  
   return (
     <div>
-
       <div style={messagesContainer}>
         {messages.map((message, i) => {
           message = JSON.parse(message);
           if (user === message.user) {
             //sent message
             return (
-                <div 
-                  key={i}
-                  style={messagesStyleSent}>
-                  <span style={messageSent}>
-                    {message.message} 
-                    <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
-                  </span>
-                  <div style={sentTriangle}></div> 
-                </div>
+              <div 
+                key={i}
+                style={messagesStyleSent}>
+                <span style={messageSent}>
+                  {message.message} 
+                  <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
+                </span>
+                <div style={sentTriangle}></div> 
+              </div>
             )
           } else {
             //received message
             return (
-                <div 
-                  key={i}
-                  style={messagesStyleRec}>
-                  <span style={usernameAvatar}>
-                    {message.user} 
-                  </span>
-                  <div style={recTriangle}></div>
-                  <span style={messageRec}>
-                    {message.message} <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
-                  </span>
-                </div>
+              <div 
+                key={i}
+                style={messagesStyleRec}>
+                <span style={usernameAvatar}>
+                  {message.user} 
+                </span>
+                <div style={recTriangle}></div>
+                <span style={messageRec}>
+                  {message.message} <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
+                </span>
+              </div>
             )
           }
         })}
