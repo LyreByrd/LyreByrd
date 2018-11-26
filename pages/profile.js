@@ -1,5 +1,7 @@
 import React from 'react';
 import Layout from './components/Layout.js';
+import axios from 'axios';
+import FormData from 'form-data';
 
 class profile extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class profile extends React.Component {
       avatar: null
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
+    this.handleFileSubmit = this.handleFileSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -18,30 +21,53 @@ class profile extends React.Component {
   }
 
   handleFileUpload(e) {
-    e.preventDefault();
-    this.setState({
-      avatar: URL.createObjectURL(e.target.files[0])
-    })
+    // e.preventDefault();
+    console.log(e.target.files[0].size <= 150000);
+    if (e.target.files[0].size <= 150000) {
+      this.setState({
+        avatar: URL.createObjectURL(e.target.files[0])
+      })
+    } else {
+      window.alert('please select a file 150 KB or less');
+      e.target.value = null;
+    }
+  }
+
+  handleFileSubmit() {
+    if (this.state.avatar !== null) {
+      let data = new FormData();
+      let file = this.state.avatar;
+      data.append('file', file);
+      console.log('data :', data);
+
+      // axios.post('/user/profile/avatar', payload)
+      // .then(res => {
+      //   console.log('upload success with res :', res);
+      // })
+      // .catch(err => {
+      //   console.log('upload error with err :', err);
+      // })
+    }
   }
 
   render() {
     return (
       <Layout>
         <h1>Hi { this.state.username}</h1>
-        
-        <img src={this.state.avatar}/>
-        <form
-          action='/users/profile/avatar' 
-          method='post' 
-          encType='multipart/form-data'>
-            <input
-              id='avatarFileInput'
-              type='file' 
-              name='avatar'
-              onChange={this.handleFileUpload}
-            />
-            <button name='Submit'>Submit</button>
-          </form>
+        <div>
+          <img src={this.state.avatar}/>
+        </div>
+        <input
+          id='avatarFileInput'
+          type='file' 
+          name='avatar'
+          onChange={this.handleFileUpload}
+        />
+        <button 
+          name='Submit'
+          onClick={this.handleFileSubmit}
+        >Submit</button>
+        <div>Max File Size: 150 KB</div>
       </Layout>
     );
   }
