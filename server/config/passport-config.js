@@ -96,9 +96,9 @@ passport.use(
   clientSecret: process.env.clientSecretSpotify,
   callbackURL: '/auth/spotify/redirect'
 }, (accessToken, refreshToken, profile, done) => {
-  console.log(accessToken, ' <<<<<< ATOKEN');
-  console.log(refreshToken, ' <<<<<< RTOKEN');
-  console.log(profile);
+  // console.log(accessToken, ' <<<<<< ATOKEN');
+  // console.log(refreshToken, ' <<<<<< RTOKEN');
+  // console.log(profile);
   // done(null, profile.id);
   let userYSEntry = new UserYS({
     _id: profile.id,
@@ -110,7 +110,7 @@ passport.use(
     url: profile._json.external_urls
   });
 
-    User.findOneAndUpdate({ _id: profile.id }, userYSEntry, {upsert: true}, (err, user) => {
+    UserYS.findOneAndUpdate({ _id: profile.id }, userYSEntry, {upsert: true}, (err, user) => {
       return done(err, user);
     });
   }
