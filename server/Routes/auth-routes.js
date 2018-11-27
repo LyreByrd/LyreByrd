@@ -75,7 +75,7 @@ router.get('/spotify', passport.authenticate('spotify', {
 }));
 
 
-router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => {
+router.get('/spotify/redirect', passport.authenticate('spotify', { failureRedirect: '/login' }), (req, res) => {
   res.redirect('/feed');
 });
 
