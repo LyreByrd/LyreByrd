@@ -35,7 +35,7 @@ router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => 
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
 
-  // console.log('req :', req.file);
+  // console.log('req.file.path :', req.file.path);
   // console.log('req.body :', req.body);
 
   const avatar = {};
@@ -57,8 +57,14 @@ router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) =>
   } )
 });
 
-router.get('/user/profile/avatar', (req, res) => {
-  console.log('avatar requested')
+router.get('/profile/avatar', (req, res) => {
+  let username = req.query.username;
+  User.findOne({ username }, 'avatar', (err, result) => {
+    if (err) console.log('err getting avatar from db :', err);
+    else {
+      res.send(result.avatar.data);
+    }
+  })
 })
 
 

@@ -6,11 +6,11 @@ import FormData from 'form-data';
 class profile extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(props)
     this.state = {
       username: null,
-      avatarURL: null,
-      avatarFile: null,
+      avatarSrc: null,
+      avatarPreviewURL: null,
+      avatarPreviewFile: null
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
@@ -18,34 +18,31 @@ class profile extends React.Component {
 
   componentDidMount(){
     const username =  JSON.parse(localStorage.getItem('username'))
-    this.setState({ username })
+    this.setState({
+      username
+    }, () => this.getUserAvatar())
   }
+  
 
   //shows preview of avatar
   handleFileUpload(e) {
-    // e.preventDefault();
-    if (e.target.files[0].size <= 150000) {
+    if (e.target.files[0].size <= 500000) {
       this.setState({
-        avatarURL: URL.createObjectURL(e.target.files[0]),
-        avatarFile: new File([e.target.files[0]], `${this.state.username}_avatar.jpg`, {type: 'image/jpg'})
+        avatarPreviewURL: URL.createObjectURL(e.target.files[0]),
+        avatarPreviewFile: new File([e.target.files[0]], `${this.state.username}_avatar.jpg`, {type: 'image/jpg'})
       })
     } else {
-      window.alert('please select a file 150 KB or less');
+      window.alert('please select an image file 500 KB or less');
       e.target.value = null;
     }
   }
 
   //posts avatar to db
   handleFileSubmit() {
-    // console.log('this.state.avatarFile :', this.state.avatarFile);
-    // console.log('this.state.avatarURL :', this.state.avatarURL);
-
-    let fd = new FormData();
     
-    fd.append('avatarFile', this.state.avatarFile);
+    let fd = new FormData();
+    fd.append('avatarFile', this.state.avatarPreviewFile);
     fd.append('username', `${this.state.username}`);
-
-    // console.log('formData :', Array.from(fd.entries()));
 
     const config = {
       headers: {
@@ -56,7 +53,7 @@ class profile extends React.Component {
     if (this.state.avatar !== null) {
       axios.post('/user/profile/avatar/upload', fd, config)
       .then(res => {
-        console.log('upload success with res :', res);
+        this.getUserAvatar();
       })
       .catch(err => {
         console.log('upload error with err :', err);
@@ -65,9 +62,24 @@ class profile extends React.Component {
   }
 
   getUserAvatar() {
-    axios.get('/user/profile/avatar')
-    .then(avatarImg => {
-
+    axios.get('/user/profile/avatar', {
+      responseType: 'arraybuffer',
+      params: {
+        username: this.state.username
+        
+      }
+    })
+    .then(res => {
+      let data = res.data
+      let contentType = res.headers['content-type'];
+      let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
+      
+      this.setState({
+        avatarSrc: avatarSrc
+      })
+    })
+    .catch(err => {
+      console.log('error getting avatar :', err);
     })
   }
 
@@ -87,8 +99,9 @@ class profile extends React.Component {
     return (
       <Layout>
         <h1>Hi { this.state.username}</h1>
+        <img src={this.state.avatarSrc} width='200' height='200'></img>
         <div>
-          <img src={this.state.avatarURL} width='300' height='300'/>
+          <img src={this.state.avatarPreviewURL} width='300' height='300'/>
         </div>
         <input
           id='avatarFileInput'
