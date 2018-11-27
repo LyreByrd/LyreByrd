@@ -11,6 +11,18 @@ const {UserYS} = require('../../db/db');
 
 require('dotenv').config();
 
+passport.serializeUser((user, done) => {
+  console.log(user, '<<<<<<<<<<<<< serialize');
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  UserYS.findById(id).then((user) => {
+    // console.log(user, '<<<<<<<<<<<<< deeeeserialize');
+    done(null, user);
+  })
+});
+
 
 // TODO protected routes with token in query
 passport.use(
@@ -96,10 +108,9 @@ passport.use(
   clientSecret: process.env.clientSecretSpotify,
   callbackURL: '/auth/spotify/redirect'
 }, (accessToken, refreshToken, profile, done) => {
-  console.log(accessToken, ' <<<<<< ATOKEN');
-  console.log(refreshToken, ' <<<<<< RTOKEN');
-  console.log(profile);
-  // done(null, profile.id);
+  // console.log(accessToken, ' <<<<<< ATOKEN');
+  // console.log(refreshToken, ' <<<<<< RTOKEN');
+  // console.log(profile);
   let userYSEntry = new UserYS({
     _id: profile.id,
     provider: profile.provider,
@@ -110,7 +121,7 @@ passport.use(
     url: profile._json.external_urls
   });
 
-    User.findOneAndUpdate({ _id: profile.id }, userYSEntry, {upsert: true}, (err, user) => {
+    UserYS.findOneAndUpdate({ _id: profile.id }, userYSEntry, {upsert: true}, (err, user) => {
       return done(err, user);
     });
   }

@@ -83,6 +83,12 @@ class profile extends React.Component {
     })
   }
 
+  sendCookie() {
+    axios.get('/user/getspotify')
+    .then((data)=> console.log(data))
+    .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Layout>

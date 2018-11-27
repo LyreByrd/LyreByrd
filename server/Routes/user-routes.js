@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const passport = require('passport');
 const multer = require('multer');
-const fs = require('fs');
-
-const storage = multer.diskStorage({
+const axios = require('axios');
+var fs = require('fs');
+var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now())
   }
@@ -65,6 +65,28 @@ router.get('/profile/avatar', (req, res) => {
     }
   })
 })
+
+
+router.get('/getspotify', (req,res) => {
+  console.log(req.user, 'sesssiioon');
+  axios.get('https://api.spotify.com/v1/me/playlists',
+  {
+    headers: {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + req.user.accessToken, 
+    },
+    limit: 10
+  })
+  .then((data) => {
+    console.log(data.data, 'data from spotify')
+    return res.status(200).send(data.data);
+  })
+  .catch(err =>{
+    console.log(err.message, 'err on spotify request');
+    return res.status(400).send(err.message);
+  });
+});
 
 
 module.exports = router;

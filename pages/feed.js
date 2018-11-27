@@ -25,7 +25,7 @@ export default class Feed extends React.Component {
         });
       })
       .catch(err => {
-        console.log('err getting feeds from db', err);
+        console.log('err getting feeds from db');
       });
   }
 
