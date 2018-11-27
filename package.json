@@ -27,6 +27,8 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "golang": "^0.1.5-stable",
+    "moment": "^2.22.2",
+    "moment-shortformat": "^2.1.0",
     "mongodb": "^3.1.9",
     "mongoose": "^5.3.11",
     "next": "^7.0.2",
@@ -39,7 +41,9 @@
     "passport-youtube-v3": "^2.1.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "semantic-ui-react": "*"
+    "semantic-ui-react": "*",
+    "socket.io-client": "^2.1.1",
+    "styled-jsx": "^3.1.1"
   },
   "devDependencies": {
     "eslint": "^5.8.0",
@@ -47,6 +51,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-react": "^7.11.1",
     "jest": "^23.6.0",
+    "jest-cli": "^23.6.0",
     "react-test-renderer": "^16.6.1"
   }
 }

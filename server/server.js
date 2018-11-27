@@ -1,10 +1,13 @@
 const express = require('express');
 const userRoutes = require('./Routes/user-routes');
 const authRoutes = require('./Routes/auth-routes');
+// const chatRoutes = require('./Routes/chat-routes');
+const playerRoutes = require('./Routes/player-routes');
 const next = require('next')
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const passport = require('passport');
+const axios = require('axios');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -24,7 +27,8 @@ app.prepare()
     server.use(passport.session());
     server.use('/user', userRoutes);
     server.use('/auth', authRoutes);
-
+    server.use('/api/player', playerRoutes);
+    
     server.get('*', (req, res) => {
       return handle(req, res);
     });

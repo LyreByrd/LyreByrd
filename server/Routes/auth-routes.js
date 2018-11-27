@@ -3,7 +3,6 @@ var router = express.Router();
 
 const { User } = require('../../db/db');
 
-
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
@@ -16,23 +15,14 @@ require("../config/passport-config");
 // });
 
 router.post("/login",  function(req, res) {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: "Something is not right",
-        user: user
-      });
+  passport.authenticate("local", { session: false }, (err, user, username) => {
+    console.log(err, user);
+    if (err) return res.status(400).json({message: JSON.stringify(err)});
+    if (user) {
+      const token = jwt.sign(username, "its a chiansaw, no, its a bird");
+      return res.status(200).json({username:username, token});
     }
-    req.login(user, { session: false }, err => {
-      console.log("logging user in...");
-      if (err) {
-        return res.send(err + ' error in routes');
-      }
-      // generate a signed son web token with the contents of user object and return it in the response
-      const token = jwt.sign(user.username, "its a chiansaw, no, its a bird");
-      console.log(user, ' user from routes');
-      return res.send(JSON.stringify({username:user.username, token}));
-    });
+    return res.status(401).json({message: 'invalid login'});
   })(req,res);
 });
 
@@ -49,12 +39,22 @@ router.post('/signup', (req, res) => {
       username,
       password: hash
     })
-    User.findOneAndUpdate({username}, newUser, {upsert:true}, (err, data) => {
+    User.findOneAndUpdate({ username }, newUser, { upsert: true, returnNewDocument: true, new: true }, (err, user) => {
       if (err) {
         console.log(err, ' db errroor');
-        return;
+        return res.status(400).json({message: 'username exists'});
       }
-      return res.json(data)
+      console.log(user, '<<<<<');
+      req.login(user, { session: false }, err => {
+        console.log("logging user in...");
+        if (err) {
+          return res.send(err + ' error in routes');
+        }
+        // generate a signed son web token with the contents of user object and return it in the response
+        const token = jwt.sign(user.username, "its a chainsaw, no, its a bird");
+        console.log(user.username, 'user login after sign up');
+        return res.status(200).json({username: user.username, token});
+      });
     });
   });
 });
@@ -79,4 +79,5 @@ router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => 
 });
 
 module.exports = router;
+
 
