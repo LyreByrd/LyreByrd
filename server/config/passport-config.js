@@ -11,6 +11,18 @@ const {UserYS} = require('../../db/db');
 
 require('dotenv').config();
 
+passport.serializeUser((user, done) => {
+  console.log(user, '<<<<<<<<<<<<< serialize');
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  UserYS.findById(id).then((user) => {
+    // console.log(user, '<<<<<<<<<<<<< deeeeserialize');
+    done(null, user);
+  })
+});
+
 
 // TODO protected routes with token in query
 passport.use(
@@ -99,7 +111,6 @@ passport.use(
   // console.log(accessToken, ' <<<<<< ATOKEN');
   // console.log(refreshToken, ' <<<<<< RTOKEN');
   // console.log(profile);
-  // done(null, profile.id);
   let userYSEntry = new UserYS({
     _id: profile.id,
     provider: profile.provider,

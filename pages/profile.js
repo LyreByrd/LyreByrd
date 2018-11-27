@@ -71,6 +71,12 @@ class profile extends React.Component {
     })
   }
 
+  sendCookie() {
+    axios.get('/user/getspotify')
+    .then((data)=> console.log(data))
+    .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Layout>
@@ -89,6 +95,7 @@ class profile extends React.Component {
           onClick={this.handleFileSubmit}
         >Submit</button>
         <div>Max File Size: 150 KB</div>
+        <button onClick={this.sendCookie}>lcik spotify</button>
       </Layout>
     );
   }
