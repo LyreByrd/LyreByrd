@@ -32,15 +32,18 @@ router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => 
 });
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
-  console.log('req :', req.file);
-  console.log('req.body :', req.body);
-  // const avatarBuffer = new Buffer.from();
+
+  // console.log('req :', req.file);
+  // console.log('req.body :', req.body);
+
   const avatar = {};
   avatar.data = fs.readFileSync(req.file.path);
   avatar.contentType = req.file.mimetype;
   const username = req.body.username;
-  console.log('avatarObject :', avatar);
-  console.log('username :', username);
+
+  // console.log('avatarObject :', avatar);
+  // console.log('username :', username);
+
   User.findOneAndUpdate({ username }, { avatar }, { upsert: true }, (err, result) => {
     if (err) {
       console.log('error saving avatar :', err);
@@ -51,6 +54,10 @@ router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) =>
     }
   } )
 });
+
+router.get('/user/profile/avatar', (req, res) => {
+  console.log('avatar requested')
+})
 
 
 module.exports = router;

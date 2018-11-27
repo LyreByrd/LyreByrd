@@ -21,6 +21,7 @@ class profile extends React.Component {
     this.setState({ username })
   }
 
+  //shows preview of avatar
   handleFileUpload(e) {
     // e.preventDefault();
     if (e.target.files[0].size <= 150000) {
@@ -34,16 +35,17 @@ class profile extends React.Component {
     }
   }
 
+  //posts avatar to db
   handleFileSubmit() {
-    console.log('this.state.avatarFile :', this.state.avatarFile);
-    console.log('this.state.avatarURL :', this.state.avatarURL);
+    // console.log('this.state.avatarFile :', this.state.avatarFile);
+    // console.log('this.state.avatarURL :', this.state.avatarURL);
 
     let fd = new FormData();
     
     fd.append('avatarFile', this.state.avatarFile);
     fd.append('username', `${this.state.username}`);
 
-    console.log('formData :', Array.from(fd.entries()));
+    // console.log('formData :', Array.from(fd.entries()));
 
     const config = {
       headers: {
@@ -60,6 +62,13 @@ class profile extends React.Component {
         console.log('upload error with err :', err);
       })
     }
+  }
+
+  getUserAvatar() {
+    axios.get('/user/profile/avatar')
+    .then(avatarImg => {
+
+    })
   }
 
   render() {
