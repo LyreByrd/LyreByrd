@@ -36,7 +36,7 @@ class Player extends React.Component {
 
   componentDidMount() {
     let currentHost = this.props.url.query.host;
-    let currentUser = JSON.parse(localStorage.getItem('username'));
+    let currentUser = localStorage.getItem('username');
     this.setState({
       // host: currentHost,
       user: currentUser,

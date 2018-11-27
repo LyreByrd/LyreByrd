@@ -18,7 +18,7 @@ class NavBar extends React.Component {
   componentDidMount() {
     this.setState({
       Token: localStorage.getItem('jwt'),
-      user: JSON.parse(localStorage.getItem('username')),
+      user: localStorage.getItem('username')
     });
   }
 

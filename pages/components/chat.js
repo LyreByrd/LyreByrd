@@ -43,14 +43,14 @@ class Chat extends react.Component {
   componentDidMount() {
 
     //sets current user and host
-    let currentUser = JSON.parse(localStorage.getItem('username'));
+    let currentUser = localStorage.getItem('username');
     this.setState({
       user: currentUser,
       host: this.props.host
     })
 
     //socket.io connection
-    const socket = io('http://localhost:8000');
+    const socket = io('18.218.63.90:8000');
     // socket.connect();
 
     //on user connect
