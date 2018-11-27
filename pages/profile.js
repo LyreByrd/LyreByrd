@@ -77,6 +77,12 @@ class profile extends React.Component {
     .catch(err => console.log(err));
   }
 
+  refreshToken() {
+    axios.post('user/refresh')
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Layout>
@@ -96,6 +102,7 @@ class profile extends React.Component {
         >Submit</button>
         <div>Max File Size: 150 KB</div>
         <button onClick={this.sendCookie}>lcik spotify</button>
+        <button onClick={this.refreshToken}>Refresh Token</button>
       </Layout>
     );
   }

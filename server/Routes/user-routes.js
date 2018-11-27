@@ -12,6 +12,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 const { User } = require('../../db/db');
+const {UserYS} = require('../../db/db');
 
 router.get('/youtube', passport.authenticate('youtube', {
   'scope':'https://www.googleapis.com/auth/youtube'
@@ -78,6 +79,43 @@ router.get('/getspotify', (req,res) => {
   })
   .catch(err =>{
     console.log(err.message, 'err on spotify request');
+    return res.status(400).send(err.message);
+  });
+});
+
+router.post('/refresh', (req,res) => {
+  // console.log(req.user, 'sesssiioon');
+  axios({
+    url: 'https://accounts.spotify.com/api/token',
+    method: 'post',
+    params: {
+      grant_type: 'refresh_token',
+      refresh_token: req.user.refreshToken
+    },
+    headers: {
+      'Accept':'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    auth: {
+      username: process.env.clientIDSpotify,
+      password: process.env.clientSecretSpotify
+    }
+  })
+  .then((data) => {
+    console.log(data.data, 'data from refresh');
+    UserYS.findByIdAndUpdate(req.user._id, {accessToken:data.data.access_token}, {new:true})
+    .then(data => {
+      console.log(data)
+      return res.status(200).send(data);
+
+    })
+    .catch(err => {
+      console.log(err)
+      return res.status(400).send(err);
+    });
+  })
+  .catch(err =>{
+    console.log(err, 'err on refresh');
     return res.status(400).send(err.message);
   });
 });
