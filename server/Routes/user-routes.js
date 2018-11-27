@@ -1,8 +1,14 @@
 const router = require('express').Router();
 const passport = require('passport');
 const multer = require('multer');
-var upload = multer({ dest: 'upload/' });
 var fs = require('fs');
+var storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+ 
+var upload = multer({ storage: storage })
 
 const { User } = require('../../db/db');
 
