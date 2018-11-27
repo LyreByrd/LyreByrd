@@ -1,7 +1,8 @@
 import React from 'react';
 import Layout from './components/Layout.js';
 import axios from 'axios';
-import FormData from 'form-data';
+// const multer  = require('multer')
+// const upload = multer({ dest: 'uploads/' })
 
 class profile extends React.Component {
   constructor(props) {
@@ -35,12 +36,9 @@ class profile extends React.Component {
 
   handleFileSubmit() {
     if (this.state.avatar !== null) {
-      let data = new FormData();
-      let file = this.state.avatar;
-      data.append('file', file);
-      console.log('data :', data);
+      
 
-      // axios.post('/user/profile/avatar', payload)
+      // axios.post('/user/profile/avatar', data)
       // .then(res => {
       //   console.log('upload success with res :', res);
       // })
