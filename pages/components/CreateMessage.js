@@ -6,6 +6,7 @@ class CreateMessage extends react.Component {
   constructor(props) {
     super(props)
     this.state = {
+      userAvatar: this.props.user.userAvatar,
       newMessage: {
         user: this.props.user.username,
         message: '',
@@ -28,6 +29,12 @@ class CreateMessage extends react.Component {
       }
     })
     socket.emit('chat message', this.state.newMessage);
+    let messageAvatarObject = {
+      user: this.props.user.username,
+      avatar: this.props.user.userAvatar,
+      room: this.props.host
+    }
+    socket.emit('chat message avatar', messageAvatarObject)
     this.setState({
       newMessage: {
         user: this.props.user.username,

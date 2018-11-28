@@ -41,9 +41,8 @@ class Chat extends react.Component {
         userAvatar: ''
       },
       users: {},
-      // userAvatar: '',
-      // usersAvatars: {},
       messages: [],
+      messageAvatars: {},
       host: '',
     }
     this.messageRef = React.createRef();
@@ -73,7 +72,7 @@ class Chat extends react.Component {
     const socket = io('http://localhost:8000');
     //on user connect
     socket.on('connect', () => {
-      console.log('this.state.user :', this.state.user);
+      // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
       // socket.emit('user avatar', this.state.usersAvatars);
@@ -100,6 +99,12 @@ class Chat extends react.Component {
       }))
     })
 
+    socket.on('update message avatars', avatars => {
+      this.setState({
+        messageAvatars: avatars
+      })
+    })
+
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
       this.setState({
@@ -120,7 +125,7 @@ class Chat extends react.Component {
   }
 
   onlineUsers(users) {
-    console.log('users in onlineUsers:', users);
+    // console.log('users in onlineUsers:', users);
     if (Object.keys(users).length > 0) {
       return Object.entries(users).map((user, i) => {
         // console.log('user :', user);
@@ -137,23 +142,17 @@ class Chat extends react.Component {
   getUserAvatar(username) {
     return new Promise((resolve, reject) => {
       resolve(
-        axios.get('/user/profile/avatar', {
-          responseType: 'arraybuffer',
+        axios.get('/user/profile/tinyAvatar', {
+          // responseType: 'arraybuffer',
           params: {
             username: username
           }
         })
         .then(res => {
-          let data = res.data
-          let contentType = res.headers['content-type'];
-          let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
-          // return avatarSrc;
-          console.log('username in getuserav :', username);
-          // console.log('avatarSrc :', avatarSrc);
           this.setState({
             user: {
               username: username,
-              userAvatar: avatarSrc
+              userAvatar: res.data
             }
           })
         })
@@ -176,6 +175,7 @@ class Chat extends react.Component {
               user={this.state.user}
               users={this.state.users}
               messages={this.state.messages}
+              messageAvatars={this.state.messageAvatars}
             />
             <div style={{ float:"left", clear: "both" }}
               ref={(el) => { this.messageRef = el; }}>

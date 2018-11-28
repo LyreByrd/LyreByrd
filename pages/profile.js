@@ -109,8 +109,8 @@ class profile extends React.Component {
   //posts avatar to db
   handleFileSubmit() {
 
-    console.log('this.state.avatyarPreviewFile.length :', this.state.avatarPreviewFile);
-    console.log('this.state.avatarTinyFile.length :', this.state.avatarTinyFile);
+    // console.log('this.state.avatyarPreviewFile.length :', this.state.avatarPreviewFile);
+    // console.log('this.state.avatarTinyFile.length :', this.state.avatarTinyFile);
 
     let fd = new FormData();
     fd.append('avatarFile', this.state.avatarPreviewFile);

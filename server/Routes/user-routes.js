@@ -57,12 +57,26 @@ router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) =>
   } )
 });
 
+//gets full sized avatar (400px)
 router.get('/profile/avatar', (req, res) => {
   let username = req.query.username;
   User.findOne({ username }, 'avatar', (err, result) => {
     if (err) console.log('err getting avatar from db :', err);
     else if (result) {
       res.send(result.avatar.data);
+    } else {
+      res.end()
+    }
+  })
+})
+
+//gets tiny avatar (100px)
+router.get('/profile/tinyAvatar', (req, res) => {
+  let username = req.query.username;
+  User.findOne({ username }, 'avatar', (err, result) => {
+    if (err) console.log('err getting avatar from db :', err);
+    else if (result) {
+      res.send(result.avatar.tinyData);
     } else {
       res.end()
     }
