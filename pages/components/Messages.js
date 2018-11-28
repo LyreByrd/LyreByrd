@@ -77,24 +77,25 @@ const Messages = ({messages, user, host}) => {
     position: 'relative',
   }
 
-  const usernameAvatar = {
+  const userAvatar = {
     width: '40px',
     height: '40px',
     padding: '5px',
-    borderRadius: '100%',
+    borderRadius: '50%',
     background: '#efefef',
     filter: 'drop-shadow(0 10px 0.9rem #9e9e9e)',
     marginRight: '10px'
     // border: '1px orange dotted',
     
   }
+  console.log('users :', users);
 
   return (
     <div>
       <div style={messagesContainer}>
         {messages.map((message, i) => {
           message = JSON.parse(message);
-          if (user === message.user) {
+          if (user.username === message.user) {
             //sent message
             return (
               <div 
@@ -113,9 +114,9 @@ const Messages = ({messages, user, host}) => {
               <div 
                 key={i}
                 style={messagesStyleRec}>
-                <span style={usernameAvatar}>
-                  {message.user} 
-                </span>
+                {/* <img style={userAvatar} src={users[message.user].userAvatar}>
+                  
+                </img> */}
                 <div style={recTriangle}></div>
                 <span style={messageRec}>
                   {message.message} <span style={timeStampStyle}> {ago(message.timeStamp)}</span>

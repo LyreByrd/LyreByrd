@@ -57,27 +57,23 @@ class Chat extends react.Component {
       user: currentUser,
       host: this.props.host
     }, () => {
-      let userAvatarSrc = this.getUserAvatar(this.state.user)
-  
-      // let user = this.state.user;
-      this.setState({
-        user: {
-          username: currentUser,
-          userAvatar: userAvatarSrc,
-
-        }
-        // usersAvatars: {
-        //   [user]: userAvatarSrc
-        // }
+      this.getUserAvatar(currentUser)
+      .then(resolve => {
+        this.socketConnect();
       })
     })
 
 
+
+    this.messagesScrollDown();
+  }
+
+  socketConnect() {
     //socket.io connection
     const socket = io('http://localhost:8000');
-    console.log('this.state.user :', this.state.user);
     //on user connect
     socket.on('connect', () => {
+      console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
       // socket.emit('user avatar', this.state.usersAvatars);
@@ -91,17 +87,9 @@ class Chat extends react.Component {
 
     //handles changes in online users
     socket.on('update users', users => {
+      // console.log('users :', users);
       this.setState({
-        users: [...users]
-      })
-    })
-
-    socket.on('new user avatar', newUserAvatar => {
-      console.log('new user avatar socket.username :', socket.username);
-      this.setState({
-        usersAvatars: {
-          [user]: newUserAvatar
-        }
+        users: users
       })
     })
 
@@ -115,11 +103,9 @@ class Chat extends react.Component {
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
       this.setState({
-        users: [...users]
+        users: users
       })
     })
-
-    this.messagesScrollDown();
   }
 
   componentDidUpdate() {
@@ -134,14 +120,14 @@ class Chat extends react.Component {
   }
 
   onlineUsers(users) {
-    console.log('users :', users);
+    console.log('users in onlineUsers:', users);
     if (Object.keys(users).length > 0) {
-      return Object.values(users).map((user, i) => {
-        console.log('user :', JSON.stringify(user));
+      return Object.entries(users).map((user, i) => {
+        // console.log('user :', user);
         return (
           <div key={i}>
-            <img style={avatarStyle} src={this.state.user.userAvatar} width='50' height='50'></img>
-            <div>{user.username}</div>
+            <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : null} width='50' height='50'></img>
+            <div>{user[0]}</div>
           </div>
         )
       })
@@ -149,26 +135,32 @@ class Chat extends react.Component {
   }
 
   getUserAvatar(username) {
-    axios.get('/user/profile/avatar', {
-      responseType: 'arraybuffer',
-      params: {
-        username: username
-
-      }
-    })
-    .then(res => {
-      let data = res.data
-      let contentType = res.headers['content-type'];
-      let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
-
-      this.setState({
-        usersAvatars: {
-          [username]: avatarSrc
-        }
-      })
-    })
-    .catch(err => {
-      console.log('error getting avatar :', err);
+    return new Promise((resolve, reject) => {
+      resolve(
+        axios.get('/user/profile/avatar', {
+          responseType: 'arraybuffer',
+          params: {
+            username: username
+          }
+        })
+        .then(res => {
+          let data = res.data
+          let contentType = res.headers['content-type'];
+          let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
+          // return avatarSrc;
+          console.log('username in getuserav :', username);
+          // console.log('avatarSrc :', avatarSrc);
+          this.setState({
+            user: {
+              username: username,
+              userAvatar: avatarSrc
+            }
+          })
+        })
+        .catch(err => {
+          console.log('error getting avatar :', err);
+        })
+      )
     })
   }
 
@@ -181,7 +173,8 @@ class Chat extends react.Component {
             ref={(el) => this.messageRef = el}>
             <Messages
               host={this.state.host}
-              user={this.state.user} 
+              user={this.state.user}
+              users={this.state.users}
               messages={this.state.messages}
             />
             <div style={{ float:"left", clear: "both" }}
