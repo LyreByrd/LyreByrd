@@ -17,7 +17,7 @@ class profile extends React.Component {
   }
 
   componentDidMount(){
-    const username =  JSON.parse(localStorage.getItem('username'))
+    const username =  localStorage.getItem('username')
     this.setState({ username })
   }
 
