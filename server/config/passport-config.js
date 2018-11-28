@@ -13,13 +13,19 @@ require('dotenv').config();
 
 passport.serializeUser((user, done) => {
   console.log(user, '<<<<<<<<<<<<< serialize');
-  done(null, user._id);
+  let uid = user.plataformId;
+  done(null, uid);
 });
 
 passport.deserializeUser((id, done) => {
-  UserYS.findById(id).then((user) => {
+  User.findOne({plataformId:id})
+  .then((user) => {
     // console.log(user, '<<<<<<<<<<<<< deeeeserialize');
     done(null, user);
+  })
+  .catch((err) => {
+    console.log(err);
+    done(err, null)
   })
 });
 
@@ -28,10 +34,10 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromUrlQueryParameter('Token'),
-    secretOrKey   : 'Memes are cool'
+    secretOrKey   : 'its a chiansaw, no, its a bird'
   },
-  function (jwtPayload, cb) {
-    db.findUserJWT(jwtPayload.username, jwtPayload.password, function(err, user){
+  (jwtPayload, cb) => {
+    User.findUserJWT(jwtPayload.username, jwtPayload.password, function(err, user){
       if (!user || err) {
         console.log('Ran into issue: ',err, user);
         return cb(err, false, { message: "Failure" });
@@ -79,23 +85,21 @@ passport.use(
   clientSecret: process.env.clientSecretYouTube,
   callbackURL: '/auth/youtube/redirect'
 }, (accessToken, refreshToken, profile, done) => {
-  console.log(accessToken, ' <<<<<< ATOKEN');
-  console.log(refreshToken, ' <<<<<< RTOKEN');
-  console.log(profile);
+  // console.log(accessToken, ' <<<<<< ATOKEN');
+  // console.log(refreshToken, ' <<<<<< RTOKEN');
+  // console.log(profile);
   // done(null, profile.id);
-  let userYSEntry = new UserYS({
-    _id: profile.id,
+  let userYSEntry = new User({
+    plataformId: profile.id,
     provider: profile.provider,
     accessToken,
     refreshToken,
-    username: profile.displayName,
+    displayName: profile.displayName,
     href: profile._json.etag,
   });
-  UserYS.findOneAndUpdate({ username: profile.displayName }, userYSEntry, {upsert: true}, (err, user) => {
-    // console.log(err, 'ERRROOOROROR')
-    console.log(user, 'USERNAMEEE')
-    return done(err, user);
-  });
+  
+    return done(null, userYSEntry);
+
 }
 ));
 
@@ -104,25 +108,27 @@ passport.use(
 passport.use(
   new SpotifyStrategy({
   // options
-  clientID : process.env.clientIDSpotify,
-  clientSecret: process.env.clientSecretSpotify,
-  callbackURL: '/auth/spotify/redirect'
-}, (accessToken, refreshToken, profile, done) => {
+    clientID : process.env.clientIDSpotify,
+    clientSecret: process.env.clientSecretSpotify,
+    callbackURL: '/auth/spotify/redirect'
+  }, 
+  (accessToken, refreshToken, profile, done) => {
   // console.log(accessToken, ' <<<<<< ATOKEN');
   // console.log(refreshToken, ' <<<<<< RTOKEN');
   // console.log(profile);
-  let userYSEntry = new UserYS({
-    _id: profile.id,
+
+  let userYSEntry = new User({
+    plataformId: profile.id,
     provider: profile.provider,
     accessToken,
     refreshToken,
-    username: profile.displayName,
+    displayName: profile.displayName,
     href: profile._json.href,
     url: profile._json.external_urls
   });
 
-    UserYS.findOneAndUpdate({ _id: profile.id }, userYSEntry, {upsert: true}, (err, user) => {
-      return done(err, user);
-    });
+    
+  return done(null, userYSEntry);
+   
   }
 ));

@@ -38,7 +38,7 @@ class Login extends React.Component {
     .then((res) => {
       console.log(res.data);
       localStorage.setItem('jwt', res.data.token);
-      localStorage.setItem("username", JSON.stringify(res.data.username));
+      localStorage.setItem("username", res.data.username);
       Router.push('/player');
     })
     .catch((err) => {
