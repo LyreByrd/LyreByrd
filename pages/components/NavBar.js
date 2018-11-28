@@ -51,6 +51,10 @@ class NavBar extends React.Component {
   logout() {
     localStorage.clear();
     sessionStorage.clear();
+    axios.get('auth/logout')
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+
   }
 
   LogSignRender() {

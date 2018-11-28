@@ -13,9 +13,19 @@ const userYSSchema = mongoose.Schema({
 });
 
 const userSchema = mongoose.Schema({
-  username: String,
+  username: {
+    type:String,
+    required: true
+    },
   password: String,
-  avatar: { data: Buffer, contentType: String }
+  avatar: { data: Buffer, contentType: String },
+  plataformId: String,
+  displayName: String,
+  provider: String,
+  accessToken: String,
+  refreshToken: String,
+  href: String,
+  url: String
 });
 
 const playerSchema = mongoose.Schema({

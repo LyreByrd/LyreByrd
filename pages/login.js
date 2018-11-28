@@ -39,7 +39,8 @@ class Login extends React.Component {
       console.log(res.data);
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem("username", res.data.username);
-      Router.push('/feed');
+
+      Router.push('/profile');
     })
     .catch((err) => {
       err = err.response;
@@ -48,17 +49,7 @@ class Login extends React.Component {
     });
     e.preventDefault();
   }
-  // handleYTSubmit(e) {
-  //   axios.get('/auth/google')
-  //   .then((res) => {
-  //     console.log(JSON.stringify(res.data));
-  //     // Router.push('/feed');
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  //   e.preventDefault();
-  // }
+
 
   render() {
     return (
@@ -120,15 +111,8 @@ class Login extends React.Component {
                 </div>
                 <input value="Login" type="submit" onClick={this.handleSubmit} className="ui fluid large teal submit button"/>
               </div>
-
               <div className="ui error message"></div>
-
             </form>
-            <div>
-            <a href='/auth/youtube'>login with youtube</a>
-            <a href='/auth/spotify'>login with spotify</a>
-          </div>
-
             <div className="ui message">
               New to us? <a href="/signup">Sign Up</a>
             </div>
