@@ -43,7 +43,7 @@ class Chat extends react.Component {
   componentDidMount() {
 
     //sets current user and host
-    let currentUser = JSON.parse(localStorage.getItem('username'));
+    let currentUser = localStorage.getItem('username');
     this.setState({
       user: currentUser,
       host: this.props.host

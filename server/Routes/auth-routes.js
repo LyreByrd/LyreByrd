@@ -70,14 +70,15 @@ router.get('/youtube/redirect', passport.authenticate('youtube', { failureRedire
 });
 
 
+var spotifyScope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state';
 router.get('/spotify', passport.authenticate('spotify', {
-
+  scope: spotifyScope
 }));
 
 
 router.get('/spotify/redirect', passport.authenticate('spotify', { failureRedirect: '/login' }), (req, res) => {
   
-  res.redirect('/feed');
+  res.redirect('/profile');
 });
 
 module.exports = router;
