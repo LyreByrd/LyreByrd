@@ -70,7 +70,7 @@ router.get('/youtube/redirect', passport.authenticate('youtube', { failureRedire
 });
 
 
-var spotifyScope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state';
+var spotifyScope = 'user-read-private user-read-email streaming user-read-playback-state user-modify-playback-state';
 router.get('/spotify', passport.authenticate('spotify', {
   scope: spotifyScope
 }));
