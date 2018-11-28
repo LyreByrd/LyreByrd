@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
-
 class profile extends React.Component {
   constructor(props) {
     super(props);

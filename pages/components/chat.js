@@ -2,8 +2,8 @@ import react from 'react';
 import io from 'socket.io-client';
 import CreateMessage from './CreateMessage';
 import Messages from './Messages'
-// import axios from 'axios';
-// import { runInThisContext } from 'vm';
+import axios from 'axios';
+
 const container = {
   display: 'flex',
   flexDirection: 'row',
@@ -27,36 +27,60 @@ const onlineUsersStyle = {
   marginTop: '10px',
 }
 
+const avatarStyle = {
+  borderRadius: '50%',
+  border: '3px solid gray'
+};
+
 class Chat extends react.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: '',
-      userAvatar: '',
+      user: {
+        username: '',
+        userAvatar: ''
+      },
       users: {},
+      // userAvatar: '',
+      // usersAvatars: {},
       messages: [],
-      host: ''
+      host: '',
     }
     this.messageRef = React.createRef();
   }
 
   componentDidMount() {
-
+    
     //sets current user and host
     let currentUser = JSON.parse(localStorage.getItem('username'));
     this.setState({
       user: currentUser,
       host: this.props.host
+    }, () => {
+      let userAvatarSrc = this.getUserAvatar(this.state.user)
+  
+      // let user = this.state.user;
+      this.setState({
+        user: {
+          username: currentUser,
+          userAvatar: userAvatarSrc,
+
+        }
+        // usersAvatars: {
+        //   [user]: userAvatarSrc
+        // }
+      })
     })
+
 
     //socket.io connection
     const socket = io('http://localhost:8000');
-    // socket.connect();
-
+    console.log('this.state.user :', this.state.user);
     //on user connect
     socket.on('connect', () => {
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
+      // socket.emit('user avatar', this.state.usersAvatars);
       socket.on('fetch messages', messages => {
         this.setState({
           messages: [...messages]
@@ -69,6 +93,15 @@ class Chat extends react.Component {
     socket.on('update users', users => {
       this.setState({
         users: [...users]
+      })
+    })
+
+    socket.on('new user avatar', newUserAvatar => {
+      console.log('new user avatar socket.username :', socket.username);
+      this.setState({
+        usersAvatars: {
+          [user]: newUserAvatar
+        }
       })
     })
 
@@ -101,19 +134,48 @@ class Chat extends react.Component {
   }
 
   onlineUsers(users) {
+    console.log('users :', users);
     if (Object.keys(users).length > 0) {
       return Object.values(users).map((user, i) => {
-        return <div key={i}>{user}</div>
+        console.log('user :', JSON.stringify(user));
+        return (
+          <div key={i}>
+            <img style={avatarStyle} src={this.state.user.userAvatar} width='50' height='50'></img>
+            <div>{user.username}</div>
+          </div>
+        )
       })
     }
   }
 
+  getUserAvatar(username) {
+    axios.get('/user/profile/avatar', {
+      responseType: 'arraybuffer',
+      params: {
+        username: username
+
+      }
+    })
+    .then(res => {
+      let data = res.data
+      let contentType = res.headers['content-type'];
+      let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
+
+      this.setState({
+        usersAvatars: {
+          [username]: avatarSrc
+        }
+      })
+    })
+    .catch(err => {
+      console.log('error getting avatar :', err);
+    })
+  }
 
   render() {
     return (
       <div>
         <div style={container}>
-          <div></div>
           <div 
             style={messagesStyle}
             ref={(el) => this.messageRef = el}>
