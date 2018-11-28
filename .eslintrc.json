@@ -12,7 +12,7 @@
     },
     "sourceType": "module"
   },
-  "plugins": ["react", "styled-jsx/babel"],
+  "plugins": ["react"],
   "rules": {
     "react/prop-types": 0,
     "react/jsx-uses-vars": [2],
