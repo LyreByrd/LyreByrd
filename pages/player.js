@@ -117,6 +117,7 @@ class Player extends React.Component {
             path={this.state.path}
             host={this.state.host}
           />
+
         </div>
       </Layout>
     )

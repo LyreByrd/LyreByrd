@@ -120,5 +120,28 @@ router.post('/refresh', (req,res) => {
   });
 });
 
+router.post('/player', (req,res) => {
+  console.log(req.user, 'sesssiioon');
+  axios({
+    url: 'https://api.spotify.com/v1/me/player',
+    method: 'put',
+    headers: {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + req.user.accessToken, 
+    },
+    data: {
+      device_ids: ['66fa3b35ba66385e2103ea2272c36b2345861712']
+    }
+  })
+  .then((data) => {
+    console.log(data, 'data from devices');
+  })
+  .catch(err => {
+    console.log(err, 'err on devices');
+    return res.status(err.response.status).send(err.message);
+  });
+});
+
 
 module.exports = router;
