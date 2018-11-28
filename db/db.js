@@ -15,7 +15,7 @@ const userYSSchema = mongoose.Schema({
 const userSchema = mongoose.Schema({
   username: String,
   password: String,
-  avatar: { data: Buffer, contentType: String }
+  avatar: { data: Buffer, tinyData: Buffer, contentType: String }
 });
 
 const playerSchema = mongoose.Schema({

@@ -88,7 +88,6 @@ const Messages = ({messages, user, host}) => {
     // border: '1px orange dotted',
     
   }
-  console.log('users :', users);
 
   return (
     <div>

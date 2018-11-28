@@ -34,17 +34,17 @@ router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => 
 });
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
-
-  // console.log('req.file.path :', req.file.path);
+  
+  // console.log('req :', req);
   // console.log('req.body :', req.body);
 
   const avatar = {};
-  avatar.data = fs.readFileSync(req.file.path);
-  avatar.contentType = req.file.mimetype;
+  avatar.data = req.body.avatarFile;
+  avatar.tinyData = req.body.avatarTinyFile;
+  console.log('avatar.data.length :', avatar.data.length);
+  console.log('avatar.tinyData.length :', avatar.tinyData.length);
+  avatar.contentType = 'image/jpeg';
   const username = req.body.username;
-
-  // console.log('avatarObject :', avatar);
-  // console.log('username :', username);
 
   User.findOneAndUpdate({ username }, { avatar }, { upsert: true }, (err, result) => {
     if (err) {
