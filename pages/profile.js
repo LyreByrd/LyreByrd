@@ -2,7 +2,12 @@ import React from 'react';
 import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
+<<<<<<< HEAD
 // import { read } from 'fs';
+=======
+import Router from 'next/router';
+
+>>>>>>> dev
 class profile extends React.Component {
   constructor(props) {
     super(props);
@@ -11,18 +16,28 @@ class profile extends React.Component {
       avatarSrc: null,
       avatarPreviewURL: null,
       avatarPreviewFile: null,
+<<<<<<< HEAD
       avatarTinyUrl: null,
       avatarTinyFile: null,
+=======
+      done: false
+>>>>>>> dev
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
   }
 
+
   componentDidMount(){
-    const username =  JSON.parse(localStorage.getItem('username'))
+    const username =  localStorage.getItem('username');
+    if (!username) {
+      return Router.push('/login');
+    }
     this.setState({
-      username
-    }, () => this.getUserAvatar())
+      username,
+      done: true
+    }, () => this.getUserAvatar());
+
   }
   
 
@@ -138,8 +153,7 @@ class profile extends React.Component {
     axios.get('/user/profile/avatar', {
       // responseType: 'arraybuffer',
       params: {
-        username: this.state.username
-        
+        username: this.state.username 
       }
     })
     .then(res => {
@@ -157,9 +171,14 @@ class profile extends React.Component {
     })
   }
 
-  sendCookie() {
+  getPlaylist() {
     axios.get('/user/getspotify')
-    .then((data)=> console.log(data))
+    .then(data => {
+      console.log(data.data)
+      if (data.data.message) {
+        alert('hook your spotify account first');
+      }
+    })
     .catch(err => console.log(err));
   }
 
@@ -169,7 +188,15 @@ class profile extends React.Component {
     .catch(err => console.log(err));
   }
 
+  player() {
+    axios.post('user/player')
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
+
+
   render() {
+<<<<<<< HEAD
     return (
       <Layout>
         <h1>Hi { this.state.username}</h1>
@@ -194,6 +221,45 @@ class profile extends React.Component {
         <button onClick={this.refreshToken}>Refresh Token</button>
       </Layout>
     );
+=======
+    if (!this.state.done) {
+      return (
+        <Layout>
+          <h1>Loading...</h1>
+        </Layout>
+      )
+    } else {
+      return (
+        <Layout>
+          <h1>Hi { this.state.username}</h1>
+          <img src={this.state.avatarSrc} width='200' height='200'></img>
+          <div>
+            <img src={this.state.avatarPreviewURL} width='300' height='300'/>
+          </div>
+          <input
+            id='avatarFileInput'
+            type='file' 
+            name='avatar'
+            onChange={this.handleFileUpload}
+          />
+          <button 
+            name='Submit'
+            onClick={this.handleFileSubmit}
+          >Submit</button>
+          <div>Max File Size: 150 KB</div>
+            <button onClick={this.getPlaylist}>get your playlists</button>
+            <button onClick={this.refreshToken}>Refresh Token</button>
+            <button onClick={this.player}>player</button>
+          <div>
+            {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
+            <div>
+              <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
+            </div>
+          </div>
+        </Layout>
+      );
+    }
+>>>>>>> dev
   }
 }
 

@@ -14,24 +14,27 @@ var upload = multer({ storage: storage })
 const { User } = require('../../db/db');
 const {UserYS} = require('../../db/db');
 
-router.get('/youtube', passport.authenticate('youtube', {
-  'scope':'https://www.googleapis.com/auth/youtube'
-}));
 
-router.get('/youtube/redirect', passport.authenticate('youtube', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/feed');
-});
+let username = null
 
+// router.get('/youtube', passport.authenticate('youtube', {
+//   'scope':'https://www.googleapis.com/auth/youtube'
+// }));
 
-router.get('/spotify', passport.authenticate('spotify', {
-
-}));
+// router.get('/youtube/redirect', passport.authenticate('youtube', { failureRedirect: '/login' }), (req, res) => {
+//   res.redirect('/feed');
+// });
 
 
-router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => {
+// router.get('/spotify', passport.authenticate('spotify', {
 
-  res.redirect('/feed');
-});
+// }));
+
+
+// router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => {
+
+//   res.redirect('/feed');
+// });
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
   
@@ -59,13 +62,15 @@ router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) =>
 
 //gets full sized avatar (400px)
 router.get('/profile/avatar', (req, res) => {
-  let username = req.query.username;
+  username = req.query.username;
   User.findOne({ username }, 'avatar', (err, result) => {
     if (err) console.log('err getting avatar from db :', err);
-    else if (result) {
-      res.send(result.avatar.data);
-    } else {
-      res.end()
+    else {
+      if (result && result.avatar) {
+        res.send(result.avatar.data);
+      } else {
+        res.status(404).send('no avatar');
+      }
     }
   })
 })
@@ -75,16 +80,21 @@ router.get('/profile/tinyAvatar', (req, res) => {
   let username = req.query.username;
   User.findOne({ username }, 'avatar', (err, result) => {
     if (err) console.log('err getting avatar from db :', err);
-    else if (result) {
-      res.send(result.avatar.tinyData);
-    } else {
-      res.end()
+    else {
+      if (result && result.avatar) {
+        res.send(result.avatar.tinyData)
+      } else {
+        res.status(404).send('no avatar');
+      }
     }
   })
 })
 
 
 router.get('/getspotify', (req,res) => {
+  if (!req.user) {
+    return res.status(200).send({message: 'need spotify hookup'});
+  }
   console.log(req.user, 'sesssiioon');
   axios.get('https://api.spotify.com/v1/me/playlists',
   {
@@ -93,10 +103,9 @@ router.get('/getspotify', (req,res) => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + req.user.accessToken, 
     },
-    limit: 10
   })
   .then((data) => {
-    console.log(data.data, 'data from spotify')
+    console.log(data.data, 'data from spotify');
     return res.status(200).send(data.data);
   })
   .catch(err =>{
@@ -106,13 +115,13 @@ router.get('/getspotify', (req,res) => {
 });
 
 router.post('/refresh', (req,res) => {
-  // console.log(req.user, 'sesssiioon');
+  console.log(req.user, 'sesssiioon');
   axios({
     url: 'https://accounts.spotify.com/api/token',
     method: 'post',
     params: {
       grant_type: 'refresh_token',
-      refresh_token: req.user.refreshToken
+      refresh_token: req.user.spotify.refreshToken
     },
     headers: {
       'Accept':'application/json',
@@ -125,7 +134,7 @@ router.post('/refresh', (req,res) => {
   })
   .then((data) => {
     console.log(data.data, 'data from refresh');
-    UserYS.findByIdAndUpdate(req.user._id, {accessToken:data.data.access_token}, {new:true})
+    User.findByIdAndUpdate(req.user._id, {spotify:{accessToken:data.data.access_token}}, {new:true})
     .then(data => {
       console.log(data)
       return res.status(200).send(data);
@@ -139,6 +148,29 @@ router.post('/refresh', (req,res) => {
   .catch(err =>{
     console.log(err, 'err on refresh');
     return res.status(400).send(err.message);
+  });
+});
+
+router.post('/player', (req,res) => {
+  console.log(req.user, 'sesssiioon');
+  axios({
+    url: 'https://api.spotify.com/v1/me/player',
+    method: 'put',
+    headers: {
+      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + req.user.accessToken, 
+    },
+    data: {
+      device_ids: ['66fa3b35ba66385e2103ea2272c36b2345861712']
+    }
+  })
+  .then((data) => {
+    console.log(data, 'data from devices');
+  })
+  .catch(err => {
+    console.log(err, 'err on devices');
+    return res.status(err.response.status).send(err.message);
   });
 });
 
