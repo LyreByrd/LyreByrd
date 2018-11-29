@@ -88,7 +88,7 @@ router.get('/profile/tinyAvatar', (req, res) => {
       }
     }
   })
-})
+});
 
 
 router.get('/getspotify', (req,res) => {
