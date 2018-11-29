@@ -37,17 +37,17 @@ let username = null
 // });
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
-
-  // console.log('req.file.path :', req.file.path);
+  
+  // console.log('req :', req);
   // console.log('req.body :', req.body);
 
   const avatar = {};
-  avatar.data = fs.readFileSync(req.file.path);
-  avatar.contentType = req.file.mimetype;
+  avatar.data = req.body.avatarFile;
+  avatar.tinyData = req.body.avatarTinyFile;
+  console.log('avatar.data.length :', avatar.data.length);
+  console.log('avatar.tinyData.length :', avatar.tinyData.length);
+  avatar.contentType = 'image/jpeg';
   const username = req.body.username;
-
-  // console.log('avatarObject :', avatar);
-  // console.log('username :', username);
 
   User.findOneAndUpdate({ username }, { avatar }, { upsert: true }, (err, result) => {
     if (err) {
@@ -60,6 +60,7 @@ router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) =>
   } )
 });
 
+//gets full sized avatar (400px)
 router.get('/profile/avatar', (req, res) => {
   username = req.query.username;
   User.findOne({ username }, 'avatar', (err, result) => {
@@ -67,6 +68,21 @@ router.get('/profile/avatar', (req, res) => {
     else {
       if (result && result.avatar) {
         res.send(result.avatar.data);
+      } else {
+        res.status(404).send('no avatar');
+      }
+    }
+  })
+})
+
+//gets tiny avatar (100px)
+router.get('/profile/tinyAvatar', (req, res) => {
+  let username = req.query.username;
+  User.findOne({ username }, 'avatar', (err, result) => {
+    if (err) console.log('err getting avatar from db :', err);
+    else {
+      if (result && result.avatar) {
+        res.send(result.avatar.tinyData)
       } else {
         res.status(404).send('no avatar');
       }

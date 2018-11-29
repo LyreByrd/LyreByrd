@@ -16,9 +16,13 @@ const userSchema = mongoose.Schema({
   username: {
     type:String,
     required: true
-    },
+  },
   password: String,
-  avatar: { data: Buffer, contentType: String },
+  avatar: {
+    data: Buffer, 
+    tinyData: Buffer,
+    contentType: String
+  },
   plataformId: String,
   displayName: String,
   provider: String,
