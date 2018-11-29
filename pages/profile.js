@@ -189,32 +189,6 @@ class profile extends React.Component {
 
 
   render() {
-<<<<<<< HEAD
-    return (
-      <Layout>
-        <h1>Hi { this.state.username}</h1>
-        <img src={this.state.avatarSrc} width='200' height='200'></img>
-        <div>
-          <img src={this.state.avatarPreviewURL} />
-          <img src={this.state.avatarTinyUrl} width='50'/>
-        </div>
-        <input
-          id='avatarFileInput'
-          type='file' 
-          name='avatar'
-          accept = 'image/*'
-          onChange={this.handleFileUpload}
-        />
-        <button 
-          name='Submit'
-          onClick={this.handleFileSubmit}
-        >Submit</button>
-        <div>Max File Size: 500 KB</div>
-        <button onClick={this.sendCookie}>lcik spotify</button>
-        <button onClick={this.refreshToken}>Refresh Token</button>
-      </Layout>
-    );
-=======
     if (!this.state.done) {
       return (
         <Layout>
@@ -228,11 +202,13 @@ class profile extends React.Component {
           <img src={this.state.avatarSrc} width='200' height='200'></img>
           <div>
             <img src={this.state.avatarPreviewURL} width='300' height='300'/>
+            <img src={this.state.avatarTinyUrl} width='50'/>
           </div>
           <input
             id='avatarFileInput'
             type='file' 
             name='avatar'
+            accept = 'image/*'
             onChange={this.handleFileUpload}
           />
           <button 
@@ -240,9 +216,9 @@ class profile extends React.Component {
             onClick={this.handleFileSubmit}
           >Submit</button>
           <div>Max File Size: 150 KB</div>
-            <button onClick={this.getPlaylist}>get your playlists</button>
-            <button onClick={this.refreshToken}>Refresh Token</button>
-            <button onClick={this.player}>player</button>
+          <button onClick={this.getPlaylist}>get your playlists</button>
+          <button onClick={this.refreshToken}>Refresh Token</button>
+          <button onClick={this.player}>player</button>
           <div>
             {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
             <div>
@@ -252,7 +228,6 @@ class profile extends React.Component {
         </Layout>
       );
     }
->>>>>>> dev
   }
 }
 
