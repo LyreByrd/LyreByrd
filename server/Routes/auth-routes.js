@@ -21,7 +21,7 @@ router.get('/logout', (req, res)=> {
 })
 
 router.post("/login",  function(req, res) {
-  passport.authenticate("local", { failureFlash: true }, (err, user, username) => {
+  passport.authenticate("local", { failureFlash: true, session: false }, (err, user, username) => {
     console.log(err, user);
     if (err) return res.status(400).json({message: JSON.stringify(err)});
     if (user) {

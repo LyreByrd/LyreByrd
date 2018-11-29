@@ -8,11 +8,18 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      done: false
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onPssChange = this.onPssChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      done: true
+    });
   }
 
   onUserChange(e) {
@@ -44,20 +51,15 @@ class Signup extends React.Component {
   }
 
   render() {
+    if (!this.state.done) {
+      return (
+        <Layout>
+          <h1>Loading...</h1>
+        </Layout>
+      )
+    }
     return (
       <Layout>
-        {/* <form onSubmit={this.handleSubmit}>
-        <h1> Signup </h1>
-          <input type='username' 
-            value={this.state.username} 
-            onChange={this.onUserChange}
-          />
-          <input type='password' 
-            value={this.state.password} 
-            onChange={this.onPssChange}
-          />
-          <input type='submit' onClick={this.handleSubmit}/>
-        </form> */}
         <div className="ui middle aligned center aligned grid" className="login-block">
           <div className="column">
             <h2 className="ui teal image header">
