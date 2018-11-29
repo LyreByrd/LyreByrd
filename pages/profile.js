@@ -2,12 +2,8 @@ import React from 'react';
 import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
-<<<<<<< HEAD
-// import { read } from 'fs';
-=======
 import Router from 'next/router';
 
->>>>>>> dev
 class profile extends React.Component {
   constructor(props) {
     super(props);
@@ -16,12 +12,9 @@ class profile extends React.Component {
       avatarSrc: null,
       avatarPreviewURL: null,
       avatarPreviewFile: null,
-<<<<<<< HEAD
       avatarTinyUrl: null,
       avatarTinyFile: null,
-=======
       done: false
->>>>>>> dev
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
