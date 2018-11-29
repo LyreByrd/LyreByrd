@@ -21,10 +21,9 @@ class profile extends React.Component {
 
   componentDidMount(){
     const username =  localStorage.getItem('username');
-
-    // if (!username) {
-    //   return Router.push('/login');
-    // }
+    if (!username) {
+      return Router.push('/login');
+    }
     this.setState({
       username,
       done: true
@@ -93,7 +92,12 @@ class profile extends React.Component {
 
   getPlaylist() {
     axios.get('/user/getspotify')
-    .then(data => console.log(data))
+    .then(data => {
+      console.log(data.data)
+      if (data.data.message) {
+        alert('hook your spotify account first');
+      }
+    })
     .catch(err => console.log(err));
   }
 
@@ -114,7 +118,7 @@ class profile extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-          <div>Loadin...</div>
+          <h1>Loading...</h1>
         </Layout>
       )
     } else {

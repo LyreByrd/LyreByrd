@@ -10,15 +10,18 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      Token: ''
+      Token: '',
+      done: false
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onPssChange = this.onPssChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  // componentDidUpdate(){
-    
-  // }
+  componentDidMount(){
+    this.setState({
+      done:true
+    });
+  }
   onUserChange(e) {
     this.setState({
       username: e.target.value
@@ -52,33 +55,15 @@ class Login extends React.Component {
 
 
   render() {
+    if (!this.state.done) {
+      return (
+        <Layout>
+          <h1>Loading...</h1>
+        </Layout>
+      )
+    }
     return (
       <Layout>
-        {/* <form onSubmit={this.handleSubmit}>
-          <h1> Login </h1>
-          <div>
-            <input type='username' 
-              value={this.state.username} 
-              onChange={this.onUserChange}/>
-          </div>
-          <div>
-            <input type='password' 
-              value={this.state.password} 
-              onChange={this.onPssChange}
-            />
-          </div>
-          <div>
-            <input type='submit' onClick={this.handleSubmit}/>
-          </div>
-        </form>
-        <div>
-          <a href='/auth/youtube'>login with youtube</a>
-          <a href='/auth/spotify'>login with spotify</a>
-        </div>
-        <div>
-          <Link prefetch name="new to us?" href="/signup">new to us?</Link>
-        </div> */}
-
         <div className="ui middle aligned center aligned grid" className="login-block">
           <div className="column">
             <h2 className="ui teal image header">
