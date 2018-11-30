@@ -8,11 +8,18 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      done: false
     };
     this.onUserChange = this.onUserChange.bind(this);
     this.onPssChange = this.onPssChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      done: true
+    });
   }
 
   onUserChange(e) {
@@ -27,6 +34,21 @@ class Signup extends React.Component {
   }
 
   handleSubmit(e) {
+    if (this.state.password.length < 6) {
+      alert('password required to be no less than 6 characters');
+      return;
+    }
+    if (this.state.username.length < 4) {
+      alert('username to short! greater than 3 please :3');
+      return;
+    }
+    var pss= this.state.password;
+    var user= this.state.username;
+    var reg=/[^a-zA-Z0-9]+/;
+    if(reg.test(pss) || reg.test(user)){              
+    alert("Invalid character in username / password, only a-z A-Z 0-9 permitted");
+    return;
+    }
     axios.post('/auth/signup', {
       username: this.state.username, 
       password: this.state.password
@@ -35,7 +57,7 @@ class Signup extends React.Component {
       console.log(res.data);
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem("username", res.data.username);
-      Router.push('/feed');
+      Router.push('/profile');
     })
     .catch((err) => {
       console.log(err);
@@ -44,20 +66,15 @@ class Signup extends React.Component {
   }
 
   render() {
+    if (!this.state.done) {
+      return (
+        <Layout>
+          <h1>Loading...</h1>
+        </Layout>
+      )
+    }
     return (
       <Layout>
-        {/* <form onSubmit={this.handleSubmit}>
-        <h1> Signup </h1>
-          <input type='username' 
-            value={this.state.username} 
-            onChange={this.onUserChange}
-          />
-          <input type='password' 
-            value={this.state.password} 
-            onChange={this.onPssChange}
-          />
-          <input type='submit' onClick={this.handleSubmit}/>
-        </form> */}
         <div className="ui middle aligned center aligned grid" className="login-block">
           <div className="column">
             <h2 className="ui teal image header">

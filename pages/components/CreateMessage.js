@@ -6,8 +6,9 @@ class CreateMessage extends react.Component {
   constructor(props) {
     super(props)
     this.state = {
+      userAvatar: this.props.user.userAvatar,
       newMessage: {
-        user: this.props.user,
+        user: this.props.user.username,
         message: '',
         room: this.props.host,
         timeStamp: '12:00 am'
@@ -21,16 +22,22 @@ class CreateMessage extends react.Component {
     const now = moment();
     this.setState({
       newMessage: {
-        user: this.props.user,
+        user: this.props.user.username,
         message: this.state.message,
         room: this.props.host,
         timeStamp: now
       }
     })
     socket.emit('chat message', this.state.newMessage);
+    let messageAvatarObject = {
+      user: this.props.user.username,
+      avatar: this.props.user.userAvatar,
+      room: this.props.host
+    }
+    socket.emit('chat message avatar', messageAvatarObject)
     this.setState({
       newMessage: {
-        user: this.props.user,
+        user: this.props.user.username,
         message: '',
         room: this.props.host
       }
@@ -41,7 +48,7 @@ class CreateMessage extends react.Component {
     const now = moment();
     this.setState({
       newMessage: {
-        user: this.props.user,
+        user: this.props.user.username,
         message: message,
         host: this.props.host,
         timeStamp: now,

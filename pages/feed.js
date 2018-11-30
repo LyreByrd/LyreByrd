@@ -8,11 +8,18 @@ export default class Feed extends React.Component {
     super(props);
     this.state = {
       feeds: [],
+      done: false
     };
   }
 
   componentWillMount() {
     this.getFeeds();
+  }
+
+  componentDidMount() {
+    this.setState({
+      done: true
+    })
   }
 
   getFeeds() {
@@ -25,11 +32,18 @@ export default class Feed extends React.Component {
         });
       })
       .catch(err => {
-        console.log('err getting feeds from db', err);
+        console.log('err getting feeds from db');
       });
   }
 
   render() {
+    if (!this.state.done) {
+      return (
+        <Layout>
+          <h1>Loading...</h1>
+        </Layout>
+      )
+    }
     return (
       <div className="body">
         <Layout>

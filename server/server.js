@@ -7,7 +7,7 @@ const next = require('next')
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const passport = require('passport');
-const axios = require('axios');
+const cookieSession = require('cookie-session');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -23,8 +23,15 @@ app.prepare()
     const server = express();
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended: false }));
+
+    server.use(cookieSession({
+      maxAge: 24*60*60*1000,
+      keys: ['lyrebyrdie']
+    }));
     server.use(passport.initialize());
     server.use(passport.session());
+
+ 
     server.use('/user', userRoutes);
     server.use('/auth', authRoutes);
     server.use('/api/player', playerRoutes);
