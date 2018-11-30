@@ -35,6 +35,15 @@ router.get('/client/:service', (req, res) => {
     });
 })
 
+router.get('/usertoken/spotify', (req, res) => {
+  if (!req.user) {
+    console.log('No user available');
+    res.status(400).send('No user attached');
+  } else {
+    res.status(200).send({userToken: req.user.accessToken});
+  }
+})
+
 const { Player } = require('../../db/db.js')
 
 router.get('/feeds', (req, res) => {

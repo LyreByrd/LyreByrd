@@ -83,8 +83,10 @@ class Player extends React.Component {
   }
 
   tryClaimHost() {
+    //let token = localStorage.getItem('jwt');
+    //console.log('JWT: ', token);
     //maybe host definitely has been created once we navigate here?
-    console.log('trying to claim with state: ', this.state);
+    //console.log('trying to claim with state: ', this.state);
     this.regenSession();
     // axios.post('/host', {hostingName: this.state.hostingName})
     // .then((res) => {
