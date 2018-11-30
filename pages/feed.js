@@ -2,6 +2,7 @@ import Layout from './components/Layout.js';
 import React from 'react';
 import axios from 'axios';
 import Block from './components/block';
+import io from 'socket.io-client';
 
 export default class Feed extends React.Component {
   constructor(props) {
@@ -15,25 +16,63 @@ export default class Feed extends React.Component {
   componentWillMount() {
     this.getFeeds();
   }
-
+  
   componentDidMount() {
     this.setState({
       done: true
     })
   }
 
+  
+
   getFeeds() {
-    axios
-      .get('/player/feeds')
-      .then(feeds => {
-        let newFeeds = [];
-        feeds.data.forEach(feed => {
-          newFeeds.push([feed.host, feed.path]);
-        });
-      })
-      .catch(err => {
-        console.log('err getting feeds from db');
+    const socket = io('http://localhost:8080'); //todo change to production.env host
+
+    socket.on('connect', () => {
+
+      socket.emit('main feed connect');
+
+      socket.on('update feeds', feeds => {
+        if (feeds === null) {
+          feeds = [];
+        }
+        console.log('feeds :', Object.values(feeds));
+        const feedsArray = Object.values(feeds).map(feed => {
+          let parseFeed = JSON.parse(feed);
+          return parseFeed;
+        })
+        this.setState({
+          feeds: feedsArray
+        })
+        console.log('this.state.feeds :', this.state.feeds);
       });
+
+      socket.on('update deleted feeds', feeds => {
+        if (feeds === null) {
+          feeds = [];
+        }
+        const feedsArray = Object.values(feeds).map(feed => {
+          let parseFeed = JSON.parse(feed);
+          return parseFeed;
+        })
+        this.setState({
+          feeds: feedsArray
+        })
+      })
+    })
+
+
+    // axios
+    //   .get('/player/feeds')
+    //   .then(feeds => {
+    //     let newFeeds = [];
+    //     feeds.data.forEach(feed => {
+    //       newFeeds.push([feed.host, feed.path]);
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log('err getting feeds from db');
+    //   });
   }
 
   render() {
@@ -50,16 +89,11 @@ export default class Feed extends React.Component {
           <div className="container">
             <div className="feed heading popular">
               <Block />
-              <Block />
-              <Block />
-              <Block />
-              <Block />
-              <Block />
 
               {this.state.feeds.map((feed, i) => {
                 return (
                   <div key={i}>
-                    host: {feed[0]} path:{feed[1]}
+                    host: {feed.host} path:{feed.path}
                   </div>
                 );
               })}

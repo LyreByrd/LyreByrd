@@ -1,16 +1,14 @@
 import React from 'react';
 import Card from './card';
 
-const Block = ({ title, subtitle, host, name }) => (
+const Block = ({ title, subtitle, host, name, feeds }) => (
   <div>
     <div className="titlebox">
       <p className="title">What's Streaming Now</p>
       <p className="subtitle">Suggestions based on sucking at life right now</p>
       <div className="gallery">
         <Card />
-        <Card />
-        <Card />
-        <Card />
+
       </div>
     </div>
     <style jsx>{`

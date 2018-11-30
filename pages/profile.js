@@ -62,6 +62,8 @@ class profile extends React.Component {
 
     let file = e.target.files[0];
 
+    console.log('file :', file);
+
     console.log('file.size :', file.size);
 
 
