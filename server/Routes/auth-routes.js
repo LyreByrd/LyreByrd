@@ -100,7 +100,7 @@ passport.use(
     photo: profile.photos[0]
   }; 
 
-  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true})
+  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true, new:true})
   .then(user => {
     console.log(user, '<<<<<<<<< found and updated')
     done(null, user);
