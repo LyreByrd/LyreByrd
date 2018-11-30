@@ -242,7 +242,6 @@ class profile extends React.Component {
         <div className="body">
           <Layout>
             <div className="ethan">
-              <i icon="search" />
               <div className="container">
                 <div className="hero">
                   <div className="profile-hero">
@@ -255,22 +254,27 @@ class profile extends React.Component {
                       />
                       <div className="icon-position">
                         <div className="camera">
-                          <img
-                            className="camera-svg"
-                            src="../static/icons/_ionicons_svg_md-camera.svg"
-                            alt=""
+                          <label htmlFor="file">
+                            <img
+                              className="camera-svg"
+                              src="../static/icons/_ionicons_svg_md-camera.svg"
+                              alt="upload image"
+                            />
+                          </label>
+                          <input
+                            id="file"
+                            type="file"
+                            name="avatar"
+                            accept="image/*"
+                            onChange={this.handleFileUpload}
                           />
+                          <button name="Submit" onClick={this.handleFileSubmit}>
+                            Submit
+                          </button>
                         </div>
                       </div>
-                      <div>
-                        <img
-                          src={this.state.avatarPreviewURL}
-                          // width="300"
-                          // height="300"
-                        />
-                      </div>
+                      <div />
                     </div>
-
                     <div className="profile-name">{this.state.username}</div>
                   </div>
                 </div>
@@ -287,26 +291,21 @@ class profile extends React.Component {
                     </a>
                   </div>
                 </div>
-                {/* <input
+                <input
                   id="avatarFileInput"
                   type="file"
                   name="avatar"
                   accept="image/*"
                   onChange={this.handleFileUpload}
                 />{' '}
-                */}
-                {/*  <button name="Submit" onClick={this.handleFileSubmit}>
-                  Submit
-                </button>
-                <div>Max File Size: 150 KB</div> */}
                 <div>
                   {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-                  {spotifyRndr}
+                  {/* {spotifyRndr} */}
                 </div>
               </div>
               <div className="profile-feed">
-                {/* <div className="main" />
-                  <div className="sidebar">Sidebar</div> */}
+                <div className="main" />
+                <div className="sidebar">Sidebar</div>
               </div>
             </div>
           </Layout>
@@ -315,14 +314,13 @@ class profile extends React.Component {
               font-size: 62.5%;
             }
             .ethan {
-              display: grid:
+              display: grid;
               grid-template-rows: 400px, 100px, 400px;
-              background-color:#dfdcd4;
-              height: 1000px;
+              background-color: #dfdcd4;
             }
             .container {
               display: grid;
-              grid-template-rows: repeat(auto-fill, minmax(16rem, 1fr));
+              grid-template-rows: repeat(auto-fill, minmax(14rem, 1fr));
               grid-template-columns: auto;
               background-color: white;
               margin: 0 100px 0 100px;
@@ -347,11 +345,6 @@ class profile extends React.Component {
               overflow: hidden;
             }
 
-            i {
-              background-color: red;
-              height: 10px;
-            }
-
             .avatar {
               grid-column-start: 1;
               display: block;
@@ -373,15 +366,21 @@ class profile extends React.Component {
               width: 20px;
               height: 20px;
               text-decoration: none;
-              color: red ;
+              color: red;
+              cursor: pointer;
+            }
+
+            .camera > input {
+              display: none;
             }
             .camera:hover {
-              opacity: .3;
+              opacity: 0.3;
             }
 
             .camera-svg {
               color: red;
             }
+
             .profile-name {
               grid-column-start: 2;
               color: #eee;
@@ -391,7 +390,7 @@ class profile extends React.Component {
               font-weight: 10rem;
               line-height: 3.7rem;
               text-transform: uppercase;
-              letter-spacing: 0.1rem
+              letter-spacing: 0.1rem;
             }
 
             .links {
@@ -400,13 +399,13 @@ class profile extends React.Component {
               height: 3.2rem;
               margin: 0 1rem 0 1rem;
               line-height: 3.2rem;
-              border-bottom: .1rem solid #dfdcd4;
-              padding-bottom: .5px;
+              border-bottom: 0.1rem solid #dfdcd4;
+              padding-bottom: 0.5px;
             }
 
             .feed-links {
               display: grid;
-              grid-template-columns: 8rem  6rem 6rem;
+              grid-template-columns: 8rem 6rem 6rem;
             }
 
             .player {
@@ -432,6 +431,8 @@ class profile extends React.Component {
               display: grid;
               grid-template-columns: 1fr 40rem;
               grid-row-start: 3;
+              background-color: red;
+              margin: 0 100px 0 100px;
             }
 
             .main {
