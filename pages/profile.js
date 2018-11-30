@@ -14,6 +14,8 @@ class profile extends React.Component {
       avatarPreviewFile: null,
       avatarTinyUrl: null,
       avatarTinyFile: null,
+      spotifyName: null,
+      spotifyAvtr: null,
       done: false
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
@@ -43,8 +45,8 @@ class profile extends React.Component {
             return;
           }
           this.setState({
-            avatarSrc: data.data.photo,
-            username: data.data.username
+            spotifyAvtr: data.data.photo,
+            spotifyName: data.data.username
           });
         }
       })
@@ -244,6 +246,8 @@ class profile extends React.Component {
             <div>
               <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
             </div>
+            <h1>Spotify Name: {this.state.spotifyName}</h1>
+            <img src={this.state.spotifyAvtr} width='200' height='200'></img>
           </div>
         </Layout>
       );
