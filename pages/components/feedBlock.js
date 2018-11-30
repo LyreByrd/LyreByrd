@@ -1,15 +1,12 @@
 import React from 'react';
 import Card from './card';
 
-const Block = ({ title, subtitle, host, name, feeds }) => (
+const FeedBlock = ({ title, subtitle, host, name }) => (
   <div>
     <div className="titlebox">
-      <p className="title">What's Now</p>
-      <p className="subtitle">Suggestions</p>
-      <div className="gallery">
-        <Card />
-
-      </div>
+      <p className="title" />
+      <p className="subtitle" />
+      <div className="gallery" />
     </div>
     <style jsx>{`
       .titlebox {
@@ -41,4 +38,4 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
   </div>
 );
 
-export default Block;
+export default FeedBlock;

@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
+const popupTools = require('popup-tools');
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 
 const { User } = require('../../db/db');
 const { UserYS } = require('../../db/db');
@@ -98,7 +100,7 @@ passport.use(
     photo: profile.photos[0]
   }; 
 
-  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true})
+  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true, new:true})
   .then(user => {
     console.log(user, '<<<<<<<<< found and updated')
     done(null, user);
@@ -109,31 +111,91 @@ passport.use(
 ));
 
 var spotifyScope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming';
-router.get('/spotify', (req, res, next) => {
+router.get('/spotify',(req, res, next) => {
   console.log(req.query, 'request queryyy');
   username = req.query.user;
   next();
 }, 
 passport.authenticate('spotify',
   {
-    scope: spotifyScope
+    scope: spotifyScope,
+    display: 'popup',
+    showDialog: true
   }
 ));
 
 router.get('/spotify/redirect', passport.authenticate('spotify', 
-{ successRedirect:'/profile' ,failureRedirect: '/profile' }), 
+{ failureRedirect: '/profile' }), 
 (req, res) => {
-  // console.log(req.user, 'req.user object');
-  // console.log(username, 'username passed in query>>>>>>>');
-  res.status(200)
-  // .then((data) => {
-  //   console.log(data, 'some promise >>>>>>>>>>');
-  //   res.status(200).redirect('/profile');
-  // })
-  // .catch((err) => console.log(err, 'errr in db'));
- 
-  
+  console.log(req.user, 'req.user object');
+  console.log(username, 'username passed in query>>>>>>>');
+  // res.status(200)
+  let userInfo = {
+    displayName: req.user.displayName,
+    photo: req.user.photo,
+    url: req.user.url
+  }
+  res.end(popupTools.popupResponse(userInfo));
 });
+
+
+
+
+
+// passport.use(
+//   new YouTubeV3Strategy({
+//   // options
+//   clientID : process.env.clientIDYouTube,
+//   clientSecret: process.env.clientSecretYouTube,
+//   callbackURL: '/auth/youtube/redirect'
+// }, (accessToken, refreshToken, profile, done) => {
+//   console.log(accessToken, ' <<<<<< ATOKEN');
+//   console.log(refreshToken, ' <<<<<< RTOKEN');
+//   // console.log(profile);
+//   // done(null, profile.id);
+//   let userYSEntry = {
+//     _id: profile.id,
+//     provider: profile.provider,
+//     accessToken,
+//     refreshToken,
+//     username: profile.displayName,
+//     href: profile._json.etag,
+//   };
+//   User.findOne({username})
+//   .then(user => {
+//     console.log(user, '<<<<<<<<< found')
+//     return done(null, user);
+//   })
+//   .catch(err => {
+//     console.log(err)
+//     return done(err, null)
+//   });
+   
+
+// }
+// ));
+
+// router.get('/youtube',
+// (req, res, next) => {
+//   console.log(req.query, 'request queryyy');
+//   username = req.query.user;
+//   next();
+// },
+// passport.authenticate('youtube',
+//   {
+//     display: 'popup',
+//     showDialog: true
+//   }
+// ));
+
+// router.get('/youtube/redirect', 
+// passport.authenticate('youtube'),
+// (req,res) => {
+//   console.log(req)
+//   res.end(popupTools.popupResponse(req.user))
+// }
+// )
+
 
 
 module.exports = router;

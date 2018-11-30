@@ -43,14 +43,17 @@
     "passport-local": "^1.0.0",
     "passport-spotify": "^1.0.1",
     "passport-youtube-v3": "^2.1.0",
+    "popup-tools": "^1.0.2",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
     "semantic-ui-react": "*",
     "socket.io-client": "^2.1.1",
     "spotify-web-api-js": "^1.1.1",
+    "styled-components": "^4.1.1",
     "styled-jsx": "^3.1.1"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^1.9.1",
     "eslint": "^5.8.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",

@@ -32,7 +32,7 @@ class HostWindow extends React.Component {
     if(HostPlayer.loaded === false) {
       let loadHost = new Promise((resolve) => {
         const tag = document.createElement('script');
-        tag.src = hostSrcUrl;
+        tag.src = hostSrcUrl + this.props.service;
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         this.hostScript = tag;
