@@ -15,26 +15,6 @@ const { User } = require('../../db/db');
 const {UserYS} = require('../../db/db');
 
 
-let username = null
-
-// router.get('/youtube', passport.authenticate('youtube', {
-//   'scope':'https://www.googleapis.com/auth/youtube'
-// }));
-
-// router.get('/youtube/redirect', passport.authenticate('youtube', { failureRedirect: '/login' }), (req, res) => {
-//   res.redirect('/feed');
-// });
-
-
-// router.get('/spotify', passport.authenticate('spotify', {
-
-// }));
-
-
-// router.get('/spotify/redirect', passport.authenticate('spotify'), (req, res) => {
-
-//   res.redirect('/feed');
-// });
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
   
@@ -121,7 +101,7 @@ router.post('/refresh', (req,res) => {
     method: 'post',
     params: {
       grant_type: 'refresh_token',
-      refresh_token: req.user.spotify.refreshToken
+      refresh_token: req.user.refreshToken
     },
     headers: {
       'Accept':'application/json',
@@ -172,6 +152,18 @@ router.post('/player', (req,res) => {
     console.log(err, 'err on devices');
     return res.status(err.response.status).send(err.message);
   });
+});
+router.get('/getSpotInfo', (req,res) => {
+  console.log(req.user, 'sesssiioon');
+  if (!req.user) {
+    return res.status(200).send({err: 'hook up spotify'})
+  }
+  userInfo = {
+    username: req.user.displayName,
+    photo: req.user.photo,
+    url: req.user.url
+  };
+  res.status(200).send(userInfo);
 });
 
 

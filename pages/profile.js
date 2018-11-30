@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
-import { Icon } from 'semantic-ui-react';
 
 import Router from 'next/router';
 
@@ -16,6 +15,8 @@ class profile extends React.Component {
       avatarPreviewFile: null,
       avatarTinyUrl: null,
       avatarTinyFile: null,
+      spotifyName: null,
+      spotifyAvtr: null,
       done: false,
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
@@ -34,12 +35,31 @@ class profile extends React.Component {
       },
       () => this.getUserAvatar(),
     );
+    axios
+      .get('/user/getSpotInfo')
+      .then(data => {
+        if (!Object.keys(data.data).length) {
+          return console.log('Items empty');
+        } else {
+          console.log(data.data);
+          if (data.data.err) {
+            return;
+          }
+          if (this.state.avatarSrc) {
+            return;
+          }
+          this.setState({
+            spotifyAvtr: data.data.photo,
+            spotifyName: data.data.username,
+          });
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   //shows preview of avatar
   handleFileUpload(e) {
     let file = e.target.files[0];
-
     console.log('file.size :', file.size);
 
     if (!file.type.match(/image.*/)) {
@@ -194,6 +214,7 @@ class profile extends React.Component {
   }
 
   render() {
+    let spotifyRndr;
     if (!this.state.done) {
       return (
         <Layout>
@@ -201,6 +222,22 @@ class profile extends React.Component {
         </Layout>
       );
     } else {
+      if (this.state.spotifyName) {
+        spotifyRndr = (
+          <div>
+            <h1>Spotify Name: {this.state.spotifyName}</h1>
+            <img src={this.state.spotifyAvtr} width="200" height="200" />
+          </div>
+        );
+      } else {
+        spotifyRndr = (
+          <div>
+            <a href={`/auth/spotify?user=${this.state.username}`}>
+              hookup with spotify
+            </a>
+          </div>
+        );
+      }
       return (
         <div className="body">
           <Layout>
@@ -258,22 +295,18 @@ class profile extends React.Component {
                   onChange={this.handleFileUpload}
                 />{' '}
                 */}
-                {/*}  <button name="Submit" onClick={this.handleFileSubmit}>
+                {/*  <button name="Submit" onClick={this.handleFileSubmit}>
                   Submit
                 </button>
                 <div>Max File Size: 150 KB</div> */}
                 <div>
                   {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-                  {/* <div>
-                    <a href={`/auth/spotify?user=${this.state.username}`}>
-                      hookup with spotify
-                    </a>
-                  </div> */}
+                  {spotifyRndr}
                 </div>
-                <div className="profile-feed">
-                  {/* <div className="main" />
+              </div>
+              <div className="profile-feed">
+                {/* <div className="main" />
                   <div className="sidebar">Sidebar</div> */}
-                </div>
               </div>
             </div>
           </Layout>
@@ -323,7 +356,6 @@ class profile extends React.Component {
               grid-column-start: 1;
               display: block;
               position: relative;
-
             }
 
             .icon-position {
@@ -369,9 +401,7 @@ class profile extends React.Component {
               margin: 0 1rem 0 1rem;
               line-height: 3.2rem;
               border-bottom: .1rem solid #dfdcd4;
-                            padding-bottom: .5px;
-
-
+              padding-bottom: .5px;
             }
 
             .feed-links {
@@ -397,6 +427,7 @@ class profile extends React.Component {
               color: red;
               border-bottom: 1px solid red;
             }
+
             .profile-feed {
               display: grid;
               grid-template-columns: 1fr 40rem;
@@ -418,5 +449,4 @@ class profile extends React.Component {
     }
   }
 }
-
 export default profile;

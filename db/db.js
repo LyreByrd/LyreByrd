@@ -29,7 +29,8 @@ const userSchema = mongoose.Schema({
   accessToken: String,
   refreshToken: String,
   href: String,
-  url: String
+  url: String,
+  photo: String
 });
 
 const playerSchema = mongoose.Schema({
