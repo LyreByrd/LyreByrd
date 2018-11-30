@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
+import FeedBlock from './components/feedBlock';
 
 import Router from 'next/router';
 import popupTools from 'popup-tools';
@@ -24,20 +25,22 @@ class profile extends React.Component {
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
   }
 
-
-  componentDidMount(){
-    const username =  localStorage.getItem('username');
-    const spotifyName = localStorage.getItem('spotifyName')
-    const spotifyAvtr = localStorage.getItem('spotifyAvtr')
+  componentDidMount() {
+    const username = localStorage.getItem('username');
+    const spotifyName = localStorage.getItem('spotifyName');
+    const spotifyAvtr = localStorage.getItem('spotifyAvtr');
     if (!username) {
       return Router.push('/login');
     }
-    this.setState({
-      username,
-      spotifyName,
-      spotifyAvtr,
-      done: true
-    }, () => this.getUserAvatar());
+    this.setState(
+      {
+        username,
+        spotifyName,
+        spotifyAvtr,
+        done: true,
+      },
+      () => this.getUserAvatar(),
+    );
   }
 
   //shows preview of avatar
@@ -196,30 +199,32 @@ class profile extends React.Component {
       .catch(err => console.log(err));
   }
 
-  popUp (username) {
-    popupTools.popup(`/auth/spotify?user=${username}`, "Youtube Connect", {},
-    (err, user) => {
-      if (err) {
+  popUp(username) {
+    popupTools.popup(
+      `/auth/spotify?user=${username}`,
+      'Youtube Connect',
+      {},
+      (err, user) => {
+        if (err) {
           // alert(err.message);
-          console.log(err)
-      } else {
+          console.log(err);
+        } else {
           // save the returned user in localStorage/cookie or something
-        console.log(user)
-        localStorage.setItem('spotifyName', user.displayName)
-        localStorage.setItem('spotifyAvtr', user.photo)
-        this.setState({
-          spotifyName: user.displayName,
-          spotifyAvtr: user.photo,
-        })
-      }
-    })
+          console.log(user);
+          localStorage.setItem('spotifyName', user.displayName);
+          localStorage.setItem('spotifyAvtr', user.photo);
+          this.setState({
+            spotifyName: user.displayName,
+            spotifyAvtr: user.photo,
+          });
+        }
+      },
+    );
   }
-
-
 
   render() {
     let spotifyRndr;
-    console.log(this.state.spotifyName)
+    console.log(this.state.spotifyName);
     if (!this.state.done) {
       return (
         <Layout>
@@ -235,43 +240,14 @@ class profile extends React.Component {
           </div>
         );
       } else {
-        spotifyRndr =
-        <div>
-        {/* <div>
+        spotifyRndr = (
+          <div>
+            {/* <div>
           <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
         </div> */}
-        <button onClick={()=>this.popUp(this.state.username)}>
-        hook up spotify
-        </button>
-        </div>
-      }
-      return (
-        <Layout>
-          <h1>Hi { this.state.username}</h1>
-          <img src={this.state.avatarSrc} width='200' height='200'></img>
-          <div>
-            <img src={this.state.avatarPreviewURL} width='300' height='300'/>
-            <img src={this.state.avatarTinyUrl} width='50'/>
-          </div>
-          <input
-            id='avatarFileInput'
-            type='file'
-            name='avatar'
-            accept = 'image/*'
-            onChange={this.handleFileUpload}
-          />
-          <button
-            name='Submit'
-            onClick={this.handleFileSubmit}
-          >Submit</button>
-          <div>Max File Size: 150 KB</div>
-          <button onClick={this.getPlaylist}>get your playlists</button>
-          <button onClick={this.refreshToken}>Refresh Token</button>
-          <button onClick={this.player}>player</button>
-          <div>
-            <a href={`/auth/spotify?user=${this.state.username}`}>
-              hookup with spotify
-            </a>
+            <button onClick={() => this.popUp(this.state.username)}>
+              hook up spotify
+            </button>
           </div>
         );
       }
@@ -328,20 +304,19 @@ class profile extends React.Component {
                     </a>
                   </div>
                 </div>
-                <input
-                  id="avatarFileInput"
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={this.handleFileUpload}
-                />{' '}
+
                 <div>
                   {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-                  {/* {spotifyRndr} */}
+                  <a href={`/auth/spotify?user=${this.state.username}`}>
+                    hookup with spotify
+                  </a>
                 </div>
               </div>
               <div className="profile-feed">
-                <div className="main" />
+                <div className="main">
+                  <FeedBlock />
+                  <FeedBlock />
+                </div>
                 <div className="sidebar">Sidebar</div>
               </div>
             </div>
@@ -468,22 +443,24 @@ class profile extends React.Component {
               display: grid;
               grid-template-columns: 1fr 40rem;
               grid-row-start: 3;
-              background-color: red;
               margin: 0 100px 0 100px;
             }
 
             .main {
               grid-column-start: 1;
-              background-color: lightblue;
+              background-color: white;
+              border-right: 1px solid #dfdcd4;
+              padding-right: 0.5rem;
             }
 
             .sidebar {
               grid-column-start: 2;
-              background-color: lightgreen;
+              background-color: white;
             }
           `}</style>
         </div>
       );
     }
   }
+}
 export default profile;
