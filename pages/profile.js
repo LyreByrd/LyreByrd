@@ -194,7 +194,7 @@ class profile extends React.Component {
   }
 
   popUp (username) {
-    popupTools.popup(`/auth/spotify?user=${username}`, "Youtube Connect", {},
+    popupTools.popup(`/auth/spotify?user=${username}`, "Spotify Connect", {},
     (err, user) => {
       if (err) {
           // alert(err.message);
@@ -208,7 +208,6 @@ class profile extends React.Component {
           spotifyName: user.displayName,
           spotifyAvtr: user.photo,
         })
-        
       }
     })
   }

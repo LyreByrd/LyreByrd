@@ -34,6 +34,21 @@ class Signup extends React.Component {
   }
 
   handleSubmit(e) {
+    if (this.state.password.length < 6) {
+      alert('password required to be no less than 6 characters');
+      return;
+    }
+    if (this.state.username.length < 4) {
+      alert('username to short! greater than 3 please :3');
+      return;
+    }
+    var pss= this.state.password;
+    var user= this.state.username;
+    var reg=/[^a-zA-Z0-9]+/;
+    if(reg.test(pss) || reg.test(user)){              
+    alert("Invalid character in username / password, only a-z A-Z 0-9 permitted");
+    return;
+    }
     axios.post('/auth/signup', {
       username: this.state.username, 
       password: this.state.password
@@ -73,6 +88,8 @@ class Signup extends React.Component {
                   <div className="ui left icon input">
                     <i className="user icon"></i>
                     <input 
+                      required
+                      pattern="[a-zA-Z0-9!@#$%^*_|]{6,25}"
                       type="username" 
                       name="username" 
                       placeholder="username" 
@@ -85,6 +102,8 @@ class Signup extends React.Component {
                   <div className="ui left icon input">
                     <i className="lock icon"></i>
                     <input 
+                      required
+                      pattern="[a-zA-Z0-9!@#$%^*_|]{6,25}"
                       type="password" 
                       name="password" 
                       placeholder="Password" 
