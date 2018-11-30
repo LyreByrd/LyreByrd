@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var axios = require('axios');
+const SpotifyStrategy = require('passport-spotify').Strategy;
 
 const { User } = require('../../db/db');
 const { UserYS } = require('../../db/db');
@@ -13,7 +15,8 @@ require("../config/passport-config");
 
 
 router.get('/logout', (req, res)=> {
-  req.logOut();
+  // console.log(req.session, 'session from req')
+  req.logout();
   res.status(200).clearCookie('connect.sid', {
     path: '/'
   });
@@ -21,7 +24,9 @@ router.get('/logout', (req, res)=> {
 })
 
 router.post("/login",  function(req, res) {
-  passport.authenticate("local", { failureFlash: true, session: false }, (err, user, username) => {
+  passport.authenticate("local", 
+  { failureFlash: true, successRedirect: '/profile', session: false }, 
+  (err, user, username) => {
     console.log(err, user);
     if (err) return res.status(400).json({message: JSON.stringify(err)});
     if (user) {
@@ -69,40 +74,43 @@ router.post('/signup', (req, res) => {
 });
 
 let username
-router.get('/youtube', (req, res, next) => {
-  console.log(req.query);
-  username = req.query.user;
-  next();
-} , passport.authenticate('youtube', {
-  'scope':'https://www.googleapis.com/auth/youtube'
-}));
 
-router.get('/youtube/redirect', passport.authenticate('youtube', 
-{ failureRedirect: '/login' }), 
-(req, res) => {
-  User.findOneAndUpdate({ username }, 
-    {
-      yt:{
-        plataformId: req.user.plataformId,
-        displayName: req.user.displayName,
-        provider: req.user.provider,
-        accessToken: req.user.accessToken,
-        refreshToken: req.user.refreshToken,
-        href: req.user.href,
-        url: req.user.url
-      } 
-    }, 
-    {upsert: true}, 
-    (err, user) => {
-    console.log(err, user, 'USERNAMEEE');
-  });
-  res.redirect('/feed');
-});
+passport.use(
+  new SpotifyStrategy({
+  // options
+    clientID : process.env.clientIDSpotify,
+    clientSecret: process.env.clientSecretSpotify,
+    callbackURL: '/auth/spotify/redirect'
+  }, 
+  (accessToken, refreshToken, profile, done) => {
+  // console.log(accessToken, ' <<<<<< ATOKEN');
+  // console.log(refreshToken, ' <<<<<< RTOKEN');
+  console.log(username);
+  console.log(profile.photos, 'user profile >>>>>>>>>>>');
+  let userYSEntry = {
+    plataformId: profile.id,
+    provider: profile.provider,
+    accessToken,
+    refreshToken,
+    displayName: profile.displayName,
+    href: profile._json.href,
+    url: profile._json.external_urls.spotify,
+    photo: profile.photos[0]
+  }; 
 
+  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true})
+  .then(user => {
+    console.log(user, '<<<<<<<<< found and updated')
+    done(null, user);
+  })
+  .catch(err => {console.log(err)});
+   
+  }
+));
 
 var spotifyScope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming';
 router.get('/spotify', (req, res, next) => {
-  // console.log(req.query);
+  console.log(req.query, 'request queryyy');
   username = req.query.user;
   next();
 }, 
@@ -113,25 +121,18 @@ passport.authenticate('spotify',
 ));
 
 router.get('/spotify/redirect', passport.authenticate('spotify', 
-{ successFlash:true ,failureRedirect: '/profile' }), 
+{ successRedirect:'/profile' ,failureRedirect: '/profile' }), 
 (req, res) => {
-  console.log(req.user);
+  console.log(req.user, 'req.user object');
   console.log(username, 'username passed in query>>>>>>>');
-  User.findOneAndUpdate({ username }, {
-    plataformId: req.user.plataformId,
-    displayName: req.user.displayName,
-    provider: req.user.provider,
-    accessToken: req.user.accessToken,
-    refreshToken: req.user.refreshToken,
-    href: req.user.href,
-    url: req.user.url
-  })
-  .then((data) => {
-    console.log(data, 'some promise >>>>>>>>>>');
-  })
-  .catch((err) => console.log(err, 'errr in db'));
-  console.log(req.user, '>>>>>> authenticated user redirect');
-  res.redirect('/profile');
+  res.status(200)
+  // .then((data) => {
+  //   console.log(data, 'some promise >>>>>>>>>>');
+  //   res.status(200).redirect('/profile');
+  // })
+  // .catch((err) => console.log(err, 'errr in db'));
+ 
+  
 });
 
 

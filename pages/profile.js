@@ -14,6 +14,8 @@ class profile extends React.Component {
       avatarPreviewFile: null,
       avatarTinyUrl: null,
       avatarTinyFile: null,
+      spotifyName: null,
+      spotifyAvtr: null,
       done: false
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
@@ -30,6 +32,25 @@ class profile extends React.Component {
       username,
       done: true
     }, () => this.getUserAvatar());
+    axios.get('/user/getSpotInfo')
+      .then(data => { 
+        if (!Object.keys(data.data).length) {
+          return console.log('Items empty');
+        } else {
+          console.log(data.data);
+          if (data.data.err) {
+            return;
+          }
+          if (this.state.avatarSrc) {
+            return;
+          }
+          this.setState({
+            spotifyAvtr: data.data.photo,
+            spotifyName: data.data.username
+          });
+        }
+      })
+      .catch(err => console.log(err));
 
   }
   
@@ -188,7 +209,9 @@ class profile extends React.Component {
   }
 
 
+
   render() {
+    let spotifyRndr;
     if (!this.state.done) {
       return (
         <Layout>
@@ -196,6 +219,19 @@ class profile extends React.Component {
         </Layout>
       )
     } else {
+      if (this.state.spotifyName) {
+        spotifyRndr = (
+          <div>
+            <h1>Spotify Name: {this.state.spotifyName}</h1>
+            <img src={this.state.spotifyAvtr} width='200' height='200'></img>
+          </div>
+        )
+      } else {
+        spotifyRndr = 
+        <div>
+          <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
+        </div>
+      }
       return (
         <Layout>
           <h1>Hi { this.state.username}</h1>
@@ -221,9 +257,7 @@ class profile extends React.Component {
           <button onClick={this.player}>player</button>
           <div>
             {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-            <div>
-              <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
-            </div>
+            {spotifyRndr}
           </div>
         </Layout>
       );
