@@ -32,7 +32,7 @@ class ClientWindow extends React.Component {
     if(ClientPlayer.loaded === false) {
       let loadClient = new Promise((resolve) => {
         const tag = document.createElement('script');
-        tag.src = clientSrcUrl;
+        tag.src = clientSrcUrl + this.props.service;
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         this.clientScript = tag;
