@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require("passport-local").Strategy;
+const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 const {User} = require('../../db/db');
 
 require('dotenv').config();
@@ -18,7 +19,7 @@ passport.deserializeUser((id, done) => {
   
   User.findById(id)
   .then((user) => {
-    console.log(user, '<<<<<<<<<<<<< deeeeserialize');
+    // console.log(user, '<<<<<<<<<<<<< deeeeserialize');
     done(null, user);
   })
   .catch((err) => {
@@ -72,6 +73,8 @@ passport.use(
     });
   })
 );
+
+
 
 
 

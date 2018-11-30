@@ -43,6 +43,7 @@
     "passport-local": "^1.0.0",
     "passport-spotify": "^1.0.1",
     "passport-youtube-v3": "^2.1.0",
+    "popup-tools": "^1.0.2",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
     "semantic-ui-react": "*",
