@@ -5,12 +5,14 @@ const axios = require('axios');
 const syncServerUrl = process.env.SYNC_SERVER_URL || 'localhost';
 const syncServerPort = process.env.SYNC_SERVER_PORT || 1234;
 
-router.get('/host', (req, res) => {
-  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/host`)
+router.get('/host/:service', (req, res) => {
+  console.log('host request heard. target: ', req.params.service)
+  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/host/${req.params.service}`)
     .then(response => {
       res.status(200).send(response.data);
     })
     .catch(err => {
+      console.log('Error trying to get host:|||||||||||||||||||||||||\n', err)
       if(err.status) {
         res.status(err.status).send(err);
       } else {
@@ -19,8 +21,8 @@ router.get('/host', (req, res) => {
     });
 })
 
-router.get('/client', (req, res) => {
-  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/client`)
+router.get('/client/:service', (req, res) => {
+  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/client/${req.params.service}`)
     .then(response => {
       res.status(200).send(response.data);
     })
@@ -63,7 +65,7 @@ router.post('/create', (req, res) => {
       res.sendStatus(500)
     } else {
       console.log('attempting to create sync session')
-      axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host})
+      axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host, service: req.body.service})
         .then(response => {
           if (response.status === 403) {
             res.sendStatus(403);

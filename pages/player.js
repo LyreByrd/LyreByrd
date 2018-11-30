@@ -20,6 +20,7 @@ class Player extends React.Component {
       user: '',
       host: props.router.query.host,
       //host: this.props.user
+      service: props.router.query.service || 'youtube',
       isReady: false,
       initialMountDone: false,
     }
@@ -59,7 +60,8 @@ class Player extends React.Component {
       // console.log('attempting to recreate sync session');
       axios.post('api/player/create', {
         host: this.state.user,
-        path: `/player?host=${this.state.user}`
+        path: `/player?host=${this.state.user}`,
+        service: this.state.service,
       })
       //axios.post('/host', {hostingName: this.state.hostingName})
         .then((res) => {
@@ -82,6 +84,7 @@ class Player extends React.Component {
 
   tryClaimHost() {
     //maybe host definitely has been created once we navigate here?
+    console.log('trying to claim with state: ', this.state);
     this.regenSession();
     // axios.post('/host', {hostingName: this.state.hostingName})
     // .then((res) => {
@@ -103,8 +106,8 @@ class Player extends React.Component {
     let playerElement;
     if (this.state.initialMountDone) {
       playerElement = this.state.host === this.state.user ? 
-        <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby}/> : 
-        <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby}/>
+        <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
+        <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/>
     } else {
       playerElement = <span>Loading...</span>
     }
