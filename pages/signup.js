@@ -88,8 +88,6 @@ class Signup extends React.Component {
                   <div className="ui left icon input">
                     <i className="user icon"></i>
                     <input 
-                      required
-                      pattern="[a-zA-Z0-9!@#$%^*_|]{6,25}"
                       type="username" 
                       name="username" 
                       placeholder="username" 
@@ -102,8 +100,6 @@ class Signup extends React.Component {
                   <div className="ui left icon input">
                     <i className="lock icon"></i>
                     <input 
-                      required
-                      pattern="[a-zA-Z0-9!@#$%^*_|]{6,25}"
                       type="password" 
                       name="password" 
                       placeholder="Password" 
