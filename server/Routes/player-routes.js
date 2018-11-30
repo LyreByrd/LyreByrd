@@ -5,8 +5,24 @@ const axios = require('axios');
 const syncServerUrl = process.env.SYNC_SERVER_URL || 'localhost';
 const syncServerPort = process.env.SYNC_SERVER_PORT || 1234;
 
-router.get('/host', (req, res) => {
-  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/host`)
+router.get('/host/:service', (req, res) => {
+  console.log('host request heard. target: ', req.params.service)
+  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/host/${req.params.service}`)
+    .then(response => {
+      res.status(200).send(response.data);
+    })
+    .catch(err => {
+      console.log('Error trying to get host:|||||||||||||||||||||||||\n', err)
+      if(err.status) {
+        res.status(err.status).send(err);
+      } else {
+        res.sendStatus(500);
+      }
+    });
+})
+
+router.get('/client/:service', (req, res) => {
+  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/client/${req.params.service}`)
     .then(response => {
       res.status(200).send(response.data);
     })
@@ -19,18 +35,13 @@ router.get('/host', (req, res) => {
     });
 })
 
-router.get('/client', (req, res) => {
-  axios.get(`http://${syncServerUrl}:${syncServerPort}/api/player/client`)
-    .then(response => {
-      res.status(200).send(response.data);
-    })
-    .catch(err => {
-      if(err.status) {
-        res.status(err.status).send(err);
-      } else {
-        res.sendStatus(500);
-      }
-    });
+router.get('/usertoken/spotify', (req, res) => {
+  if (!req.user) {
+    console.log('No user available');
+    res.status(400).send('No user attached');
+  } else {
+    res.status(200).send({userToken: req.user.accessToken});
+  }
 })
 
 const { Player } = require('../../db/db.js')
@@ -63,7 +74,7 @@ router.post('/create', (req, res) => {
       res.sendStatus(500)
     } else {
       console.log('attempting to create sync session')
-      axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host})
+      axios.post(`http://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host, service: req.body.service})
         .then(response => {
           if (response.status === 403) {
             res.sendStatus(403);

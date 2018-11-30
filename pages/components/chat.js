@@ -3,6 +3,8 @@ import io from 'socket.io-client';
 import CreateMessage from './CreateMessage';
 import Messages from './Messages'
 import axios from 'axios';
+const placeholderData = require('../../static/placeholderAvatar.js').default;
+
 
 const container = {
   display: 'flex',
@@ -11,15 +13,18 @@ const container = {
 }
 
 const messagesStyle = {
-  // border: '1px black solid',
+  border: '3px #919191 solid',
   background: '#cfcfcf',
   display: 'flex',
   flex: '1 1 auto',
   height: '500px',
   width: '400px',
   overflowY: 'scroll',
+  overflowX: 'hidden',
   float: 'right',
   marginTop: '10px',
+  // boxShadow: 'inset 0px 0px 20px 10px #919191',
+  // filter: 'drop-shadow(0 10px 0.7rem #919191)',
 }
 
 const onlineUsersStyle = {
@@ -133,7 +138,7 @@ class Chat extends react.Component {
         // console.log('user :', user);
         return (
           <div key={i}>
-            <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : null} width='50' height='50'></img>
+            <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : placeholderData} width='50' height='50'></img>
             <div>{user[0]}</div>
           </div>
         )
