@@ -56,7 +56,7 @@ class Player extends React.Component {
     //console.log('this.state.host :', this.state.host);
     //console.log('this.state.user :', this.state.user);
     if (this.state.host === this.state.user) { 
-      console.log('attempting to recreate sync session');
+      // console.log('attempting to recreate sync session');
       axios.post('api/player/create', {
         host: this.state.user,
         path: `/player?host=${this.state.user}`
