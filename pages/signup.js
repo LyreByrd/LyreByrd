@@ -42,7 +42,7 @@ class Signup extends React.Component {
       console.log(res.data);
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem("username", res.data.username);
-      Router.push('/feed');
+      Router.push('/profile');
     })
     .catch((err) => {
       console.log(err);

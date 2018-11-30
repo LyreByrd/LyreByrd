@@ -1,26 +1,24 @@
+const ObjectId = require('mongoose').Types.ObjectId;
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require("passport-local").Strategy;
-const SpotifyStrategy = require('passport-spotify').Strategy;
-const YouTubeV3Strategy = require('passport-youtube-v3').Strategy;
 const {User} = require('../../db/db');
-const {UserYS} = require('../../db/db');
-
 
 require('dotenv').config();
 
 passport.serializeUser((user, done) => {
   console.log(user, '<<<<<<<<<<<<< serialize');
-  let uid = user.plataformId;
-  done(null, uid);
+  console.log(user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findOne({plataformId:id})
+  
+  User.findById(id)
   .then((user) => {
-    // console.log(user, '<<<<<<<<<<<<< deeeeserialize');
+    console.log(user, '<<<<<<<<<<<<< deeeeserialize');
     done(null, user);
   })
   .catch((err) => {
@@ -77,58 +75,3 @@ passport.use(
 
 
 
-// Youtube
-passport.use(
-  new YouTubeV3Strategy({
-  // options
-  clientID : process.env.clientIDYouTube,
-  clientSecret: process.env.clientSecretYouTube,
-  callbackURL: '/auth/youtube/redirect'
-}, (accessToken, refreshToken, profile, done) => {
-  // console.log(accessToken, ' <<<<<< ATOKEN');
-  // console.log(refreshToken, ' <<<<<< RTOKEN');
-  // console.log(profile);
-  // done(null, profile.id);
-  let userYSEntry = new User({
-    plataformId: profile.id,
-    provider: profile.provider,
-    accessToken,
-    refreshToken,
-    displayName: profile.displayName,
-    href: profile._json.etag,
-  });
-  
-    return done(null, userYSEntry);
-
-}
-));
-
-
-// Spotify
-passport.use(
-  new SpotifyStrategy({
-  // options
-    clientID : process.env.clientIDSpotify,
-    clientSecret: process.env.clientSecretSpotify,
-    callbackURL: '/auth/spotify/redirect'
-  }, 
-  (accessToken, refreshToken, profile, done) => {
-  // console.log(accessToken, ' <<<<<< ATOKEN');
-  // console.log(refreshToken, ' <<<<<< RTOKEN');
-  // console.log(profile);
-
-  let userYSEntry = new User({
-    plataformId: profile.id,
-    provider: profile.provider,
-    accessToken,
-    refreshToken,
-    displayName: profile.displayName,
-    href: profile._json.href,
-    url: profile._json.external_urls
-  });
-
-    
-  return done(null, userYSEntry);
-   
-  }
-));

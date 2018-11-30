@@ -30,6 +30,25 @@ class profile extends React.Component {
       username,
       done: true
     }, () => this.getUserAvatar());
+    axios.get('/user/getSpotInfo')
+      .then(data => { 
+        if (!Object.keys(data.data).length) {
+          return console.log('Items empty');
+        } else {
+          console.log(data.data);
+          if (data.data.err) {
+            return;
+          }
+          if (this.state.avatarSrc) {
+            return;
+          }
+          this.setState({
+            avatarSrc: data.data.photo,
+            username: data.data.username
+          });
+        }
+      })
+      .catch(err => console.log(err));
 
   }
   
@@ -186,6 +205,7 @@ class profile extends React.Component {
     .then(data => console.log(data))
     .catch(err => console.log(err));
   }
+
 
 
   render() {
