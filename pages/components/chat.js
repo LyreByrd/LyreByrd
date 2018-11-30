@@ -74,7 +74,7 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('http://localhost:8000');
+    const socket = io('http://localhost:8000'); //todo change to production.env host
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
@@ -132,14 +132,16 @@ class Chat extends react.Component {
   onlineUsers(users) {
     // console.log('users in onlineUsers:', users);
     if (Object.keys(users).length > 0) {
-      return Object.entries(users).map((user, i) => {
+      return Object.entries(users).reverse().map((user, i) => {
         // console.log('user :', user);
-        return (
-          <div key={i}>
-            <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : placeholderData} width='50' height='50'></img>
-            <div>{user[0]}</div>
-          </div>
-        )
+        // if (user[0] !== "undefined") {
+          return (
+            <div key={i}>
+              <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : placeholderData} width='50' height='50'></img>
+              <div>{user[0]}</div>
+            </div>
+          )
+        // }
       })
     }
   }

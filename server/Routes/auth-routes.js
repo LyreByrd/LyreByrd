@@ -38,7 +38,7 @@ router.post("/login",  function(req, res) {
 });
 
 router.post('/signup', (req, res) => {
-  console.log(req.body, 'routesss');
+  // console.log(req.body, 'routesss');
   const password = req.body.password;
   const username = req.body.username;
   bcrypt.hash(password, 10, (err, hash)=>{
@@ -58,7 +58,7 @@ router.post('/signup', (req, res) => {
         console.log(err, ' db errroor');
         return res.status(400).json({message: 'username exists'});
       }
-      console.log(user, '<<<<<');
+      // console.log(user, '<<<<<');
       req.login(user, { session: false }, err => {
         console.log("logging user in...");
         if (err) {
@@ -85,8 +85,8 @@ passport.use(
   (accessToken, refreshToken, profile, done) => {
   // console.log(accessToken, ' <<<<<< ATOKEN');
   // console.log(refreshToken, ' <<<<<< RTOKEN');
-  console.log(username);
-  console.log(profile.photos, 'user profile >>>>>>>>>>>');
+  // console.log(username);
+  // console.log(profile.photos, 'user profile >>>>>>>>>>>');
   let userYSEntry = {
     plataformId: profile.id,
     provider: profile.provider,
@@ -123,8 +123,8 @@ passport.authenticate('spotify',
 router.get('/spotify/redirect', passport.authenticate('spotify', 
 { successRedirect:'/profile' ,failureRedirect: '/profile' }), 
 (req, res) => {
-  console.log(req.user, 'req.user object');
-  console.log(username, 'username passed in query>>>>>>>');
+  // console.log(req.user, 'req.user object');
+  // console.log(username, 'username passed in query>>>>>>>');
   res.status(200)
   // .then((data) => {
   //   console.log(data, 'some promise >>>>>>>>>>');

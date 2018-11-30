@@ -18,7 +18,7 @@ passport.deserializeUser((id, done) => {
   
   User.findById(id)
   .then((user) => {
-    console.log(user, '<<<<<<<<<<<<< deeeeserialize');
+    // console.log(user, '<<<<<<<<<<<<< deeeeserialize');
     done(null, user);
   })
   .catch((err) => {

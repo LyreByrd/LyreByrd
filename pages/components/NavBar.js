@@ -36,7 +36,7 @@ class NavBar extends React.Component {
         .then(data => {
           console.log(
             'data returned from creating player stream page in db save in Navbar.js',
-            data,
+            data
           );
         })
         .catch(err => {

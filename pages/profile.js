@@ -3,6 +3,8 @@ import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import Router from 'next/router';
+const placeholderData = require('../static/placeholderAvatar.js').default;
+
 
 class profile extends React.Component {
   constructor(props) {
@@ -51,7 +53,7 @@ class profile extends React.Component {
         }
       })
       .catch(err => console.log(err));
-
+      console.log('this.state.avatarSrc :', this.state.avatarSrc);
   }
   
 
@@ -138,8 +140,8 @@ class profile extends React.Component {
   //posts avatar to db
   handleFileSubmit() {
 
-    // console.log('this.state.avatyarPreviewFile.length :', this.state.avatarPreviewFile);
-    // console.log('this.state.avatarTinyFile.length :', this.state.avatarTinyFile);
+    console.log('this.state.avatyarPreviewFile.length :', this.state.avatarPreviewFile);
+    console.log('this.state.avatarTinyFile.length :', this.state.avatarTinyFile);
 
     let fd = new FormData();
     fd.append('avatarFile', this.state.avatarPreviewFile);
@@ -222,42 +224,42 @@ class profile extends React.Component {
       if (this.state.spotifyName) {
         spotifyRndr = (
           <div>
-            <h1>Spotify Name: {this.state.spotifyName}</h1>
-            <img src={this.state.spotifyAvtr} width='200' height='200'></img>
+            <h1>Spotify Name: { this.state.spotifyName }</h1>
+            <img src={ this.state.spotifyAvtr } width='200' height='200'></img>
           </div>
         )
       } else {
         spotifyRndr = 
         <div>
-          <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
+          <a href={ `/auth/spotify?user=${this.state.username}` }>hookup with spotify</a>
         </div>
       }
       return (
         <Layout>
-          <h1>Hi { this.state.username}</h1>
-          <img src={this.state.avatarSrc} width='200' height='200'></img>
+          <h1>Hi { this.state.username }</h1>
+          <img src={ this.state.avatarSrc !== null ? this.state.avatarSrc : placeholderData } width='200' height='200'></img>
           <div>
-            <img src={this.state.avatarPreviewURL} width='300' height='300'/>
-            <img src={this.state.avatarTinyUrl} width='50'/>
+            <img src={ this.state.avatarPreviewURL } width='300' height='300'/>
+            <img src={ this.state.avatarTinyUrl } width='50'/>
           </div>
           <input
             id='avatarFileInput'
             type='file' 
             name='avatar'
             accept = 'image/*'
-            onChange={this.handleFileUpload}
+            onChange={ this.handleFileUpload }
           />
           <button 
             name='Submit'
             onClick={this.handleFileSubmit}
           >Submit</button>
           <div>Max File Size: 150 KB</div>
-          <button onClick={this.getPlaylist}>get your playlists</button>
-          <button onClick={this.refreshToken}>Refresh Token</button>
-          <button onClick={this.player}>player</button>
+          <button onClick={ this.getPlaylist }>get your playlists</button>
+          <button onClick={ this.refreshToken}>Refresh Token</button>
+          <button onClick={ this.player }>player</button>
           <div>
             {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-            {spotifyRndr}
+            { spotifyRndr }
           </div>
         </Layout>
       );
