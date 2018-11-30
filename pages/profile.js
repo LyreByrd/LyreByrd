@@ -3,6 +3,7 @@ import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import Router from 'next/router';
+import popupTools from 'popup-tools';
 
 class profile extends React.Component {
   constructor(props) {
@@ -25,33 +26,17 @@ class profile extends React.Component {
 
   componentDidMount(){
     const username =  localStorage.getItem('username');
+    const spotifyName = localStorage.getItem('spotifyName')
+    const spotifyAvtr = localStorage.getItem('spotifyAvtr')
     if (!username) {
       return Router.push('/login');
     }
     this.setState({
       username,
+      spotifyName,
+      spotifyAvtr,
       done: true
     }, () => this.getUserAvatar());
-    axios.get('/user/getSpotInfo')
-      .then(data => { 
-        if (!Object.keys(data.data).length) {
-          return console.log('Items empty');
-        } else {
-          console.log(data.data);
-          if (data.data.err) {
-            return;
-          }
-          if (this.state.avatarSrc) {
-            return;
-          }
-          this.setState({
-            spotifyAvtr: data.data.photo,
-            spotifyName: data.data.username
-          });
-        }
-      })
-      .catch(err => console.log(err));
-
   }
   
 
@@ -208,10 +193,31 @@ class profile extends React.Component {
     .catch(err => console.log(err));
   }
 
+  popUp (username) {
+    popupTools.popup(`/auth/spotify?user=${username}`, "Youtube Connect", {},
+    (err, user) => {
+      if (err) {
+          // alert(err.message);
+          console.log(err)
+      } else {
+          // save the returned user in localStorage/cookie or something
+        console.log(user)
+        localStorage.setItem('spotifyName', user.displayName)
+        localStorage.setItem('spotifyAvtr', user.photo)
+        this.setState({
+          spotifyName: user.displayName,
+          spotifyAvtr: user.photo,
+        })
+        
+      }
+    })
+  }
+
 
 
   render() {
     let spotifyRndr;
+    console.log(this.state.spotifyName)
     if (!this.state.done) {
       return (
         <Layout>
@@ -229,7 +235,12 @@ class profile extends React.Component {
       } else {
         spotifyRndr = 
         <div>
+        {/* <div>
           <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
+        </div> */}
+        <button onClick={()=>this.popUp(this.state.username)}> 
+        hook up spotify
+        </button>
         </div>
       }
       return (
