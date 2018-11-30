@@ -5,7 +5,7 @@ const Block = ({ title, subtitle, host, name }) => (
   <div>
     <div className="titlebox">
       <p className="title">What's Now</p>
-      <p className="subtitle">Suggestions based on sucking at life right now</p>
+      <p className="subtitle">Suggestions</p>
       <div className="gallery">
         <Card />
         <Card />
