@@ -211,6 +211,7 @@ class profile extends React.Component {
 
 
   render() {
+    let spotifyRndr;
     if (!this.state.done) {
       return (
         <Layout>
@@ -218,6 +219,19 @@ class profile extends React.Component {
         </Layout>
       )
     } else {
+      if (this.state.spotifyName) {
+        spotifyRndr = (
+          <div>
+            <h1>Spotify Name: {this.state.spotifyName}</h1>
+            <img src={this.state.spotifyAvtr} width='200' height='200'></img>
+          </div>
+        )
+      } else {
+        spotifyRndr = 
+        <div>
+          <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
+        </div>
+      }
       return (
         <Layout>
           <h1>Hi { this.state.username}</h1>
@@ -243,11 +257,7 @@ class profile extends React.Component {
           <button onClick={this.player}>player</button>
           <div>
             {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-            <div>
-              <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
-            </div>
-            <h1>Spotify Name: {this.state.spotifyName}</h1>
-            <img src={this.state.spotifyAvtr} width='200' height='200'></img>
+            {spotifyRndr}
           </div>
         </Layout>
       );
