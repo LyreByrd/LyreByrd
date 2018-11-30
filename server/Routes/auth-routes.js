@@ -8,7 +8,6 @@ const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 const { User } = require('../../db/db');
 const { UserYS } = require('../../db/db');
 
-
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
@@ -33,7 +32,7 @@ router.post("/login",  function(req, res) {
     if (err) return res.status(400).json({message: JSON.stringify(err)});
     if (user) {
       const token = jwt.sign(username, "its a chiansaw, no, its a bird");
-      return res.status(200).send(JSON.stringify({username:username, token}));
+      return res.status(200).json({username:username, token});
     }
     return res.status(401).json({message: 'invalid login'});
   })(req,res);

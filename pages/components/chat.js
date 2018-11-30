@@ -69,7 +69,9 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('http://localhost:8000');
+    const socket = io('18.218.63.90:8000');
+    // socket.connect();
+
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
