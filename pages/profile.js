@@ -86,7 +86,7 @@ class profile extends React.Component {
           this.setState({
             avatarPreviewURL: dataUrl,
             avatarPreviewFile: resizedImg,
-          });
+          }, () => this.handleFileSubmit());
 
           canvas = document.createElement('canvas');
           let tinySize = 100;
@@ -161,6 +161,7 @@ class profile extends React.Component {
       })
       .then(res => {
         let data = res.data;
+        console.log(res.data)
         // console.log('data :', data);
         // let contentType = res.headers['content-type'];
         // let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
@@ -224,7 +225,7 @@ class profile extends React.Component {
 
   render() {
     let spotifyRndr;
-    console.log(this.state.spotifyName);
+    // console.log(this.state.spotifyName);
     if (!this.state.done) {
       return (
         <Layout>
@@ -281,9 +282,6 @@ class profile extends React.Component {
                             accept="image/*"
                             onChange={this.handleFileUpload}
                           />
-                          <button name="Submit" onClick={this.handleFileSubmit}>
-                            Submit
-                          </button>
                         </div>
                       </div>
                       <div />

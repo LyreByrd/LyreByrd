@@ -47,6 +47,7 @@ router.get('/profile/avatar', (req, res) => {
     if (err) console.log('err getting avatar from db :', err);
     else {
       if (result && result.avatar) {
+        console.log(result.avatar);
         res.send(result.avatar.data);
       } else {
         res.status(404).send('no avatar');
@@ -146,10 +147,10 @@ router.post('/player', (req,res) => {
     }
   })
   .then((data) => {
-    console.log(data, 'data from devices');
+    console.log(data.config, 'data from devices');
   })
   .catch(err => {
-    console.log(err, 'err on devices');
+    // console.log(err, 'err on devices');
     return res.status(err.response.status).send(err.message);
   });
 });
@@ -165,6 +166,20 @@ router.get('/getSpotInfo', (req,res) => {
   };
   res.status(200).send(userInfo);
 });
+
+router.get('/searchProfiles', (req, res) => {
+  console.log(req.query.username)
+  User.findOne({username:req.query.username})
+  .then(data => {
+    res.status(200).send({
+      user: data.username, 
+      url: data.url, 
+      followers: data.followers
+    });
+  })
+  .catch(err => res.status(400).end(err));
+  
+})
 
 
 module.exports = router;
