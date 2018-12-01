@@ -134,14 +134,14 @@ class Chat extends react.Component {
     if (Object.keys(users).length > 0) {
       return Object.entries(users).reverse().map((user, i) => {
         // console.log('user :', user);
-        // if (user[0] !== "undefined") {
+        if (user[0] !== "undefined") {
           return (
             <div key={i}>
               <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : placeholderData} width='50' height='50'></img>
               <div>{user[0]}</div>
             </div>
           )
-        // }
+        }
       })
     }
   }
