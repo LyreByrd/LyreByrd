@@ -1,10 +1,8 @@
-const ObjectId = require('mongoose').Types.ObjectId;
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require("passport-local").Strategy;
-const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 const {User} = require('../../db/db');
 
 require('dotenv').config();
@@ -24,8 +22,8 @@ passport.deserializeUser((id, done) => {
   })
   .catch((err) => {
     console.log(err);
-    done(err, null)
-  })
+    done(err, null);
+  });
 });
 
 
