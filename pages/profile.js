@@ -49,7 +49,7 @@ class profile extends React.Component {
   handleFileUpload(e) {
     let file = e.target.files[0];
 
-    if (!file.type.match(/image.*/)) {
+    if (!file.type.match(/image.*/)) { //todo these two if checks are no longer needed
       window.alert('please choose an image file');
       e.target.value = null;
     } else if (file > 500000) {
@@ -263,7 +263,7 @@ class profile extends React.Component {
                     <div className="avatar">
                       <img
                         className="avatar-img"
-                        src={this.state.avatarSrc}
+                        src={this.state.avatarSrc !== '' ? this.state.avatarSrc : placeholderData}
                         width="200"
                         height="200"
                       />
