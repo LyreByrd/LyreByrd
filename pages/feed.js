@@ -4,6 +4,7 @@ import axios from 'axios';
 import Block from './components/block';
 import io from 'socket.io-client';
 
+
 export default class Feed extends React.Component {
   constructor(props) {
     super(props);
@@ -14,25 +15,36 @@ export default class Feed extends React.Component {
   }
 
   componentWillMount() {
-    this.getFeeds();
   }
   
   componentDidMount() {
+    this.getFeeds();
     this.setState({
       done: true
     })
   }
 
+  componentDidUpdate() {
+
+  }
+
+
   
 
   getFeeds() {
-    const socket = io('http://localhost:8080'); //todo change to production.env host
+    const socket = io('http://localhost:8080', {
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax : 5000,
+      reconnectionAttempts: Infinity
+    } ); //todo change to production.env host
 
     socket.on('connect', () => {
 
       socket.emit('main feed connect');
 
       socket.on('update feeds', feeds => {
+        console.log('received updated feeds');
         if (feeds === null) {
           feeds = [];
         }
@@ -44,10 +56,10 @@ export default class Feed extends React.Component {
         this.setState({
           feeds: feedsArray
         })
-        console.log('this.state.feeds :', this.state.feeds);
       });
 
       socket.on('update deleted feeds', feeds => {
+        console.log('received deleted feeds');
         if (feeds === null) {
           feeds = [];
         }
@@ -59,8 +71,28 @@ export default class Feed extends React.Component {
           feeds: feedsArray
         })
       })
+
     })
 
+    socket.on('update feeds', feeds => {
+      console.log('received updated feeds');
+      if (feeds === null) {
+        feeds = [];
+      }
+      console.log('feeds :', Object.values(feeds));
+      const feedsArray = Object.values(feeds).map(feed => {
+        let parseFeed = JSON.parse(feed);
+        return parseFeed;
+      })
+      this.setState({
+        feeds: feedsArray
+      })
+    });
+    
+    socket.on('disconnect', (reason) => {
+      console.log('disconnect on feed');
+      console.log('reason disconnect on feed:', reason);  
+    })  
 
     // axios
     //   .get('/player/feeds')
