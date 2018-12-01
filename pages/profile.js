@@ -48,7 +48,6 @@ class profile extends React.Component {
   //shows preview of avatar
   handleFileUpload(e) {
     let file = e.target.files[0];
-    console.log('file.size :', file.size);
 
     if (!file.type.match(/image.*/)) {
       window.alert('please choose an image file');
