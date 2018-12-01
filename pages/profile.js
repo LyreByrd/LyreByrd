@@ -3,6 +3,7 @@ import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import FeedBlock from './components/feedBlock';
+import ProfileFeed from './components/ProfileFeed';
 
 import Router from 'next/router';
 import popupTools from 'popup-tools';
@@ -307,18 +308,12 @@ class profile extends React.Component {
 
                 <div>
                   {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-                  <a href={`/auth/spotify?user=${this.state.username}`}>
+                  {/* <a href={`/auth/spotify?user=${this.state.username}`}>
                     hookup with spotify
-                  </a>
+                  </a> */}
                 </div>
               </div>
-              <div className="profile-feed">
-                <div className="main">
-                  <FeedBlock />
-                  <FeedBlock />
-                </div>
-                <div className="sidebar">Sidebar</div>
-              </div>
+              <ProfileFeed />
             </div>
           </Layout>
           <style jsx>{`
@@ -437,25 +432,6 @@ class profile extends React.Component {
             .btn:hover {
               color: red;
               border-bottom: 1px solid red;
-            }
-
-            .profile-feed {
-              display: grid;
-              grid-template-columns: 1fr 40rem;
-              grid-row-start: 3;
-              margin: 0 100px 0 100px;
-            }
-
-            .main {
-              grid-column-start: 1;
-              background-color: white;
-              border-right: 1px solid #dfdcd4;
-              padding-right: 0.5rem;
-            }
-
-            .sidebar {
-              grid-column-start: 2;
-              background-color: white;
             }
           `}</style>
         </div>
