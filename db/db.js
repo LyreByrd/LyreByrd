@@ -20,7 +20,8 @@ const userSchema = mongoose.Schema({
   refreshToken: String,
   href: String,
   url: String,
-  photo: String
+  photo: String,
+  followers: Number
 });
 
 const playerSchema = mongoose.Schema({
