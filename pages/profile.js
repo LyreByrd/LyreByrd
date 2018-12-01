@@ -88,7 +88,7 @@ class profile extends React.Component {
           this.setState({
             avatarPreviewURL: dataUrl,
             avatarPreviewFile: resizedImg,
-          });
+          }, () => this.handleFileSubmit());
 
           canvas = document.createElement('canvas');
           let tinySize = 100;
@@ -163,6 +163,7 @@ class profile extends React.Component {
       })
       .then(res => {
         let data = res.data;
+        console.log(res.data)
         // console.log('data :', data);
         // let contentType = res.headers['content-type'];
         // let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
@@ -226,7 +227,7 @@ class profile extends React.Component {
 
   render() {
     let spotifyRndr;
-    console.log(this.state.spotifyName);
+    // console.log(this.state.spotifyName);
     if (!this.state.done) {
       return (
         <Layout>
@@ -283,9 +284,6 @@ class profile extends React.Component {
                             accept="image/*"
                             onChange={this.handleFileUpload}
                           />
-                          <button name="Submit" onClick={this.handleFileSubmit}>
-                            Submit
-                          </button>
                         </div>
                       </div>
                       <div />
@@ -307,12 +305,9 @@ class profile extends React.Component {
                   </div>
                 </div>
 
-                <div>
-                  {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-                  <a href={`/auth/spotify?user=${this.state.username}`}>
+                <button onClick={() => this.popUp(this.state.username)}>
                     hookup with spotify
-                  </a>
-                </div>
+                </button>
               </div>
               <div className="profile-feed">
                 <div className="main">

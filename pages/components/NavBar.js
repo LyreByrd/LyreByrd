@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, Icon, Menu, Input } from 'semantic-ui-react';
-import { Link, withRouter, Button } from 'next/link';
+import { Link, withRouter, Button, Router } from 'next/link';
 import Head from 'next/head';
 import axios from 'axios';
 
@@ -11,7 +11,10 @@ class NavBar extends React.Component {
       activeItem: 'home',
       Token: null,
       user: '',
+      searchUser: null
     };
+    this.searchProfile = this.searchProfile.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
   // this.handleItemClick = this.handleItemClick.bind(this);
 
@@ -48,6 +51,42 @@ class NavBar extends React.Component {
     // }
   }
 
+
+
+  onSearchChange (e) {
+    this.setState({
+      searchUser: e.target.value
+    })
+  }
+
+
+  searchProfile(e) {
+    console.log(this.state.searchUser)
+    axios.get('/user/profile/avatar', {
+      params:{
+        username: this.state.searchUser
+      }
+    })
+    .then(data =>{
+      let avtr = data.data;
+      sessionStorage.setItem('searchUserAvatar', avtr)
+      axios.get('/user/searchProfiles',{
+        params:{
+          username: this.state.searchUser
+        }
+      })
+      .then( res => {
+        sessionStorage.setItem('searchUser', res.data.user);
+        sessionStorage.setItem('searchUserUrl', res.data.url);
+        sessionStorage.setItem('searchUserFollowers', res.data.followers);
+        window.location.replace(`/user?name=${this.state.searchUser}`);
+      })
+      .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err))
+    e.preventDefault();
+  }
+
   logout() {
     localStorage.clear();
     sessionStorage.clear();
@@ -75,16 +114,21 @@ class NavBar extends React.Component {
               href="/feed"
             />
             <Menu.Menu position="right">
+            <form onSubmit={this.searchProfile}>
               <Menu.Item>
-                <Input icon="search" placeholder="Search..." />
+                <Input icon="search" placeholder="Search..." 
+                  value={this.state.username} 
+                  onChange={this.onSearchChange} />
               </Menu.Item>
+            </form>
               <Menu.Item
                 icon="video"
                 name="create stream"
                 // user={this.state.user}
                 active={this.state.activeItem === 'player'}
                 onClick={this.handleItemClick}
-                href={`/player?host=${this.state.user}`}
+                // href={`/player?host=${this.state.user}`}
+                href='/streamType'
                 as={Link}
               />
               <Dropdown icon="user" item>

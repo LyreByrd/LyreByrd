@@ -1,12 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var axios = require('axios');
 const popupTools = require('popup-tools');
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 
 const { User } = require('../../db/db');
-const { UserYS } = require('../../db/db');
 
 
 const jwt = require("jsonwebtoken");
