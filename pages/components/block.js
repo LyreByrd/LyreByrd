@@ -4,10 +4,12 @@ import Card from './card';
 const Block = ({ title, subtitle, host, name, feeds }) => (
   <div>
     <div className="titlebox">
-      <p className="title">What's Now</p>
-      <p className="subtitle">Suggestions</p>
+      <p className="title">What's Playing Now</p>
+      <p className="subtitle">this is a subtitle</p>
       <div className="gallery">
-        <Card />
+        <Card 
+          feeds={feeds}
+        />
 
       </div>
     </div>
