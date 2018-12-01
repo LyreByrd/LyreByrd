@@ -4,8 +4,8 @@ import Card from './card';
 const Block = ({ title, subtitle, host, name, feeds }) => (
   <div>
     <div className="titlebox">
-      <p className="title">What's Playing Now</p>
-      <p className="subtitle">this is a subtitle</p>
+      <p className="title">New Feeds</p>
+      <p className="subtitle">Currently Playing</p>
       <div className="gallery">
         <Card 
           feeds={feeds}
@@ -15,7 +15,7 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
     </div>
     <style jsx>{`
       .titlebox {
-        height: 300px;
+        height: 320px;
         border-bottom: 1px solid #dfdcd4;
       }
 

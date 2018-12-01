@@ -33,6 +33,7 @@ export default class Feed extends React.Component {
 
   getFeeds() {
     const socket = io('http://localhost:8080'); //todo change to production.env host
+    const chatSocket = io('http://localhost:8000');
 
     socket.on('connect', () => {
 
