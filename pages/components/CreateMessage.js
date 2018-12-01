@@ -59,6 +59,7 @@ class CreateMessage extends react.Component {
   render() {
     return (
       <div>
+        <br />
         <form onSubmit={(e) => this.submitMessage(e)}>
           <input type='text' 
             placeholder='Enter New Message'

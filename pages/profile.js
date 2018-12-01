@@ -5,6 +5,8 @@ import FormData from 'form-data';
 import FeedBlock from './components/feedBlock';
 
 import Router from 'next/router';
+const placeholderData = require('../static/placeholderAvatar.js').default;
+
 import popupTools from 'popup-tools';
 
 class profile extends React.Component {
@@ -46,7 +48,6 @@ class profile extends React.Component {
   //shows preview of avatar
   handleFileUpload(e) {
     let file = e.target.files[0];
-    console.log('file.size :', file.size);
 
     if (!file.type.match(/image.*/)) {
       window.alert('please choose an image file');

@@ -93,44 +93,47 @@ const userAvatar = {
 }
 
 const Messages = ({messages, user, messageAvatars, host}) => {
-
-  return (
-    <div>
-      <div style={messagesContainer}>
-        {messages.map((message, i) => {
-          message = JSON.parse(message);
-          if (user.username === message.user) {
-            //sent message
-            return (
-              <div 
-                key={i}
-                style={messagesStyleSent}>
-                <span style={messageSent}>
-                  {message.message} 
-                  <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
-                </span>
-                <div style={sentTriangle}></div> 
-                <img style={userAvatar} src={messageAvatars[`${message.user}`] !== 'none' ? messageAvatars[`${message.user}`] : placeholderData} />
-              </div>
-            )
-          } else {
-            //received message
-            return (
-              <div 
-                key={i}
-                style={messagesStyleRec}>
-                <img style={userAvatar} src={messageAvatars[`${message.user}`] !== 'none' ? messageAvatars[`${message.user}`] : placeholderData} />
-                <div style={recTriangle}></div>
-                <span style={messageRec}>
-                  {message.message} <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
-                </span>
-              </div>
-            )
-          }
-        })}
+  if (messageAvatars) {
+    return (
+      <div>
+        <div style={messagesContainer}>
+          {messages.map((message, i) => {
+            message = JSON.parse(message);
+            if (user.username === message.user) {
+              //sent message
+              return (
+                <div 
+                  key={i}
+                  style={messagesStyleSent}>
+                  <span style={messageSent}>
+                    {message.message} 
+                    <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
+                  </span>
+                  <div style={sentTriangle}></div> 
+                  <img style={userAvatar} src={messageAvatars[`${message.user}`] !== 'none' ? messageAvatars[`${message.user}`] : placeholderData} />
+                </div>
+              )
+            } else {
+              //received message
+              return (
+                <div 
+                  key={i}
+                  style={messagesStyleRec}>
+                  <img style={userAvatar} src={messageAvatars[`${message.user}`] !== 'none' ? messageAvatars[`${message.user}`] : placeholderData} />
+                  <div style={recTriangle}></div>
+                  <span style={messageRec}>
+                    {message.message} <span style={timeStampStyle}> {ago(message.timeStamp)}</span>
+                  </span>
+                </div>
+              )
+            }
+          })}
+        </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return (<div></div>)
+  }
 }
 
 export default Messages;

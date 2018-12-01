@@ -21,7 +21,8 @@ const userSchema = mongoose.Schema({
   href: String,
   url: String,
   photo: String,
-  followers: Number
+  following: Array,
+  followers: Array,
 });
 
 const playerSchema = mongoose.Schema({

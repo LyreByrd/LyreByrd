@@ -24,8 +24,8 @@ router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) =>
   const avatar = {};
   avatar.data = req.body.avatarFile;
   avatar.tinyData = req.body.avatarTinyFile;
-  console.log('avatar.data.length :', avatar.data.length);
-  console.log('avatar.tinyData.length :', avatar.tinyData.length);
+  // console.log('avatar.data.length :', avatar.data.length);
+  // console.log('avatar.tinyData.length :', avatar.tinyData.length);
   avatar.contentType = 'image/jpeg';
   const username = req.body.username;
 
@@ -76,7 +76,7 @@ router.get('/getspotify', (req,res) => {
   if (!req.user) {
     return res.status(200).send({message: 'need spotify hookup'});
   }
-  console.log(req.user, 'sesssiioon');
+  // console.log(req.user, 'sesssiioon');
   axios.get('https://api.spotify.com/v1/me/playlists',
   {
     headers: {
@@ -86,7 +86,7 @@ router.get('/getspotify', (req,res) => {
     },
   })
   .then((data) => {
-    console.log(data.data, 'data from spotify');
+    // console.log(data.data, 'data from spotify');
     return res.status(200).send(data.data);
   })
   .catch(err =>{
@@ -96,7 +96,7 @@ router.get('/getspotify', (req,res) => {
 });
 
 router.post('/refresh', (req,res) => {
-  console.log(req.user, 'sesssiioon');
+  // console.log(req.user, 'sesssiioon');
   axios({
     url: 'https://accounts.spotify.com/api/token',
     method: 'post',
@@ -114,7 +114,7 @@ router.post('/refresh', (req,res) => {
     }
   })
   .then((data) => {
-    console.log(data.data, 'data from refresh');
+    // console.log(data.data, 'data from refresh');
     User.findByIdAndUpdate(req.user._id, {spotify:{accessToken:data.data.access_token}}, {new:true})
     .then(data => {
       console.log(data)
@@ -133,7 +133,7 @@ router.post('/refresh', (req,res) => {
 });
 
 router.post('/player', (req,res) => {
-  console.log(req.user, 'sesssiioon');
+  // console.log(req.user, 'sesssiioon');
   axios({
     url: 'https://api.spotify.com/v1/me/player',
     method: 'put',
@@ -155,7 +155,7 @@ router.post('/player', (req,res) => {
   });
 });
 router.get('/getSpotInfo', (req,res) => {
-  console.log(req.user, 'sesssiioon');
+  // console.log(req.user, 'sesssiioon');
   if (!req.user) {
     return res.status(200).send({err: 'hook up spotify'})
   }

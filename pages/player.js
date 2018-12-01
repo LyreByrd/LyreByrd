@@ -5,6 +5,7 @@ import HostWindow from './components/HostWindow.js';
 import ClientWindow from './components/ClientWindow.js';
 import axios from 'axios';
 import Chat from './components/chat.js'
+import io from 'socket.io-client';
 
 const playerContainer = {
   display: 'flex',
@@ -46,6 +47,10 @@ class Player extends React.Component {
     }, () => {
       if (this.state.host === this.state.user) {
         this.tryClaimHost();
+
+        //sends a new host feed object through socket to feed server
+        this.socketFeed();
+
       } else {
         this.setState({isReady: true});
       }
@@ -102,6 +107,24 @@ class Player extends React.Component {
     //     console.error(err);
     //   }
     // });
+  }
+
+  socketFeed() {
+    const socket = io('http://localhost:8080'); //todo change to production.env host
+    
+    const feedData = {
+      host: this.state.user,
+      path: this.state.path,
+    }
+
+    socket.on('connect', () => {
+      socket.emit('new feed', feedData)
+      socket.emit('join player');
+    })
+  }
+
+  followHost() {
+    //todo add a mongoose post to update host followers and user following collections
   }
 
   render() {
