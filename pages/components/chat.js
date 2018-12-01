@@ -131,7 +131,7 @@ class Chat extends react.Component {
 
   onlineUsers(users) {
     // console.log('users in onlineUsers:', users);
-    if (Object.keys(users).length > 0) {
+    if (Object.keys(users).length > 0 && Object.keys(users) !== null) {
       return Object.entries(users).reverse().map((user, i) => {
         // console.log('user :', user);
         if (user[0] !== "undefined") {
