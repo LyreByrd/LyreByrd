@@ -84,7 +84,8 @@ class NavBar extends React.Component {
                 // user={this.state.user}
                 active={this.state.activeItem === 'player'}
                 onClick={this.handleItemClick}
-                href={`/player?host=${this.state.user}`}
+                // href={`/player?host=${this.state.user}`}
+                href='/streamType'
                 as={Link}
               />
               <Dropdown icon="user" item>

@@ -305,12 +305,9 @@ class profile extends React.Component {
                   </div>
                 </div>
 
-                <div>
-                  {/* <a href={`/auth/youtube?user=${this.state.username}`}>hookup with youtube</a> */}
-                  <a href={`/auth/spotify?user=${this.state.username}`}>
+                <button onClick={() => this.popUp(this.state.username)}>
                     hookup with spotify
-                  </a>
-                </div>
+                </button>
               </div>
               <div className="profile-feed">
                 <div className="main">
