@@ -43,16 +43,38 @@ class ClientWindow extends React.Component {
     }
   }
 
+  followHost() {
+    console.log('props :', this.props);
+    let host = this.props.sessionHost;
+    let user = this.props.user;
+    axios.post('/user/followHost', {
+      user: user,
+      host: host,
+    })
+    .then(res => {
+      console.log('res :', res);
+    })
+    .catch(err => {
+      console.log('err :', err);
+    })
+  }
+
   render() {
     if (this.props.isActive) {
       let props = {...this.props};
       if(props.hostingName && !props.sessionHost) {
         props.sessionHost = props.hostingName;
       }
-      return (<div>
-        {this.state.hasLoaded ? <ClientPlayer {...props} /> : 'Loading...'}
-      </div>);
+      return (
+        <div>
+          {this.state.hasLoaded ? <ClientPlayer {...props} /> : 'Loading...'}
+          <button
+            onClick={() => this.followHost()}
+          >Follow Host</button>
+        </div>
+      );
     }
+    
     return <span></span>;
   }
 }
