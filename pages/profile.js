@@ -288,6 +288,9 @@ class profile extends React.Component {
                       <div />
                     </div>
                     <div className="profile-name">{this.state.username}</div>
+                    <button className="ui button" onClick={() => this.popUp(this.state.username)}>
+                      hookup with spotify
+                    </button>
                   </div>
                 </div>
                 <div className="links">
@@ -303,10 +306,6 @@ class profile extends React.Component {
                     </a>
                   </div>
                 </div>
-
-                <button onClick={() => this.popUp(this.state.username)}>
-                    hookup with spotify
-                </button>
               </div>
               <div className="profile-feed">
                 <div className="main">
