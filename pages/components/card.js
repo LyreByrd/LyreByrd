@@ -2,6 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 const youtube = require('../../static/youtube.js').default;
 
+/*
+Note: i know i am repeating returns. i will refactor to by DRY
+*/
+
 const Card = ({feeds}) => {
   
   if (feeds.length > 0) {
@@ -21,7 +25,6 @@ const Card = ({feeds}) => {
                     .tile {
                       height: 192px;
                       width: 192px;
-                      
                     }
                     .thumbnail {
                       height: 180px;

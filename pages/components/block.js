@@ -38,6 +38,7 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         height: 200px;
+        grid-column-gap: 10px;
       }
     `}</style>
   </div>
