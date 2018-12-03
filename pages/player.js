@@ -24,7 +24,7 @@ class Player extends React.Component {
       service: props.router.query.service || 'youtube',
       isReady: false,
       initialMountDone: false,
-      usersInRoom: 1,
+      usersInRoom: 0,
     }
     this.resetToLobby = this.resetToLobby.bind(this);
   }

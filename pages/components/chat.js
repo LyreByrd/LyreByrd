@@ -80,7 +80,6 @@ class Chat extends react.Component {
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
-      feedSocket.emit('user joined room');
       socket.emit('user connected', this.state.user);
       // socket.emit('user avatar', this.state.usersAvatars);
       socket.on('fetch messages', messages => {
@@ -88,6 +87,7 @@ class Chat extends react.Component {
           messages: [...messages]
         })
       })
+      feedSocket.emit('user joined room', this.props.host);
     })
 
 
@@ -114,6 +114,7 @@ class Chat extends react.Component {
 
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
+      feedSocket.emit('user left room', this.props.host);
       this.setState({
         users: users
       })
