@@ -24,6 +24,7 @@ class Player extends React.Component {
       service: props.router.query.service || 'youtube',
       isReady: false,
       initialMountDone: false,
+      usersInRoom: 1,
     }
     this.resetToLobby = this.resetToLobby.bind(this);
   }
@@ -119,12 +120,15 @@ class Player extends React.Component {
     const feedData = {
       host: this.state.user,
       path: this.state.path,
+      usersInRoom: this.state.usersInRoom,
     }
 
     socket.on('connect', () => {
       socket.emit('new feed', feedData)
       socket.emit('join player');
     })
+
+    
   }
 
   render() {

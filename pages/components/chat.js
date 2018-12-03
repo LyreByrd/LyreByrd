@@ -75,11 +75,12 @@ class Chat extends react.Component {
   socketConnect() {
     //socket.io connection
     const socket = io('http://localhost:8000'); //todo change to production.env host
-    const feedSocket = ('http://localhost:8080'); 
+    const feedSocket = io('http://localhost:8080'); 
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
+      feedSocket.emit('user joined room');
       socket.emit('user connected', this.state.user);
       // socket.emit('user avatar', this.state.usersAvatars);
       socket.on('fetch messages', messages => {
