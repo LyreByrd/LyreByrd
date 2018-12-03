@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var axios = require('axios');
 const popupTools = require('popup-tools');
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 
 const { User } = require('../../db/db');
-const { UserYS } = require('../../db/db');
+
 
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
@@ -32,14 +30,14 @@ router.post("/login",  function(req, res) {
     if (err) return res.status(400).json({message: JSON.stringify(err)});
     if (user) {
       const token = jwt.sign(username, "its a chiansaw, no, its a bird");
-      return res.status(200).json({username:username, token});
+      return res.status(200).send(JSON.stringify({username:username, token}));
     }
     return res.status(401).json({message: 'invalid login'});
   })(req,res);
 });
 
 router.post('/signup', (req, res) => {
-  console.log(req.body, 'routesss');
+  // console.log(req.body, 'routesss');
   const password = req.body.password;
   const username = req.body.username;
   bcrypt.hash(password, 10, (err, hash)=>{
@@ -59,7 +57,7 @@ router.post('/signup', (req, res) => {
         console.log(err, ' db errroor');
         return res.status(400).json({message: 'username exists'});
       }
-      console.log(user, '<<<<<');
+      // console.log(user, '<<<<<');
       req.login(user, { session: false }, err => {
         console.log("logging user in...");
         if (err) {
@@ -86,8 +84,8 @@ passport.use(
   (accessToken, refreshToken, profile, done) => {
   // console.log(accessToken, ' <<<<<< ATOKEN');
   // console.log(refreshToken, ' <<<<<< RTOKEN');
-  console.log(username);
-  console.log(profile.photos, 'user profile >>>>>>>>>>>');
+  // console.log(username);
+  // console.log(profile.photos, 'user profile >>>>>>>>>>>');
   let userYSEntry = {
     plataformId: profile.id,
     provider: profile.provider,
@@ -99,7 +97,7 @@ passport.use(
     photo: profile.photos[0]
   }; 
 
-  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument: true, new: true})
+  User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true, new:true})
   .then(user => {
     console.log(user, '<<<<<<<<< found and updated')
     done(null, user);

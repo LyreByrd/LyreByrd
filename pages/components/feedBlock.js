@@ -1,21 +1,16 @@
 import React from 'react';
 import Card from './card';
 
-const Block = ({ title, subtitle, host, name, feeds }) => (
+const FeedBlock = ({ title, subtitle, host, name }) => (
   <div>
     <div className="titlebox">
-      <p className="title">New Feeds</p>
-      <p className="subtitle">Currently Playing</p>
-      <div className="gallery">
-        <Card 
-          feeds={feeds}
-        />
-
-      </div>
+      <p className="title" />
+      <p className="subtitle" />
+      <div className="gallery" />
     </div>
     <style jsx>{`
       .titlebox {
-        height: 320px;
+        height: 300px;
         border-bottom: 1px solid #dfdcd4;
       }
 
@@ -43,4 +38,4 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
   </div>
 );
 
-export default Block;
+export default FeedBlock;
