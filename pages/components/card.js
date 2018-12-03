@@ -15,6 +15,7 @@ const Card = ({feeds}) => {
                 <div className="thumbnail" />
                 <marquee className="title">{feed.videoId ? `${feed.title}` : 'No Video Currently Playing'}</marquee>
                 <div className="host">Host:{` ${feed.host}`}</div>
+                <div className="usersInRoom">Listeners: {feed.usersInRoom}</div>
                 <style jsx>{`
                   .tile {
                     height: 192px;
