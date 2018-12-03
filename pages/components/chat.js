@@ -4,6 +4,7 @@ import CreateMessage from './CreateMessage';
 import Messages from './Messages'
 import axios from 'axios';
 const placeholderData = require('../../static/placeholderAvatar.js').default;
+PROD_IP
 
 
 const container = {
@@ -74,8 +75,8 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('http://localhost:8000'); //todo change to production.env host
-    const feedSocket = io('http://localhost:8080'); 
+    const socket = io('http://18.188.27.120:8000'); //todo change to production.env host
+    const feedSocket = io('http://18.188.27.120:8080');
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);

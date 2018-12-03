@@ -116,7 +116,7 @@ class Player extends React.Component {
   }
 
   socketFeed() {
-    const socket = io('http://localhost:8080'); //todo change to production.env host
+    const socket = io('http://18.188.27.120:8080'); //todo change to production.env host
     
     const feedData = {
       host: this.state.user,
