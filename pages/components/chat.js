@@ -4,7 +4,7 @@ import CreateMessage from './CreateMessage';
 import Messages from './Messages'
 import axios from 'axios';
 const placeholderData = require('../../static/placeholderAvatar.js').default;
-PROD_IP
+
 
 
 const container = {
