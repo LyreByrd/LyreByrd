@@ -89,7 +89,7 @@ class profile extends React.Component {
           this.setState({
             avatarPreviewURL: dataUrl,
             avatarPreviewFile: resizedImg,
-          }, () => this.handleFileSubmit());
+          });
 
           canvas = document.createElement('canvas');
           let tinySize = 100;
@@ -114,10 +114,12 @@ class profile extends React.Component {
             /^data:image\/(png|jpg);base64,/,
             '',
           );
-
+          console.log('resizedImgTiny :', resizedImgTiny);
           this.setState({
             avatarTinyUrl: dataUrlTiny,
             avatarTinyFile: resizedImgTiny,
+          }, () => {
+            this.handleFileSubmit();
           });
         };
         img.src = readerEvent.target.result;
@@ -128,7 +130,7 @@ class profile extends React.Component {
 
   //posts avatar to db
   handleFileSubmit() {
-
+    console.log('this.state.avatarTinyFile in submit:', this.state.avatarTinyFile);
     let fd = new FormData();
     fd.append('avatarFile', this.state.avatarPreviewFile);
     fd.append('avatarTinyFile', this.state.avatarTinyFile);
@@ -277,8 +279,9 @@ class profile extends React.Component {
                             type="file"
                             name="avatar"
                             accept="image/*"
-                            onChange={this.handleFileUpload}
+                            onChange={(e) => this.handleFileUpload(e)}
                           />
+
                         </div>
                       </div>
                       <div />
