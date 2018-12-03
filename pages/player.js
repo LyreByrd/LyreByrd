@@ -21,7 +21,7 @@ class Player extends React.Component {
       user: '',
       host: props.router.query.host,
       //host: this.props.user
-      service: props.router.query.service || 'youtube',
+      service: props.router.query.service,
       isReady: false,
       initialMountDone: false,
       usersInRoom: 0,
@@ -44,10 +44,11 @@ class Player extends React.Component {
   componentDidMount() {
     let currentHost = this.props.router.query.host;
     let currentUser = localStorage.getItem('username');
+    console.log('service :', this.state.service);
     this.setState({
       // host: currentHost,
       user: currentUser,
-      path: `/player?host=${currentHost}`,
+      path: `/player?host=${currentHost}&service=${this.state.service}`,
       initialMountDone: true,
     }, () => {
       if (this.state.host === this.state.user) {
@@ -121,6 +122,7 @@ class Player extends React.Component {
       host: this.state.user,
       path: this.state.path,
       usersInRoom: this.state.usersInRoom,
+      service: this.state.service,
     }
 
     socket.on('connect', () => {

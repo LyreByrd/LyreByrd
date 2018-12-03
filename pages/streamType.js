@@ -35,7 +35,7 @@ class streamType extends React.Component {
         <div className="ui two column centered grid">
           <div className="four column centered row">
             <div className="massive ui buttons">
-            <a href={`/player?host=${this.state.user}`}>
+            <a href={`/player?host=${this.state.user}&service=youtube`}>
               <button className="ui youtube button">
                 <i className="youtube icon"></i>
                 YouTube
