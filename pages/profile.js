@@ -5,8 +5,8 @@ import FormData from 'form-data';
 import FeedBlock from './components/feedBlock';
 
 import Router from 'next/router';
-const placeholderData = require('../static/placeholderAvatar.js').default;
 
+const placeholderData = require('../static/placeholderAvatar.js').default;
 import popupTools from 'popup-tools';
 
 class profile extends React.Component {
@@ -29,22 +29,21 @@ class profile extends React.Component {
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
   }
 
-  componentDidMount() {
-    const username = localStorage.getItem('username');
-    const spotifyName = localStorage.getItem('spotifyName');
-    const spotifyAvtr = localStorage.getItem('spotifyAvtr');
+
+
+  componentDidMount(){
+    const username =  localStorage.getItem('username');
+    const spotifyName = localStorage.getItem('spotifyName')
+    const spotifyAvtr = localStorage.getItem('spotifyAvtr')
     if (!username) {
       return Router.push('/login');
     }
-    this.setState(
-      {
-        username,
-        spotifyName,
-        spotifyAvtr,
-        done: true,
-      },
-      () => this.getUserAvatar(),
-    );
+    this.setState({
+      username,
+      spotifyName,
+      spotifyAvtr,
+      done: true
+    }, () => this.getUserAvatar());
   }
 
   //shows preview of avatar
@@ -248,6 +247,7 @@ class profile extends React.Component {
             </button>
           </div>
         );
+
       }
       return (
         <div className="body">
@@ -455,4 +455,5 @@ class profile extends React.Component {
     }
   }
 }
+
 export default profile;

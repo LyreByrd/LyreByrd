@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
+
 const popupTools = require('popup-tools');
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const YouTubeV3Strategy = require("passport-youtube-v3").Strategy;
 
 const { User } = require('../../db/db');
-
 
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
@@ -30,7 +31,7 @@ router.post("/login",  function(req, res) {
     if (err) return res.status(400).json({message: JSON.stringify(err)});
     if (user) {
       const token = jwt.sign(username, "its a chiansaw, no, its a bird");
-      return res.status(200).send(JSON.stringify({username:username, token}));
+      return res.status(200).json({username:username, token});
     }
     return res.status(401).json({message: 'invalid login'});
   })(req,res);
@@ -96,6 +97,7 @@ passport.use(
     url: profile._json.external_urls.spotify,
     photo: profile.photos[0]
   }; 
+
 
   User.findOneAndUpdate({username}, userYSEntry, {returnNewDocument:true, new:true})
   .then(user => {
