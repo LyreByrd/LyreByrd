@@ -22,6 +22,8 @@ class profile extends React.Component {
       spotifyName: null,
       spotifyAvtr: null,
       done: false,
+      followers: [],
+      following: [],
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
@@ -126,8 +128,6 @@ class profile extends React.Component {
 
   //posts avatar to db
   handleFileSubmit() {
-    // console.log('this.state.avatyarPreviewFile.length :', this.state.avatarPreviewFile);
-    // console.log('this.state.avatarTinyFile.length :', this.state.avatarTinyFile);
 
     let fd = new FormData();
     fd.append('avatarFile', this.state.avatarPreviewFile);
@@ -162,10 +162,6 @@ class profile extends React.Component {
       })
       .then(res => {
         let data = res.data;
-        console.log(res.data)
-        // console.log('data :', data);
-        // let contentType = res.headers['content-type'];
-        // let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
         this.setState({
           avatarSrc: data,
         });
@@ -212,7 +208,7 @@ class profile extends React.Component {
           console.log(err);
         } else {
           // save the returned user in localStorage/cookie or something
-          console.log(user);
+          // console.log(user);
           localStorage.setItem('spotifyName', user.displayName);
           localStorage.setItem('spotifyAvtr', user.photo);
           this.setState({
@@ -321,6 +317,7 @@ class profile extends React.Component {
             .body {
               font-size: 62.5%;
             }
+            // ? ethan??
             .ethan {
               display: grid;
               grid-template-rows: 400px, 100px, 400px;

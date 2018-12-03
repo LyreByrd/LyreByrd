@@ -36,8 +36,12 @@ class Player extends React.Component {
     });
   }
 
+  getInitialProps() {
+
+  }
+
   componentDidMount() {
-    let currentHost = this.props.url.query.host;
+    let currentHost = this.props.router.query.host;
     let currentUser = localStorage.getItem('username');
     this.setState({
       // host: currentHost,
