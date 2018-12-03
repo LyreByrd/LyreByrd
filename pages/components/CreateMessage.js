@@ -18,7 +18,7 @@ class CreateMessage extends react.Component {
   
   submitMessage = (e) => {
     e.preventDefault();
-    const socket = io('http://localhost:8000');
+    const socket = io('http://18.188.27.120:8000');
     const now = moment();
     this.setState({
       newMessage: {
@@ -44,7 +44,9 @@ class CreateMessage extends react.Component {
     })
   }
 
-  handleMessageChange = (message) => {
+  handleMessageChange = (e) => {
+    e.preventDefault();
+    let message = e.target.value;
     const now = moment();
     this.setState({
       newMessage: {
@@ -64,7 +66,7 @@ class CreateMessage extends react.Component {
           <input type='text' 
             placeholder='Enter New Message'
             value={this.state.newMessage.message} 
-            onChange={() => this.handleMessageChange(event.target.value)}/>
+            onChange={(e) => this.handleMessageChange(e)}/>
           <input type='submit'
             value='Submit'
           />
