@@ -36,8 +36,12 @@ class Player extends React.Component {
     });
   }
 
+  getInitialProps() {
+
+  }
+
   componentDidMount() {
-    let currentHost = this.props.url.query.host;
+    let currentHost = this.props.router.query.host;
     let currentUser = localStorage.getItem('username');
     this.setState({
       // host: currentHost,
@@ -123,16 +127,12 @@ class Player extends React.Component {
     })
   }
 
-  followHost() {
-    //todo add a mongoose post to update host followers and user following collections
-  }
-
   render() {
     let playerElement;
     if (this.state.initialMountDone) {
       playerElement = this.state.host === this.state.user ? 
         <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
-        <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/>
+        <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service} user={this.state.user}/>
     } else {
       playerElement = <span>Loading...</span>
     }

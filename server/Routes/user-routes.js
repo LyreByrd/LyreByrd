@@ -178,7 +178,36 @@ router.get('/searchProfiles', (req, res) => {
     });
   })
   .catch(err => res.status(400).end(err));
-  
+})
+
+router.post('/followHost', (req, res) => {
+  console.log('req.body :', req.body);
+  //updates user following host
+  let username = req.body.user;
+  let host = req.body.host;
+  User.findOneAndUpdate(
+    {username}, 
+    {$addToSet: {following: host}}, 
+    {upsert: true},
+    (err, result) => {
+      if (err) {console.log('err pushing host to following in User :', err);}
+      else {
+        console.log('result :', result);
+      }
+    }
+  )
+  //updates host followers list
+  User.findOneAndUpdate(
+    {username: host},
+    {$addToSet: {followers: username}},
+    {upsert: true},
+    (err, result) => {
+      if (err) {console.log('err pushing host to following in User :', err);}
+      else {
+        console.log('result :', result);
+      }
+    }
+  )
 })
 
 
