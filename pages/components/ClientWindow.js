@@ -11,8 +11,12 @@ class ClientWindow extends React.Component {
     super(props);
     this.state = {
       hasLoaded: false,
+      isFollowing: false,
     }
     this.clientComponentReady = this.clientComponentReady.bind(this);
+    this.followHost = this.followHost.bind(this);
+    this.unFollowHost = this.unFollowHost.bind(this);
+    this.checkIfFollowing = this.checkIfFollowing.bind(this);
     if (this.props.clientComponentProp) {
       ClientPlayer = this.props.clientComponentProp;
     }
@@ -29,6 +33,7 @@ class ClientWindow extends React.Component {
   }
 
   componentDidMount() {
+    this.checkIfFollowing();
     if(ClientPlayer.loaded === false) {
       let loadClient = new Promise((resolve) => {
         const tag = document.createElement('script');
@@ -44,7 +49,9 @@ class ClientWindow extends React.Component {
   }
 
   followHost() {
-    console.log('props :', this.props);
+    this.setState({
+      isFollowing: true,
+    })
     let host = this.props.sessionHost;
     let user = this.props.user;
     axios.post('/user/followHost', {
@@ -52,10 +59,48 @@ class ClientWindow extends React.Component {
       host: host,
     })
     .then(res => {
-      console.log('res :', res);
+      // console.log('res :', res);
     })
     .catch(err => {
       console.log('err :', err);
+    })
+  }
+
+  unFollowHost() {
+    this.setState({
+      isFollowing: false,
+    })
+    let host = this.props.sessionHost;
+    let user = this.props.user;
+    axios.post('/user/unFollowHost', {
+      user: user,
+      host: host,
+    })
+    .then(res => {
+      // console.log('res :', res);
+    })
+    .catch(err => {
+      console.log('err :', err);
+    })
+  }
+
+  checkIfFollowing() {
+    let host = this.props.sessionHost;
+    let user = this.props.user;
+    axios.get('/user/following', {
+      params: {
+        user: user,
+      }
+    })
+    .then(followingArray => {
+      if (followingArray.data.includes(host)) {
+        this.setState({
+          isFollowing: true,
+        })
+      }
+    })
+    .catch(err => {
+      console.log('error getting follows :', err);
     })
   }
 
@@ -68,9 +113,16 @@ class ClientWindow extends React.Component {
       return (
         <div>
           {this.state.hasLoaded ? <ClientPlayer {...props} /> : 'Loading...'}
+          {!this.state.isFollowing ?
           <button
             onClick={() => this.followHost()}
           >Follow Host</button>
+          :
+          <button
+            onClick={() => this.unFollowHost()}
+          >Unfollow Host</button>
+          }
+
         </div>
       );
     }
