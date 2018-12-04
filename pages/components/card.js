@@ -56,6 +56,7 @@ const Card = ({feeds}) => {
           )
 
         } else {
+          console.log('feed :', feed);
           return (
             <div  className="tile" key={i}>
               <Link href={feed.path}>
