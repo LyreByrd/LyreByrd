@@ -56,12 +56,13 @@ const Card = ({feeds}) => {
           )
 
         } else {
+          console.log('feed :', feed);
           return (
             <div  className="tile" key={i}>
               <Link href={feed.path}>
                 <div>
                   <div className="thumbnail" />
-                  <marquee className="title">{feed.videoId ? `${feed.title}` : 'No Song Currently Playing'}</marquee>
+                  <marquee className="title">{feed.artist ? `${feed.title} by ${feed.artist}` : 'No Song Currently Playing'}</marquee>
                   <div className="host">Host:{` ${feed.host}`}</div>
                   <div className="usersInRoom">Listeners: {feed.usersInRoom}</div>
                   <style jsx>{`
@@ -72,7 +73,7 @@ const Card = ({feeds}) => {
                     .thumbnail {
                       height: 180px;
                       width: 320px;
-                      background-image: url(${feed.videoId !== null ? 'http://img.youtube.com/vi/' + feed.videoId + '/mqdefault.jpg' : '/static/spotify_placeholder.png'});
+                      background-image: url(${!!feed.albumArt ? feed.albumArt : '/static/spotify_placeholder.png'});
                       background-size: auto;
                       background-repeat: no-repeat;
                       background-position: center center; 
