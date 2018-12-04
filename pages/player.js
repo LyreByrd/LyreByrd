@@ -117,7 +117,7 @@ class Player extends React.Component {
   }
 
   socketFeed() {
-    const socket = io(`https://${config.PROXY_IP}:8080`, {secure: true}); //todo change to production.env host
+    const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); //todo change to production.env host
     
     const feedData = {
       host: this.state.user,
