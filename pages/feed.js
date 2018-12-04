@@ -81,7 +81,14 @@ export default class Feed extends React.Component {
         <Layout>
           <div className="container">
             <div className="feed heading popular">
-              <Block 
+              <Block
+                title={'All Feeds'}
+                subtitle={'Currently Playing'}
+                feeds={this.state.feeds}
+              />
+              <Block
+                title={'Following'}
+                subtitle={'Currently Playing'}
                 feeds={this.state.feeds}
               />
             </div>
