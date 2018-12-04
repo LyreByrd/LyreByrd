@@ -74,7 +74,8 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('http://localhost:8000');
+    const socket = io('http://localhost:8000'); //todo change to production.env host
+    const feedSocket = io('http://localhost:8080'); 
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
@@ -86,6 +87,7 @@ class Chat extends react.Component {
           messages: [...messages]
         })
       })
+      feedSocket.emit('user joined room', this.props.host);
     })
 
 
@@ -112,6 +114,7 @@ class Chat extends react.Component {
 
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
+      feedSocket.emit('user left room', this.props.host);
       this.setState({
         users: users
       })
@@ -131,15 +134,17 @@ class Chat extends react.Component {
 
   onlineUsers(users) {
     // console.log('users in onlineUsers:', users);
-    if (Object.keys(users).length > 0) {
-      return Object.entries(users).map((user, i) => {
+    if (Object.keys(users).length > 0 && Object.keys(users) !== null) {
+      return Object.entries(users).reverse().map((user, i) => {
         // console.log('user :', user);
-        return (
-          <div key={i}>
-            <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : placeholderData} width='50' height='50'></img>
-            <div>{user[0]}</div>
-          </div>
-        )
+        if (user[0] !== "undefined") {
+          return (
+            <div key={i}>
+              <img style={avatarStyle} src={user[1] !== 'none' ? user[1] : placeholderData} width='50' height='50'></img>
+              <div>{user[0]}</div>
+            </div>
+          )
+        }
       })
     }
   }

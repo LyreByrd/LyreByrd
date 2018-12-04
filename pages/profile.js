@@ -6,6 +6,8 @@ import FeedBlock from './components/feedBlock';
 import ProfileFeed from './components/ProfileFeed';
 
 import Router from 'next/router';
+
+const placeholderData = require('../static/placeholderAvatar.js').default;
 import popupTools from 'popup-tools';
 
 class profile extends React.Component {
@@ -21,6 +23,8 @@ class profile extends React.Component {
       spotifyName: null,
       spotifyAvtr: null,
       done: false,
+      followers: [],
+      following: [],
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
@@ -47,9 +51,9 @@ class profile extends React.Component {
   //shows preview of avatar
   handleFileUpload(e) {
     let file = e.target.files[0];
-    console.log('file.size :', file.size);
 
     if (!file.type.match(/image.*/)) {
+      //todo these two if checks are no longer needed
       window.alert('please choose an image file');
       e.target.value = null;
     } else if (file > 500000) {
@@ -112,11 +116,16 @@ class profile extends React.Component {
             /^data:image\/(png|jpg);base64,/,
             '',
           );
-
-          this.setState({
-            avatarTinyUrl: dataUrlTiny,
-            avatarTinyFile: resizedImgTiny,
-          });
+          console.log('resizedImgTiny :', resizedImgTiny);
+          this.setState(
+            {
+              avatarTinyUrl: dataUrlTiny,
+              avatarTinyFile: resizedImgTiny,
+            },
+            () => {
+              this.handleFileSubmit();
+            },
+          );
         };
         img.src = readerEvent.target.result;
       };
@@ -126,9 +135,10 @@ class profile extends React.Component {
 
   //posts avatar to db
   handleFileSubmit() {
-    // console.log('this.state.avatyarPreviewFile.length :', this.state.avatarPreviewFile);
-    // console.log('this.state.avatarTinyFile.length :', this.state.avatarTinyFile);
-
+    console.log(
+      'this.state.avatarTinyFile in submit:',
+      this.state.avatarTinyFile,
+    );
     let fd = new FormData();
     fd.append('avatarFile', this.state.avatarPreviewFile);
     fd.append('avatarTinyFile', this.state.avatarTinyFile);
@@ -162,9 +172,6 @@ class profile extends React.Component {
       })
       .then(res => {
         let data = res.data;
-        // console.log('data :', data);
-        // let contentType = res.headers['content-type'];
-        // let avatarSrc = `data:${contentType};base64,${new Buffer(data).toString('base64')}`;
         this.setState({
           avatarSrc: data,
         });
@@ -211,7 +218,7 @@ class profile extends React.Component {
           console.log(err);
         } else {
           // save the returned user in localStorage/cookie or something
-          console.log(user);
+          // console.log(user);
           localStorage.setItem('spotifyName', user.displayName);
           localStorage.setItem('spotifyAvtr', user.photo);
           this.setState({
@@ -225,7 +232,7 @@ class profile extends React.Component {
 
   render() {
     let spotifyRndr;
-    console.log(this.state.spotifyName);
+    // console.log(this.state.spotifyName);
     if (!this.state.done) {
       return (
         <Layout>
@@ -262,7 +269,11 @@ class profile extends React.Component {
                     <div className="avatar">
                       <img
                         className="avatar-img"
-                        src={this.state.avatarSrc}
+                        src={
+                          this.state.avatarSrc !== ''
+                            ? this.state.avatarSrc
+                            : placeholderData
+                        }
                         width="200"
                         height="200"
                       />
@@ -280,16 +291,18 @@ class profile extends React.Component {
                             type="file"
                             name="avatar"
                             accept="image/*"
-                            onChange={this.handleFileUpload}
+                            onChange={e => this.handleFileUpload(e)}
                           />
-                          <button name="Submit" onClick={this.handleFileSubmit}>
-                            Submit
-                          </button>
                         </div>
                       </div>
                       <div />
                     </div>
                     <div className="profile-name">{this.state.username}</div>
+                    <button
+                      className="ui button"
+                      onClick={() => this.popUp(this.state.username)}>
+                      hookup with spotify
+                    </button>
                   </div>
                 </div>
                 <div className="links">
@@ -317,6 +330,7 @@ class profile extends React.Component {
             .body {
               font-size: 62.5%;
             }
+            // ? ethan??
             .ethan {
               display: grid;
               grid-template-rows: 400px, 100px, 400px;
@@ -436,4 +450,5 @@ class profile extends React.Component {
     }
   }
 }
+
 export default profile;

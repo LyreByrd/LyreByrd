@@ -32,25 +32,25 @@ class streamType extends React.Component {
     }    
     return (
       <Layout>
-      <div class="ui two column centered grid">
-        <div class="four column centered row">
-          <div class="massive ui buttons">
-          <a href={`/player?host=${this.state.user}`}>
-            <button class="ui youtube button">
-              <i class="youtube icon"></i>
-              YouTube
-            </button>
-          </a>
-          <div class="or"></div>
-          <a href={`player?host=${this.state.user}&service=spotify`}>
-            <button class="ui spotify button">
-              <i class="spotify icon"></i>
-              Spotify
-            </button>
-          </a>
+        <div className="ui two column centered grid">
+          <div className="four column centered row">
+            <div className="massive ui buttons">
+            <a href={`/player?host=${this.state.user}`}>
+              <button className="ui youtube button">
+                <i className="youtube icon"></i>
+                YouTube
+              </button>
+            </a>
+            <div className="or"></div>
+            <a href={`player?host=${this.state.user}&service=spotify`}>
+              <button className="ui spotify button">
+                <i className="spotify icon"></i>
+                Spotify
+              </button>
+            </a>
+            </div>
           </div>
         </div>
-      </div>
       </Layout>
 
     )
