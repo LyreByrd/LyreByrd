@@ -32,8 +32,8 @@ export default class Feed extends React.Component {
   
 
   getFeeds() {
-    const socket = io('https://18.188.27.120:8080', {secure: true}); //todo change to production.env host
-    const chatSocket = io('https://18.188.27.120:8000', {secure: true});
+    const socket = io(`https://${process.env.PROXY_IP}:8080`, {secure: true}); //todo change to production.env host
+    const chatSocket = io(`https://${process.env.PROXY_IP}:8000`, {secure: true});
 
     socket.on('connect', () => {
 
