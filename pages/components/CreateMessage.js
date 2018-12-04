@@ -1,7 +1,7 @@
 import react from 'react';
 import io from 'socket.io-client'
 import moment from 'moment';
-
+let config = require('../config/config.js');
 class CreateMessage extends react.Component {
   constructor(props) {
     super(props)
@@ -18,7 +18,7 @@ class CreateMessage extends react.Component {
   
   submitMessage = (e) => {
     e.preventDefault();
-    const socket = io(`https://${process.env.PROXY_IP}:8000`, {secure: true});
+    const socket = io(`https://${config.PROXY_IP}:8000`, {secure: true});
     const now = moment();
     this.setState({
       newMessage: {
