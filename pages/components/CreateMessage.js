@@ -18,7 +18,7 @@ class CreateMessage extends react.Component {
   
   submitMessage = (e) => {
     e.preventDefault();
-    const socket = io(``https://${process.env.PROXY_IP}:8000`, {secure: true});
+    const socket = io(`https://${process.env.PROXY_IP}:8000`, {secure: true});
     const now = moment();
     this.setState({
       newMessage: {
