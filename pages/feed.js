@@ -25,11 +25,10 @@ export default class Feed extends React.Component {
       done: true
     }, () => {
     })
-    this.getFollowingFeeds();
   }
-
+  
   componentDidUpdate() {
-
+    this.getFollowingFeeds();
   }
 
   getFeeds() {
@@ -63,6 +62,8 @@ export default class Feed extends React.Component {
         })
         this.setState({
           feeds: feedsArray
+        }, () => {
+          this.getFollowingFeeds();
         })
       })
     })
