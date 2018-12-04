@@ -77,15 +77,11 @@ export default class Feed extends React.Component {
     })
     .then(followingArray => {
       let allFeeds = this.state.feeds;
-      console.log('allFeeds :', allFeeds);
-      console.log('followingArray :', followingArray.data);
       let followingFeeds = allFeeds.filter(feed => {
         return followingArray.data.includes(feed.host);
       })
       this.setState({
         followingFeeds: followingFeeds,
-      }, () => {
-        console.log('this.state.followingFeeds :', this.state.followingFeeds);
       })
     })
   }
