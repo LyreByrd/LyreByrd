@@ -18,7 +18,7 @@ class CreateMessage extends react.Component {
   
   submitMessage = (e) => {
     e.preventDefault();
-    const socket = io('https://18.188.27.120:8000');
+    const socket = io('https://18.188.27.120:8000', {secure: true});
     const now = moment();
     this.setState({
       newMessage: {

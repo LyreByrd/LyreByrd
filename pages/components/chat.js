@@ -75,8 +75,8 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('https://18.188.27.120:8000'); //todo change to production.env host
-    const feedSocket = io('https://18.188.27.120:8080');
+    const socket = io('https://18.188.27.120:8000', {secure: true}); //todo change to production.env host
+    const feedSocket = io('https://18.188.27.120:8080', {secure: true});
     
     //on user connect
     socket.on('connect', () => {
