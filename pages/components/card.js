@@ -9,7 +9,6 @@ Note: i know i am repeating returns. i will refactor to by DRY
 const Card = ({feeds}) => {
   
   if (feeds.length > 0) {
-    console.log('feeds :', feeds);
     return (
       feeds.map((feed, i) => {
         if (feed.service === 'youtube') {
