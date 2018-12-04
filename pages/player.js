@@ -56,7 +56,7 @@ class Player extends React.Component {
         this.tryClaimHost();
 
         //sends a new host feed object through socket to feed server
-        this.socketFeed();
+        // this.socketFeed();
 
       } else {
         this.setState({isReady: true});
@@ -116,23 +116,23 @@ class Player extends React.Component {
     // });
   }
 
-  socketFeed() {
-    const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); //todo change to production.env host
+  // socketFeed() {
+  //   const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); //todo change to production.env host
     
-    const feedData = {
-      host: this.state.user,
-      path: this.state.path,
-      usersInRoom: this.state.usersInRoom,
-      service: this.state.service,
-    }
+  //   const feedData = {
+  //     host: this.state.user,
+  //     path: this.state.path,
+  //     usersInRoom: this.state.usersInRoom,
+  //     service: this.state.service,
+  //   }
 
-    socket.on('connect', () => {
-      socket.emit('new feed', feedData)
-      socket.emit('join player');
-    })
+  //   socket.on('connect', () => {
+  //     socket.emit('new feed', feedData)
+  //     socket.emit('join player');
+  //   })
 
     
-  }
+  // }
 
   render() {
     let playerElement;
