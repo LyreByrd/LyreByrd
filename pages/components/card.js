@@ -66,9 +66,9 @@ const Card = ({feeds}) => {
                     }
                     .thumbnail {
                       height: 180px;
-                      width: 320px;
+                      width: 180px;
                       background-image: url(${!!feed.albumArt ? feed.albumArt : '/static/spotify_placeholder.png'});
-                      background-size: auto;
+                      background-size: contain;
                       background-repeat: no-repeat;
                       background-position: center center; 
 
