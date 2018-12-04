@@ -4,7 +4,7 @@ import Card from './card';
 const Block = ({ title, subtitle, host, name, feeds }) => (
   <div>
     <div className="titlebox">
-      <p className="title">New Feeds</p>
+      <p className="title">All Feeds</p>
       <p className="subtitle">Currently Playing</p>
       <div className="gallery">
         <Card 

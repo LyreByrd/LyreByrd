@@ -1,10 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-const youtube = require('../../static/youtube.js').default;
-
-/*
-Note: i know i am repeating returns. i will refactor to by DRY
-*/
 
 const Card = ({feeds}) => {
   
