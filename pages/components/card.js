@@ -2,8 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 const Card = ({feeds}) => {
-  
-  if (feeds.length > 0) {
+  if (feeds !== []) {
     return (
       feeds.map((feed, i) => {
         if (feed.service === 'youtube') {
