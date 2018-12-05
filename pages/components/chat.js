@@ -22,7 +22,6 @@ const messagesStyle = {
   overflowY: 'scroll',
   overflowX: 'hidden',
   float: 'right',
-  marginTop: '10px',
   // boxShadow: 'inset 0px 0px 20px 10px #919191',
   // filter: 'drop-shadow(0 10px 0.7rem #919191)',
 }
