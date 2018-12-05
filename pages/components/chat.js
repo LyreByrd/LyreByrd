@@ -159,12 +159,13 @@ class Chat extends react.Component {
 
   render() {
     return (
-      <div>
-        <div className="body">
-          <div className="chat-container" ref={el => (this.messageRef = el)}>
-            <div className="chats">
-              <Chat
-                Messages
+      <React.Fragment>
+        <div className="header" />
+        <div className="chats">
+          <div ref={el => (this.messageRef = el)}>
+            chats
+            <div className="input-message">
+              <Messages
                 host={this.state.host}
                 user={this.state.user}
                 users={this.state.users}
@@ -179,30 +180,44 @@ class Chat extends react.Component {
               />
             </div>
           </div>
-          <div style={onlineUsersStyle}>
-            <div>Online Users:</div>
+          {/* <div className="online-users">
+            Online Users:
             {this.onlineUsers(this.state.users)}
-          </div>
+          </div> */}
         </div>
         <CreateMessage user={this.state.user} host={this.state.host} />
         <style jsx>{`
-         .chat-container {
-            grid-column-start: 2;
-                        display: grid;
-            grid-template-rows: 48px 703px;
-
-            background: #cfcfcf;
+          .chat-container {
+            height: 900px;
+             {
+              /* background: #cfcfcf;
             overflow-y: scroll;
-            overflow-x: hidden;
+            overflow-x: hidden; */
+            }
           }
 
-          .onlineUsersStyle = {
-            marginleft: 10px;
-            margintop: 10px;
+          .chat-header {
+            grid-column-start: 2;
           }
+          .online-users {
+            grid-column-start: 3;
+            grid-row-start: 3;
+            margin-left: 10px;
+            margin-top: 10px;
+          }
+
+          .input-message {
+            grid-column-start: 2;
+            grid-row-start: 2;
+            background-color: blue;
+          }
+
+          .chats {
+            grid-column-start: 2;
+            grid-row-start: 2;
           }
         `}</style>
-      </div>
+      </React.Fragment>
     );
   }
 }

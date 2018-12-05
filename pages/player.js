@@ -155,19 +155,19 @@ class Player extends React.Component {
           />
         );
     } else {
-      playerElement = <span>Loading...</span>;
+      playerElement = <span id="lak">Loading...</span>;
     }
     return (
       <React.Fragment>
         <Layout />
         <div className="container">
+          <div className="play-nav">Player-Nav</div>
           <div className="player">
-            player
-            {playerElement}
-            <div className="player-nav">PlayerNav</div>
-            <div className="player-description">Description</div>
+            <div className="player-window" />
           </div>
-          <div className="chat">
+          {/* <div className="description">Description</div> */}
+          <div className="player">{playerElement}</div>
+          <div className="chat-container">
             <Chat
               user={this.props.user}
               path={this.state.path}
@@ -178,21 +178,36 @@ class Player extends React.Component {
         <style jsx>{`
           .container {
             display: grid;
-            grid-template-columns: 1050px 340px 49px;
+            grid-template-columns: 1fr 303px 65px;
+            grid-template-rows: 50px 600px; 110px;
           }
+
           .player {
-            display: grid;
-            grid-template-rows: 48px 568.117px 109.5px;
-            background-color: #66fcf1;
+            grid-column-start: 1;
+            grid-row-start: 2;
+            border: 1px solid black;
+
           }
 
-          .player-nav {
-            grid-row-start: 1;
+          .player-window {
+   max-width: 1000px;
+            height: 100%;
+            margin: 0 auto;
+            border: 1px solid black;
+            position: relative;
           }
 
-          .player-description {
+          .description {
+            grid-column-start: 1;
             grid-row-start: 3;
+            padding: 0 0 30px 0;
+            margin: 12px 30px 0 30px;
+            border-right: 1px solid grey;
+            border-left: 1px solid grey;
+            border-bottom: 1px solid grey;
+            border-radius: 5px;
           }
+
         `}</style>
       </React.Fragment>
     );
