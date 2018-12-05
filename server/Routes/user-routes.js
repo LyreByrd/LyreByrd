@@ -181,7 +181,6 @@ router.get('/searchProfiles', (req, res) => {
 })
 
 router.post('/followHost', (req, res) => {
-  console.log('req.body :', req.body);
   //updates user following host
   let username = req.body.user;
   let host = req.body.host;
@@ -190,9 +189,12 @@ router.post('/followHost', (req, res) => {
     {$addToSet: {following: host}}, 
     {upsert: true},
     (err, result) => {
-      if (err) {console.log('err pushing host to following in User :', err);}
-      else {
-        console.log('result :', result);
+      if (err) {
+        console.log('err pushing host to following in User :', err);
+        res.status(404).end(err);
+      } else {
+        // console.log('result :', result);
+        res.end()
       }
     }
   )
@@ -202,9 +204,68 @@ router.post('/followHost', (req, res) => {
     {$addToSet: {followers: username}},
     {upsert: true},
     (err, result) => {
-      if (err) {console.log('err pushing host to following in User :', err);}
-      else {
+      if (err) {
+        console.log('err pushing host to following in User :', err);
+        res.status(404).end(err);
+      } else {
+        // console.log('result :', result);
+        res.end();
+      }
+    }
+  )
+})
+
+router.post('/unFollowHost', (req, res) => {
+  //updates user unfollowing host
+  let username = req.body.user;
+  let host = req.body.host;
+  User.update(
+    {username}, 
+    { $pull: { following: host } },
+    // { multi: true },
+    (err, result) => {
+      if (err) {
+        console.log('err updating host to unfollowing in User :', err);
+        res.status(404).end(err);
+      } else {
+        // console.log('result :', result);
+        res.end();
+      }
+    }
+  )
+  //updates host followers list
+  User.update(
+    {username: host},
+    { $pull: { following: username } },
+    // { multi: true },
+    (err, result) => {
+      if (err) {
+        console.log('err updating host to unfollowing in User :', err);
+        res.status(404).end(err);
+      } else {
+        // console.log('result :', result);
+        res.end();
+      }
+    }
+  )
+})
+
+router.get('/following', (req, res) => {
+  let username = req.query.user;
+  User.findOne(
+    {username},
+    'following',
+    (err, result) => {
+      if (err) {
+        console.log('err getting follows in User :', err);
+        res.status(404).end(err);
+      } else {
         console.log('result :', result);
+        if (result === null) {
+          let result = {following: []};
+        }
+        console.log('result :', result);
+        res.send(result.following);
       }
     }
   )

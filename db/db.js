@@ -21,7 +21,10 @@ const userSchema = mongoose.Schema({
   href: String,
   url: String,
   photo: String,
-  following: Array,
+  following: {
+    type: [String],
+    required: true
+  },
   followers: Array,
 });
 
