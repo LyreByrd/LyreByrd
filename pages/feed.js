@@ -10,26 +10,26 @@ export default class Feed extends React.Component {
     super(props);
     this.state = {
       feeds: [],
+      followingFeeds: [],
       done: false
     };
   }
 
   componentWillMount() {
+
   }
   
   componentDidMount() {
     this.getFeeds();
     this.setState({
       done: true
+    }, () => {
     })
   }
-
-  componentDidUpdate() {
-
-  }
-
-
   
+  componentDidUpdate() {
+    this.getFollowingFeeds();
+  }
 
   getFeeds() {
     const socket = io('http://localhost:8080'); //todo change to production.env host
@@ -62,11 +62,30 @@ export default class Feed extends React.Component {
         })
         this.setState({
           feeds: feedsArray
+        }, () => {
+          this.getFollowingFeeds();
         })
       })
-
     })
   };
+
+  getFollowingFeeds() {
+    let user = localStorage.getItem('username');
+    axios.get('/user/following', {
+      params: {
+        user: user,
+      }
+    })
+    .then(followingArray => {
+      let allFeeds = this.state.feeds;
+      let followingFeeds = allFeeds.filter(feed => {
+        return followingArray.data.includes(feed.host);
+      })
+      this.setState({
+        followingFeeds: followingFeeds,
+      })
+    })
+  }
 
   render() {
     if (!this.state.done) {
@@ -81,8 +100,15 @@ export default class Feed extends React.Component {
         <Layout>
           <div className="container">
             <div className="feed heading popular">
-              <Block 
+              <Block
+                title={'All Feeds'}
+                subtitle={'Currently Playing'}
                 feeds={this.state.feeds}
+              />
+              <Block
+                title={'Following'}
+                subtitle={'Currently Playing'}
+                feeds={this.state.followingFeeds}
               />
             </div>
             <div className="sidebar" />

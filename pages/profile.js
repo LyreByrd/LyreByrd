@@ -330,7 +330,6 @@ class profile extends React.Component {
             .body {
               font-size: 62.5%;
             }
-            // ? ethan??
             .ethan {
               display: grid;
               grid-template-rows: 400px, 100px, 400px;
