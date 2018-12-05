@@ -45,7 +45,6 @@ class Player extends React.Component {
   componentDidMount() {
     let currentHost = this.props.router.query.host;
     let currentUser = localStorage.getItem('username');
-    console.log('service :', this.state.service);
     this.setState({
       // host: currentHost,
       user: currentUser,
@@ -117,8 +116,7 @@ class Player extends React.Component {
   }
 
   socketFeed() {
-    const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); //todo change to production.env host
-    
+    const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); 
     const feedData = {
       host: this.state.user,
       path: this.state.path,

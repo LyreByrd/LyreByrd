@@ -1,15 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-const youtube = require('../../static/youtube.js').default;
-
-/*
-Note: i know i am repeating returns. i will refactor to by DRY
-*/
 
 const Card = ({feeds}) => {
-  
-  if (feeds.length > 0) {
-    console.log('feeds :', feeds);
+  if (feeds !== []) {
     return (
       feeds.map((feed, i) => {
         if (feed.service === 'youtube') {
@@ -62,7 +55,7 @@ const Card = ({feeds}) => {
               <Link href={feed.path}>
                 <div>
                   <div className="thumbnail" />
-                  <marquee className="title">{feed.videoId ? `${feed.title}` : 'No Song Currently Playing'}</marquee>
+                  <marquee className="title">{feed.artist ? `${feed.title} by ${feed.artist}` : 'No Song Currently Playing'}</marquee>
                   <div className="host">Host:{` ${feed.host}`}</div>
                   <div className="usersInRoom">Listeners: {feed.usersInRoom}</div>
                   <style jsx>{`
@@ -72,9 +65,9 @@ const Card = ({feeds}) => {
                     }
                     .thumbnail {
                       height: 180px;
-                      width: 320px;
-                      background-image: url(${feed.videoId !== null ? 'http://img.youtube.com/vi/' + feed.videoId + '/mqdefault.jpg' : '/static/spotify_placeholder.png'});
-                      background-size: auto;
+                      width: 180px;
+                      background-image: url(${!!feed.albumArt ? feed.albumArt : '/static/spotify_placeholder.png'});
+                      background-size: contain;
                       background-repeat: no-repeat;
                       background-position: center center; 
 
