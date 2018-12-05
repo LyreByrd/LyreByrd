@@ -18,11 +18,12 @@ const Card = ({feeds}) => {
                     .tile {
                       height: 100%;
                       width: 100%;
+                      margin-right: 10px;
                     }
                     .thumbnail {
                       height: 180px;
                       width: 320px;
-                      background-image: url(${feed.videoId !== null ? 'http://img.youtube.com/vi/' + feed.videoId + '/mqdefault.jpg' : '/static/youtube_placeholder.png'});
+                      background: url(${feed.videoId !== null ? 'http://img.youtube.com/vi/' + feed.videoId + '/mqdefault.jpg' : '/static/youtube_placeholder.png'});
                       background-size: auto;
                       background-repeat: no-repeat;
                       background-position: center center; 
@@ -61,15 +62,16 @@ const Card = ({feeds}) => {
                     .tile {
                       height: 100%;
                       width: 100%;
-                      border: 10px solid white;
+                      margin-right: 10px;
                     }
                     .thumbnail {
                       height: 180px;
                       width: 320px;
-                      background-image: url(${!!feed.albumArt ? feed.albumArt : '/static/spotify_placeholder.png'});
+                      background: url(${!!feed.albumArt ? feed.albumArt : '/static/spotify_placeholder.png'});
                       background-size: contain;
                       background-repeat: no-repeat;
-                      background-position: center center; 
+                      background-position: center center;
+                      margin-right: 10px;
                     }
                     .title {
                       font-size: 14px;

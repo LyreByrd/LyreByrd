@@ -140,7 +140,7 @@ export default class Feed extends React.Component {
 
           .container {
             display: grid;
-            grid-template-columns: 8fr 2fr;
+            grid-template-columns: 9fr 1.8fr;
             grid-auto-flow: column;
             background-color: white;
             height: auto;
@@ -153,15 +153,17 @@ export default class Feed extends React.Component {
             grid-template-columns: 4fr;
             grid-template-rows: 2;
             grid-row-start: 1;
-            grid-auto-rows: 327px;
+            grid-auto-rows: repeat(auto);
             width: 100%;
-            height: 400px;
+            height: auto;
             padding: 10px;
             grid-gap 5px;
           }
 
           .sidebar {
             border-left: 1px solid #dfdcd4;
+            grid-column-start: 2;
+            grid-row: 1 / span 2;
           }
 
           .following {

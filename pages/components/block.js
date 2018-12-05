@@ -16,7 +16,7 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
     <style jsx>{`
       .titlebox {
         width: 100%;
-        height: 100%;
+        height: auto;
         border-bottom: 1px solid #dfdcd4;
       }
 
@@ -36,12 +36,17 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
       }
 
       .gallery {
-        display: flex;
+        display: inline-flex;
+        flex-wrap: wrap;
         flex-direction: row;
         width: 100%;
-        height: 280px;
+        height: auto;
         overflow-x: auto;
         overflow-y: hidden:
+      }
+
+      .gallery > * {
+        margin-right: 10px; 
       }
     `}</style>
   </div>
