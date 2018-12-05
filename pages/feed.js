@@ -81,7 +81,6 @@ export default class Feed extends React.Component {
       }
     })
     .then(followingArray => {
-      console.log('followingArray :', followingArray);
       let allFeeds = this.state.feeds;
       let followingFeeds = allFeeds.filter(feed => {
         return followingArray.data.includes(feed.host);
@@ -139,7 +138,7 @@ export default class Feed extends React.Component {
             grid-template-columns: 9fr 1.8fr;
             grid-auto-flow: column;
             background-color: white;
-            height: 100%;
+            height: 100vh;
             margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
           }

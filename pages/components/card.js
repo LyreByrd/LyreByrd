@@ -65,6 +65,7 @@ const Card = ({feeds}) => {
                       margin-right: 10px;
                     }
                     .thumbnail {
+                      padding: 20% 0;
                       height: 180px;
                       width: 320px;
                       background: url(${!!feed.albumArt ? feed.albumArt : '/static/spotify_placeholder.png'});
