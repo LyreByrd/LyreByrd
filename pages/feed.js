@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import Block from './components/block';
 import io from 'socket.io-client';
+let config = require('./config/config.js')
 
 
 export default class Feed extends React.Component {
@@ -24,16 +25,17 @@ export default class Feed extends React.Component {
     this.setState({
       done: true
     }, () => {
+      this.getFollowingFeeds();
     })
   }
   
   componentDidUpdate() {
-    this.getFollowingFeeds();
+    // this.getFollowingFeeds();
   }
 
   getFeeds() {
-    const socket = io('http://localhost:8080'); //todo change to production.env host
-    const chatSocket = io('http://localhost:8000');
+    const socket = io(`${config.PROXY_IP}:8080`, {secure: true});
+    const chatSocket = io(`${config.PROXY_IP}:8000`, {secure: true});
 
     socket.on('connect', () => {
 

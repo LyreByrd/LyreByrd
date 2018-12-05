@@ -77,7 +77,7 @@ router.get('/getspotify', (req,res) => {
     return res.status(200).send({message: 'need spotify hookup'});
   }
   // console.log(req.user, 'sesssiioon');
-  axios.get('https://api.spotify.com/v1/me/playlists',
+  axios.get('http://api.spotify.com/v1/me/playlists',
   {
     headers: {
       "Accept": "application/json",
@@ -98,7 +98,7 @@ router.get('/getspotify', (req,res) => {
 router.post('/refresh', (req,res) => {
   // console.log(req.user, 'sesssiioon');
   axios({
-    url: 'https://accounts.spotify.com/api/token',
+    url: 'http://accounts.spotify.com/api/token',
     method: 'post',
     params: {
       grant_type: 'refresh_token',
@@ -135,7 +135,7 @@ router.post('/refresh', (req,res) => {
 router.post('/player', (req,res) => {
   // console.log(req.user, 'sesssiioon');
   axios({
-    url: 'https://api.spotify.com/v1/me/player',
+    url: 'http://api.spotify.com/v1/me/player',
     method: 'put',
     headers: {
       "Accept": "application/json",
@@ -260,7 +260,11 @@ router.get('/following', (req, res) => {
         console.log('err getting follows in User :', err);
         res.status(404).end(err);
       } else {
-        // console.log('result :', result);
+        console.log('result :', result);
+        if (result === null) {
+          let result = {following: []};
+        }
+        console.log('result :', result);
         res.send(result.following);
       }
     }

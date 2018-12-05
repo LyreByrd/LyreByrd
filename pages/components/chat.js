@@ -4,6 +4,8 @@ import CreateMessage from './CreateMessage';
 import Messages from './Messages'
 import axios from 'axios';
 const placeholderData = require('../../static/placeholderAvatar.js').default;
+let config = require('../config/config.js');
+
 
 const container = {
   display: 'flex',
@@ -73,8 +75,9 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('http://localhost:8000'); //todo change to production.env host
-    const feedSocket = io('http://localhost:8080');
+    const socket = io(`${config.PROXY_IP}:8000`, {secure: true}); //todo change to production.env host
+//    const feedSocket = io(`${config.PROXY_IP}:8080`, {secure: true});
+    
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
@@ -86,7 +89,7 @@ class Chat extends react.Component {
           messages: [...messages]
         })
       })
-      feedSocket.emit('user joined room', this.props.host);
+      //feedSocket.emit('user joined room', this.props.host);
     })
 
 
@@ -113,7 +116,7 @@ class Chat extends react.Component {
 
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
-      feedSocket.emit('user left room', this.props.host);
+      //feedSocket.emit('user left room', this.props.host);
       this.setState({
         users: users
       })
