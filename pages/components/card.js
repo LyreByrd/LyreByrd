@@ -18,7 +18,6 @@ const Card = ({feeds}) => {
                     .tile {
                       height: 100%;
                       width: 100%;
-                      border: 10px solid white;
                     }
                     .thumbnail {
                       height: 180px;

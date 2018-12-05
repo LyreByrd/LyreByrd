@@ -146,7 +146,6 @@ export default class Feed extends React.Component {
             height: auto;
             margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
-            border: 1px solid green;
           }
 
           .feed {
@@ -159,7 +158,6 @@ export default class Feed extends React.Component {
             height: 400px;
             padding: 10px;
             grid-gap 5px;
-            border: 1px solid blue;
           }
 
           .sidebar {
