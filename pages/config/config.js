@@ -1,4 +1,4 @@
 module.exports ={
-  PROXY_IP: 'https://gamaycotte.com'
+  PROXY_IP: 'localhost'
 };
 

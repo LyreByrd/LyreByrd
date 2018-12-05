@@ -15,7 +15,6 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
     </div>
     <style jsx>{`
       .titlebox {
-        display: block;
         width: 100%;
         height: 100%;
         border-bottom: 1px solid #dfdcd4;

@@ -75,21 +75,25 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io(`${config.PROXY_IP}:8000`, {secure: true}); //todo change to production.env host
-//    const feedSocket = io(`${config.PROXY_IP}:8080`, {secure: true});
+    const socket = io(`${config.PROXY_IP}:8000`,
+      // {secure: true}
+    );
+    const feedSocket = io(`${config.PROXY_IP}:8080`, 
+      // {secure: true}
+    );
     
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
-      // socket.emit('user avatar', this.state.usersAvatars);
+      socket.emit('user avatar', this.state.usersAvatars);
       socket.on('fetch messages', messages => {
         this.setState({
           messages: [...messages]
         })
       })
-      //feedSocket.emit('user joined room', this.props.host);
+      feedSocket.emit('user joined room', this.props.host);
     })
 
 
@@ -116,7 +120,7 @@ class Chat extends react.Component {
 
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
-      //feedSocket.emit('user left room', this.props.host);
+      feedSocket.emit('user left room', this.props.host);
       this.setState({
         users: users
       })

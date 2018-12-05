@@ -24,18 +24,23 @@ export default class Feed extends React.Component {
     this.getFeeds();
     this.setState({
       done: true
-    }, () => {
-      this.getFollowingFeeds();
     })
   }
   
-  componentDidUpdate() {
-    // this.getFollowingFeeds();
+  componentDidUpdate(prevProps, prevState) {
+    console.log('prevState :', prevState);
+    if (prevState.followingFeeds === this.state.followingFeeds) {
+      this.getFollowingFeeds();
+    }
   }
 
   getFeeds() {
-    const socket = io(`${config.PROXY_IP}:8080`, {secure: true});
-    const chatSocket = io(`${config.PROXY_IP}:8000`, {secure: true});
+    const socket = io(`${config.PROXY_IP}:8080`,
+      // {secure: true}
+    );
+    const chatSocket = io(`${config.PROXY_IP}:8000`,
+      // {secure: true}
+    );
 
     socket.on('connect', () => {
 
@@ -65,7 +70,7 @@ export default class Feed extends React.Component {
         this.setState({
           feeds: feedsArray
         }, () => {
-          this.getFollowingFeeds();
+          // this.getFollowingFeeds();
         })
       })
     })
@@ -73,16 +78,19 @@ export default class Feed extends React.Component {
 
   getFollowingFeeds() {
     let user = localStorage.getItem('username');
+    console.log('user :', user);
     axios.get('/user/following', {
       params: {
         user: user,
       }
     })
     .then(followingArray => {
+      console.log('followingArray :', followingArray);
       let allFeeds = this.state.feeds;
       let followingFeeds = allFeeds.filter(feed => {
         return followingArray.data.includes(feed.host);
       })
+      console.log('followingFeeds :', followingFeeds);
       this.setState({
         followingFeeds: followingFeeds,
       })
@@ -133,24 +141,34 @@ export default class Feed extends React.Component {
           .container {
             display: grid;
             grid-template-columns: 8fr 2fr;
-            grid-auto-flow: row dense;
+            grid-auto-flow: column;
             background-color: white;
-            height: 2000.75px;
+            height: auto;
             margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
+            border: 1px solid green;
           }
 
           .feed {
             display: grid;
+            grid-template-columns: 4fr;
+            grid-template-rows: 2;
             grid-row-start: 1;
             grid-auto-rows: 327px;
             width: 100%;
+            height: 400px;
             padding: 10px;
             grid-gap 5px;
+            border: 1px solid blue;
           }
 
           .sidebar {
             border-left: 1px solid #dfdcd4;
+          }
+
+          .following {
+            grid-column-start: 1;
+            grid-row-start: 2;
           }
         `}</style>
       </div>
