@@ -25,11 +25,12 @@ export default class Feed extends React.Component {
     this.setState({
       done: true
     }, () => {
+      this.getFollowingFeeds();
     })
   }
   
   componentDidUpdate() {
-    this.getFollowingFeeds();
+    // this.getFollowingFeeds();
   }
 
   getFeeds() {
