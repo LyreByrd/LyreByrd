@@ -99,12 +99,14 @@ export default class Feed extends React.Component {
       <div className="body">
         <Layout>
           <div className="container">
-            <div className="feed heading popular">
+            <div className="feed heading all">
               <Block
                 title={'All Feeds'}
                 subtitle={'Currently Playing'}
                 feeds={this.state.feeds}
               />
+            </div>
+            <div className="feed heading following">
               <Block
                 title={'Following'}
                 subtitle={'Currently Playing'}
@@ -129,6 +131,7 @@ export default class Feed extends React.Component {
           .container {
             display: grid;
             grid-template-columns: 8fr 2fr;
+            grid-auto-flow: row dense;
             background-color: white;
             height: 2000.75px;
             margin: 0 100px 0 100px;
