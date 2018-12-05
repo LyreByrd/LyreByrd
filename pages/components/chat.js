@@ -76,7 +76,7 @@ class Chat extends react.Component {
   socketConnect() {
     //socket.io connection
     const socket = io(`${config.PROXY_IP}:8000`, {secure: true}); //todo change to production.env host
-//    const feedSocket = io(`${config.PROXY_IP}:8080`, {secure: true});
+   const feedSocket = io(`${config.PROXY_IP}:8080`, {secure: true});
     
     //on user connect
     socket.on('connect', () => {
