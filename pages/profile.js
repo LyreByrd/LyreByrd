@@ -210,6 +210,11 @@ class profile extends React.Component {
         } else {
           // save the returned user in localStorage/cookie or something
           // console.log(user);
+          setInterval(()=> {
+            console.log('refresh token called');
+            this.refreshToken();
+          }, 600000);
+          localStorage.setItem('spotifyAuth', true)
           localStorage.setItem('spotifyName', user.displayName);
           localStorage.setItem('spotifyAvtr', user.photo);
           this.setState({
