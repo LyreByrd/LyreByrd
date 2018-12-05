@@ -124,13 +124,13 @@ class Player extends React.Component {
       service: this.state.service,
     }
 
-  //   socket.on('connect', () => {
-  //     socket.emit('new feed', feedData)
-  //     socket.emit('join player');
-  //   })
+    socket.on('connect', () => {
+      socket.emit('new feed', feedData)
+      socket.emit('join player');
+    })
 
     
-  // }
+  }
 
   render() {
     let playerElement;
