@@ -55,7 +55,7 @@ class Player extends React.Component {
         this.tryClaimHost();
 
         //sends a new host feed object through socket to feed server
-        this.socketFeed();
+        // this.socketFeed();
 
       } else {
         this.setState({isReady: true});
@@ -124,13 +124,13 @@ class Player extends React.Component {
       service: this.state.service,
     }
 
-    socket.on('connect', () => {
-      socket.emit('new feed', feedData)
-      socket.emit('join player');
-    })
+  //   socket.on('connect', () => {
+  //     socket.emit('new feed', feedData)
+  //     socket.emit('join player');
+  //   })
 
     
-  }
+  // }
 
   render() {
     let playerElement;
