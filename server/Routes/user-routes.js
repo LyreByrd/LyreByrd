@@ -260,7 +260,7 @@ router.get('/following', (req, res) => {
         console.log('err getting follows in User :', err);
         res.status(404).end(err);
       } else {
-        // console.log('result :', result);
+        console.log('result :', result);
         res.send(result.following);
       }
     }
