@@ -21,7 +21,6 @@ class Player extends React.Component {
     this.state = {
       user: '',
       host: props.router.query.host,
-      //host: this.props.user
       service: props.router.query.service,
       isReady: false,
       initialMountDone: false,

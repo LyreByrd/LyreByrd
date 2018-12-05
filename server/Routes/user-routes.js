@@ -17,15 +17,10 @@ const {UserYS} = require('../../db/db');
 
 
 router.post('/profile/avatar/upload', upload.single('avatarFile'), (req, res) => {
-  
-  // console.log('req :', req);
-  // console.log('req.body :', req.body);
 
   const avatar = {};
   avatar.data = req.body.avatarFile;
   avatar.tinyData = req.body.avatarTinyFile;
-  // console.log('avatar.data.length :', avatar.data.length);
-  // console.log('avatar.tinyData.length :', avatar.tinyData.length);
   avatar.contentType = 'image/jpeg';
   const username = req.body.username;
 
@@ -76,8 +71,7 @@ router.get('/getspotify', (req,res) => {
   if (!req.user) {
     return res.status(200).send({message: 'need spotify hookup'});
   }
-  // console.log(req.user, 'sesssiioon');
-  axios.get('http://api.spotify.com/v1/me/playlists',
+  axios.get('https://api.spotify.com/v1/me/playlists',
   {
     headers: {
       "Accept": "application/json",
@@ -86,7 +80,6 @@ router.get('/getspotify', (req,res) => {
     },
   })
   .then((data) => {
-    // console.log(data.data, 'data from spotify');
     return res.status(200).send(data.data);
   })
   .catch(err =>{
@@ -96,9 +89,8 @@ router.get('/getspotify', (req,res) => {
 });
 
 router.post('/refresh', (req,res) => {
-  // console.log(req.user, 'sesssiioon');
   axios({
-    url: 'http://accounts.spotify.com/api/token',
+    url: 'https://accounts.spotify.com/api/token',
     method: 'post',
     params: {
       grant_type: 'refresh_token',
@@ -114,7 +106,6 @@ router.post('/refresh', (req,res) => {
     }
   })
   .then((data) => {
-    // console.log(data.data, 'data from refresh');
     User.findByIdAndUpdate(req.user._id, {spotify:{accessToken:data.data.access_token}}, {new:true})
     .then(data => {
       console.log(data)
@@ -135,7 +126,7 @@ router.post('/refresh', (req,res) => {
 router.post('/player', (req,res) => {
   // console.log(req.user, 'sesssiioon');
   axios({
-    url: 'http://api.spotify.com/v1/me/player',
+    url: 'https://api.spotify.com/v1/me/player',
     method: 'put',
     headers: {
       "Accept": "application/json",
@@ -150,12 +141,10 @@ router.post('/player', (req,res) => {
     console.log(data.config, 'data from devices');
   })
   .catch(err => {
-    // console.log(err, 'err on devices');
     return res.status(err.response.status).send(err.message);
   });
 });
 router.get('/getSpotInfo', (req,res) => {
-  // console.log(req.user, 'sesssiioon');
   if (!req.user) {
     return res.status(200).send({err: 'hook up spotify'})
   }
@@ -193,7 +182,6 @@ router.post('/followHost', (req, res) => {
         console.log('err pushing host to following in User :', err);
         res.status(404).end(err);
       } else {
-        // console.log('result :', result);
         res.end()
       }
     }
@@ -208,7 +196,6 @@ router.post('/followHost', (req, res) => {
         console.log('err pushing host to following in User :', err);
         res.status(404).end(err);
       } else {
-        // console.log('result :', result);
         res.end();
       }
     }
@@ -228,7 +215,6 @@ router.post('/unFollowHost', (req, res) => {
         console.log('err updating host to unfollowing in User :', err);
         res.status(404).end(err);
       } else {
-        // console.log('result :', result);
         res.end();
       }
     }
@@ -243,7 +229,6 @@ router.post('/unFollowHost', (req, res) => {
         console.log('err updating host to unfollowing in User :', err);
         res.status(404).end(err);
       } else {
-        // console.log('result :', result);
         res.end();
       }
     }
@@ -260,11 +245,9 @@ router.get('/following', (req, res) => {
         console.log('err getting follows in User :', err);
         res.status(404).end(err);
       } else {
-        console.log('result :', result);
         if (result === null) {
           let result = {following: []};
         }
-        console.log('result :', result);
         res.send(result.following);
       }
     }

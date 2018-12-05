@@ -28,7 +28,6 @@ export default class Feed extends React.Component {
   }
   
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState :', prevState);
     if (prevState.followingFeeds === this.state.followingFeeds) {
       this.getFollowingFeeds();
     }
@@ -69,8 +68,6 @@ export default class Feed extends React.Component {
         })
         this.setState({
           feeds: feedsArray
-        }, () => {
-          // this.getFollowingFeeds();
         })
       })
     })
@@ -78,7 +75,6 @@ export default class Feed extends React.Component {
 
   getFollowingFeeds() {
     let user = localStorage.getItem('username');
-    console.log('user :', user);
     axios.get('/user/following', {
       params: {
         user: user,
@@ -90,7 +86,6 @@ export default class Feed extends React.Component {
       let followingFeeds = allFeeds.filter(feed => {
         return followingArray.data.includes(feed.host);
       })
-      console.log('followingFeeds :', followingFeeds);
       this.setState({
         followingFeeds: followingFeeds,
       })
@@ -127,6 +122,7 @@ export default class Feed extends React.Component {
           </div>
         </Layout>
         <style jsx>{`
+          
           * {
           margin: 0;
           padding: 0;
@@ -143,7 +139,7 @@ export default class Feed extends React.Component {
             grid-template-columns: 9fr 1.8fr;
             grid-auto-flow: column;
             background-color: white;
-            height: auto;
+            height: 100%;
             margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
           }
