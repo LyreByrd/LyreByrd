@@ -19,10 +19,23 @@ class NavBar extends React.Component {
   // this.handleItemClick = this.handleItemClick.bind(this);
 
   componentDidMount() {
+    if (localStorage.getItem('spotifyAuth')) {
+      setInterval(()=> {
+        console.log('refresh token called');
+        this.refreshToken();
+      }, 600000);
+    }
     this.setState({
       Token: localStorage.getItem('jwt'),
       user: localStorage.getItem('username'),
     });
+  }
+
+  refreshToken() {
+    axios
+      .post('user/refresh')
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
   }
 
   handleItemClick(e, { name }) {
@@ -46,9 +59,6 @@ class NavBar extends React.Component {
           console.log('error creating player stream in navbar.js', err);
         });
     }
-    // if (name == 'logout') {
-    //   this.props.logout();
-    // }
   }
 
 

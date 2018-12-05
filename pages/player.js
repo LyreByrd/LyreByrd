@@ -14,6 +14,11 @@ const playerContainer = {
   justifyContent: 'space-around',
   alignItems: 'center',
 };
+
+const chatStyle = {
+  'margin-bottom': 'auto',
+};
+
 class Player extends React.Component {
   constructor(props) {
     super(props);
@@ -175,40 +180,7 @@ class Player extends React.Component {
             />
           </div>
         </div>
-        <style jsx>{`
-          .container {
-            display: grid;
-            grid-template-columns: 1fr 303px 65px;
-            grid-template-rows: 50px 600px; 110px;
-          }
-
-          .player {
-            grid-column-start: 1;
-            grid-row-start: 2;
-            border: 1px solid black;
-
-          }
-
-          .player-window {
-   max-width: 1000px;
-            height: 100%;
-            margin: 0 auto;
-            border: 1px solid black;
-            position: relative;
-          }
-
-          .description {
-            grid-column-start: 1;
-            grid-row-start: 3;
-            padding: 0 0 30px 0;
-            margin: 12px 30px 0 30px;
-            border-right: 1px solid grey;
-            border-left: 1px solid grey;
-            border-bottom: 1px solid grey;
-            border-radius: 5px;
-          }
-
-        `}</style>
+        <style jsx>{``}</style>
       </React.Fragment>
     );
   }
