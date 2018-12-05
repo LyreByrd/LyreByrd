@@ -114,8 +114,7 @@ router.post('/refresh', (req,res) => {
     }
   })
   .then((data) => {
-    // console.log(data.data, 'data from refresh');
-    User.findByIdAndUpdate(req.user._id, {spotify:{accessToken:data.data.access_token}}, {new:true})
+    User.findByIdAndUpdate(req.user._id, {accessToken:data.data.access_token}, {new:true})
     .then(data => {
       console.log(data)
       return res.status(200).send(data);
