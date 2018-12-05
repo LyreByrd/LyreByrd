@@ -55,7 +55,7 @@ class Player extends React.Component {
         this.tryClaimHost();
 
         //sends a new host feed object through socket to feed server
-        // this.socketFeed();
+        this.socketFeed();
 
       } else {
         this.setState({isReady: true});
