@@ -59,9 +59,6 @@ class NavBar extends React.Component {
           console.log('error creating player stream in navbar.js', err);
         });
     }
-    // if (name == 'logout') {
-    //   this.props.logout();
-    // }
   }
 
 

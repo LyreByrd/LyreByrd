@@ -14,6 +14,11 @@ const playerContainer = {
   justifyContent: 'space-around',
   alignItems: 'center',
 }
+
+const chatStyle = {
+  'margin-bottom': 'auto'
+}
+
 class Player extends React.Component {
   constructor(props) {
     super(props)
@@ -145,13 +150,15 @@ class Player extends React.Component {
       <Layout>
         <div style={playerContainer}>
           {playerElement}
-          <Chat 
+          <div style={chatStyle}>
+          <Chat
             user={this.props.user}
             path={this.state.path}
             host={this.state.host}
           />
-
+          </div>
         </div>
+
       </Layout>
     )
   }
