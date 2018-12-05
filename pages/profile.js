@@ -232,7 +232,9 @@ class profile extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-          <h1>Loading...</h1>
+            <div class="ui active inverted dimmer">
+              <div class="ui massive text loader">Loading</div>
+            </div>
         </Layout>
       );
     } else {
