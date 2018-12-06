@@ -221,7 +221,7 @@ class Chat extends react.Component {
 
           .messages-container {
             
-            height: 800px;
+            height: 650px;
             overflow-y: scroll;
             overflow-x: hidden;
           }
