@@ -75,10 +75,10 @@ class Chat extends react.Component {
   socketConnect() {
     //socket.io connection
     const socket = io(`${config.PROXY_IP}:8000`,
-      // {secure: true}
+      {secure: true}
     );
     const feedSocket = io(`${config.PROXY_IP}:8080`, 
-      // {secure: true}
+      {secure: true}
     );
     
     //on user connect

@@ -35,10 +35,10 @@ export default class Feed extends React.Component {
 
   getFeeds() {
     const socket = io(`${config.PROXY_IP}:8080`,
-      // {secure: true}
+      {secure: true}
     );
     const chatSocket = io(`${config.PROXY_IP}:8000`,
-      // {secure: true}
+      {secure: true}
     );
 
     socket.on('connect', () => {
