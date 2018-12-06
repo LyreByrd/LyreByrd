@@ -45,7 +45,7 @@ class HostWindow extends React.Component {
 
   render() {
     if (this.props.isActive) {
-      return (<div>
+      return (<div style={{padding: '1em'}}>
         {this.state.hasLoaded ? <HostPlayer {...this.props} /> : 'Loading...'}
       </div>);
     }
