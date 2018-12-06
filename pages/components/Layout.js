@@ -24,12 +24,13 @@ const Layout = props => (
       *::before {
         margin: 0;
         padding-right: 0;
-        box-sizing: inheritt;
+        box-sizing: inherit;
       }
 
       .ui.menu {
         font-size: 14px;
       }
+      
       html {
         font-size: 62.5%;
       }

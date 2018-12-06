@@ -202,7 +202,6 @@ class Chat extends react.Component {
                 this.messageRef = el;
               }}
             />
-            <CreateMessage user={this.state.user} host={this.state.host} />
           </div>
 
           <div className="online-users">
@@ -211,6 +210,7 @@ class Chat extends react.Component {
           </div>
           
         </div>
+        <CreateMessage user={this.state.user} host={this.state.host} />
         <style jsx>{`
 
           .chat-container {
@@ -235,10 +235,6 @@ class Chat extends react.Component {
             flex-direction: column;
             margin-left: 10px;
             margin-top: 10px;
-          }
-
-          .input-message {
-           
           }
 
         `}</style>
