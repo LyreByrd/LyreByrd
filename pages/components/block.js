@@ -15,14 +15,15 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
     </div>
     <style jsx>{`
       .titlebox {
-        height: 330px;
+        width: 100%;
+        height: auto;
         border-bottom: 1px solid #dfdcd4;
       }
 
       .title {
         font-size: 23px;
         font-weight: 100;
-        line-height: 29.9px;
+        line-height: 20px;
         color: black;
         text-decoration: none solid rgb(42, 45, 40);
       }
@@ -30,15 +31,22 @@ const Block = ({ title, subtitle, host, name, feeds }) => (
       .subtitle {
         font-size: 14px;
         font-weight: 100;
-        line-height: 19.9px;
+        line-height: 10px;
         color: #908c83;
       }
 
       .gallery {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        height: 200px;
-        grid-column-gap: 10px;
+        display: inline-flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        overflow-x: auto;
+        overflow-y: hidden:
+      }
+
+      .gallery > * {
+        margin-right: 10px; 
       }
     `}</style>
   </div>

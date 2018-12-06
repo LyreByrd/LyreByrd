@@ -23,7 +23,6 @@ const messagesStyle = {
   overflowY: 'scroll',
   overflowX: 'hidden',
   float: 'right',
-  marginTop: '10px',
   // boxShadow: 'inset 0px 0px 20px 10px #919191',
   // filter: 'drop-shadow(0 10px 0.7rem #919191)',
 }
@@ -83,13 +82,13 @@ class Chat extends react.Component {
       // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
-      // socket.emit('user avatar', this.state.usersAvatars);
+      socket.emit('user avatar', this.state.usersAvatars);
       socket.on('fetch messages', messages => {
         this.setState({
           messages: [...messages]
         })
       })
-      //feedSocket.emit('user joined room', this.props.host);
+      feedSocket.emit('user joined room', this.props.host);
     })
 
 
@@ -116,7 +115,7 @@ class Chat extends react.Component {
 
     socket.on('user disconnected', (users) => {
       // console.log('user disconnected', usersObj);
-      //feedSocket.emit('user left room', this.props.host);
+      feedSocket.emit('user left room', this.props.host);
       this.setState({
         users: users
       })

@@ -88,3 +88,6 @@ ec2-nodejs-lyrebyrd.pem
 
 # DS_Store
 .DS_Store
+
+# config.js
+config.js
