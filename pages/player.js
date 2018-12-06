@@ -4,9 +4,9 @@ import {withRouter} from 'next/router';
 import HostWindow from './components/HostWindow.js';
 import ClientWindow from './components/ClientWindow.js';
 import axios from 'axios';
-import Chat from './components/chat.js'
+import Chat from './components/chat.js';
 import io from 'socket.io-client';
-let config = require('./config/config.js')
+let config = require('./config/config.js');
 
 const playerContainer = {
   display: 'flex',
