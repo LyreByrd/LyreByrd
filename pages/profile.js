@@ -198,6 +198,11 @@ class profile extends React.Component {
         } else {
           // save the returned user in localStorage/cookie or something
           // console.log(user);
+          setInterval(()=> {
+            console.log('refresh token called');
+            this.refreshToken();
+          }, 600000);
+          localStorage.setItem('spotifyAuth', true)
           localStorage.setItem('spotifyName', user.displayName);
           localStorage.setItem('spotifyAvtr', user.photo);
           this.setState({
@@ -215,7 +220,9 @@ class profile extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-          <h1>Loading...</h1>
+            <div class="ui active inverted dimmer">
+              <div class="ui massive text loader">Loading</div>
+            </div>
         </Layout>
       );
     } else {
