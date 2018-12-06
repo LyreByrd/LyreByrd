@@ -13,8 +13,17 @@ const playerContainer = {
   flexDirection: 'row',
   flexBasis: 'auto',
   justifyContent: 'space-around',
-  alignItems: 'center',
 }
+
+const chatStyle = {
+  'marginBottom': 'auto'
+}
+const contentStyle = {
+  'marginBottom': 'auto',
+  color : 'white',
+  'backgroundColor': 'rgb(27, 26, 26)',
+}
+
 class Player extends React.Component {
   constructor(props) {
     super(props)
@@ -143,15 +152,19 @@ class Player extends React.Component {
     }
     return (
       <Layout>
-        <div style={playerContainer}>
-          {playerElement}
-          <Chat 
+        <div className='player-container' style={playerContainer}>
+          <div className='content-container' style={contentStyle}>
+            {playerElement}
+          </div>
+          <div className='chat-container' style={chatStyle}>
+          <Chat
             user={this.props.user}
             path={this.state.path}
             host={this.state.host}
           />
-
+          </div>
         </div>
+
       </Layout>
     )
   }
