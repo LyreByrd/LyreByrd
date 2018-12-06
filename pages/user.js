@@ -27,13 +27,13 @@ class user extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.isFollowing === this.state.isFollowing) {
+    if (prevState.isFollowing === this.state.isFollowing) {
       this.getFollowers();
     }
   }
 
   componentDidMount() {
-    let name = this.props.url.query.name;
+    // let name = this.props.url.query.name;
     let username = sessionStorage.getItem('searchUser');
     let avatarSrc = sessionStorage.getItem('searchUserAvatar');
     let url = sessionStorage.getItem('searchUserUrl');
