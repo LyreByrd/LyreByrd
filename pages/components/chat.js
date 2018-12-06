@@ -6,34 +6,36 @@ import axios from 'axios';
 const placeholderData = require('../../static/placeholderAvatar.js').default;
 let config = require('../config/config.js');
 
-const container = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-};
+// const container = {
+//   display: 'flex',
+//   flexDirection: 'row',
+//   justifyContent: 'space-between',
+// };
 
-const messagesStyle = {
-  border: '3px #919191 solid',
-  background: '#cfcfcf',
-  display: 'flex',
-  flex: '1 1 auto',
-  height: '500px',
-  width: '400px',
-  overflowY: 'scroll',
-  overflowX: 'hidden',
-  float: 'right',
-  // boxShadow: 'inset 0px 0px 20px 10px #919191',
-  // filter: 'drop-shadow(0 10px 0.7rem #919191)',
-};
+// const messagesStyle = {
+//   border: '3px #919191 solid',
+//   background: '#cfcfcf',
+//   display: 'flex',
+//   flex: '1 1 auto',
+//   height: '500px',
+//   width: '400px',
+//   overflowY: 'scroll',
+//   overflowX: 'hidden',
+//   float: 'right',
+//   // boxShadow: 'inset 0px 0px 20px 10px #919191',
+//   // filter: 'drop-shadow(0 10px 0.7rem #919191)',
+// };
 
-const onlineUsersStyle = {
-  marginLeft: '10px',
-  marginTop: '10px',
-};
+// const onlineUsersStyle = {
+//   marginLeft: '10px',
+//   marginTop: '10px',
+// };
 
 const avatarStyle = {
   borderRadius: '50%',
   border: '3px solid gray',
+  marginLeft: '10px',
+
 };
 
 class Chat extends react.Component {
@@ -183,61 +185,62 @@ class Chat extends react.Component {
     return (
       <React.Fragment>
         <div className="header" />
-        <div className="chats">
-          <div ref={el => (this.messageRef = el)}>
-            chats
-            <div className="input-message">
-              <Messages
-                host={this.state.host}
-                user={this.state.user}
-                users={this.state.users}
-                messages={this.state.messages}
-                messageAvatars={this.state.messageAvatars}
-              />
-              <div
-                style={{ float: 'left', clear: 'both' }}
-                ref={el => {
-                  this.messageRef = el;
-                }}
-              />
-            </div>
+        <div className="chat-container">
+          
+          <div className="messages-container"
+            ref={el => (this.messageRef = el)}>
+            <Messages
+              host={this.state.host}
+              user={this.state.user}
+              users={this.state.users}
+              messages={this.state.messages}
+              messageAvatars={this.state.messageAvatars}
+            />
+            <div
+              style={{ float: 'left', clear: 'both' }}
+              ref={el => {
+                this.messageRef = el;
+              }}
+            />
+            <CreateMessage user={this.state.user} host={this.state.host} />
           </div>
-          {/* <div className="online-users">
+
+          <div className="online-users">
             Online Users:
             {this.onlineUsers(this.state.users)}
-          </div> */}
+          </div>
+          
         </div>
-        <CreateMessage user={this.state.user} host={this.state.host} />
         <style jsx>{`
+
           .chat-container {
-            height: 900px;
-             {
-              /* background: #cfcfcf;
+            display: flex;
+            flexDirection: row;
+            justifyContent: space-between;
+          }
+
+          .messages-container {
+            
+            height: 800px;
             overflow-y: scroll;
-            overflow-x: hidden; */
-            }
+            overflow-x: hidden;
           }
 
           .chat-header {
             grid-column-start: 2;
           }
+
           .online-users {
-            grid-column-start: 3;
-            grid-row-start: 3;
+            display: flex;
+            flex-direction: column;
             margin-left: 10px;
             margin-top: 10px;
           }
 
           .input-message {
-            grid-column-start: 2;
-            grid-row-start: 2;
-            background-color: blue;
+           
           }
 
-          .chats {
-            grid-column-start: 2;
-            grid-row-start: 2;
-          }
         `}</style>
       </React.Fragment>
     );
