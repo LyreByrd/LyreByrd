@@ -81,62 +81,6 @@ class Index extends React.Component {
                   </div>
                 </div>
               </div>
-              {/* <section className="section-features">
-                <div className="row">
-                  <div className="col-1-of-4">
-                    <div className="feature-box">
-                      <i className="feature-box__icon icon-basic-world" />
-                      <h3 className="heading-tertiary  u-margin-bottom-small">
-                        Explore the world
-                      </h3>
-                      <p className="feature-box__text">
-                        Lorem ipsum dolor, sit amet cooloremque, dolor beatae
-                        maxime modi autem fugiat odit,nsectetur adipisicing
-                        elit. Doloremque
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-1-of-4">
-                    <div className="feature-box">
-                      <i className="feature-box__icon icon-basic-compass" />
-                      <h3 className="heading-tertiary  u-margin-bottom-small">
-                        Meet nature
-                      </h3>
-                      <p className="feature-box__text">
-                        Lorem oloremque, dolor beatae maxime modi autem fugiat
-                        odit,ipsum dolor, sit amet consectetur adipisicing elit.
-                        Doloremque
-                      </p>
-                    </div>
-                  </div>
-                   <div className="col-1-of-4">
-                    <div className="feature-box">
-                      <i className="feature-box__icon icon-basic-map" />
-                      <h3 className="heading-tertiary  u-margin-bottom-small">
-                        Find yout way
-                      </h3>
-                      <p className="feature-box__text">
-                        Lorem ipsum dolor, sit amet oloremque, dolor beatae
-                        maxime modi autem fugiat odit,consectetur adipisicing
-                        elit. Doloremque
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-1-of-4">
-                    <div className="feature-box">
-                      <i className="feature-box__icon icon-basic-heart" />
-                      <h3 class="heading-tertiary  u-margin-bottom-small">
-                        Live a healthier lzife
-                      </h3>
-                      <p class="feature-box__text">
-                        Lorem oloremque, dolor beatae maxime modi autem fugiat
-                        odit,ipsum dolor, sit amet consectetur adipisicing elit.
-                        Doloremque
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </section>*/}
             </div>
           </div>
         </Layout>
@@ -147,8 +91,13 @@ class Index extends React.Component {
             box-sizing: inherit;
             box-sizing: border-box;
           }
+
+          html {
+            font-size: 62.5%;
+          }
           .body {
             background-color: #dfdcd4;
+            /*This defines what 1 rem should be */
           }
           .container {
             display: grid;
@@ -159,7 +108,7 @@ class Index extends React.Component {
 
           .hero {
             grid-row-start: 1;
-            border-top: 5px solid #7647a2;
+            border-top: 0.5rem solid #7647a2;
             height: 93vh; /*should be at 95% of the viewport*/
             background-image: url('../static/header-pic.jpg');
             background-size: cover; /*cover: will try to fit the element inside the box*/
@@ -178,14 +127,8 @@ class Index extends React.Component {
             font-weight: 400;
             letter-spacing: 3.5rem;
 
-            animation-name: moveInLeft;
-            animation-duration: 1s;
-            animation-timing-function: ease-out;
-
-            position: relative;
-
             position: absolute;
-            top: 17%; /* top & left refer to 40% of parent element*/
+            top: 15%; /* top & left refer to 40% of parent element*/
             left: 52%; /* left & left refer to 50% of parent     element*/
             transform: translate(
               -50%,
@@ -296,16 +239,6 @@ class Index extends React.Component {
 
           .composition_photo:hover .composition_photo:not(:hover) {
             transform: scale(0.95);
-          }
-          .section-features {
-            padding: 20rem 0;
-            background-image: url('../static/header-pic.jpg');
-            background-size: cover;
-            margin-top: -10rem;
-            transform: skewY(-7deg);
-          }
-          .section-features > * {
-            transform: skewY(7deg);
           }
 
           .feature-box {
