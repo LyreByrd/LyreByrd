@@ -3,6 +3,7 @@ import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import FeedBlock from './components/feedBlock';
+import { withRouter } from 'next/router'
 
 import Router from 'next/router';
 

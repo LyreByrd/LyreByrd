@@ -3,6 +3,7 @@ import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import FeedBlock from './components/feedBlock';
+import { withRouter } from 'next/router'
 
 import Router from 'next/router';
 import popupTools from 'popup-tools';
@@ -32,7 +33,7 @@ class user extends React.Component {
   }
 
   componentDidMount() {
-    let name = this.props.url.query.name;
+    let name = this.props.router.query.name;
     let username = sessionStorage.getItem('searchUser');
     let avatarSrc = sessionStorage.getItem('searchUserAvatar');
     let url = sessionStorage.getItem('searchUserUrl');
