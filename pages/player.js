@@ -13,19 +13,28 @@ const playerContainer = {
   flexDirection: 'row',
   flexBasis: 'auto',
   justifyContent: 'space-around',
-  alignItems: 'center',
 }
+
+const chatStyle = {
+  'marginBottom': 'auto'
+}
+const contentStyle = {
+  'marginBottom': 'auto',
+  color : 'white',
+  'backgroundColor': 'rgb(27, 26, 26)',
+}
+
 class Player extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       user: '',
       host: props.router.query.host,
-      //host: this.props.user
       service: props.router.query.service,
       isReady: false,
       initialMountDone: false,
       usersInRoom: 0,
+      hostTimestamp: null,
     }
     this.resetToLobby = this.resetToLobby.bind(this);
   }
@@ -77,16 +86,22 @@ class Player extends React.Component {
       //axios.post('/host', {hostingName: this.state.hostingName})
         .then((res) => {
           //console.log('host claim response: ', res);
+          let newState = {isReady: true}
+          //console.log(res.data.sync);
+          if (res.data && res.data.sync) {
+            newState.hostTimestamp = res.data.sync.hostTimestamp;
+          }
           if(true) {
-            this.setState({isReady: true});
+            this.setState(newState);
           }
         })
         .catch((err) => {
-          if(err.response.status === 403) {
-            alert('Host claimed or in dispute');
-          } else {
+          console.log(err)
+          //if(err.response.status === 403) {
+          //  alert('Host claimed or in dispute');
+          //} else {
             console.error(err);
-          }
+          //}
         });
     } else {
       this.setState({isReady: true})
@@ -136,22 +151,26 @@ class Player extends React.Component {
     let playerElement;
     if (this.state.initialMountDone) {
       playerElement = this.state.host === this.state.user ? 
-        <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
+        <HostWindow hostTimestamp ={this.state.hostTimestamp} isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
         <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service} user={this.state.user}/>
     } else {
       playerElement = <span>Loading...</span>
     }
     return (
       <Layout>
-        <div style={playerContainer}>
-          {playerElement}
-          <Chat 
+        <div className='player-container' style={playerContainer}>
+          <div className='content-container' style={contentStyle}>
+            {playerElement}
+          </div>
+          <div className='chat-container' style={chatStyle}>
+          <Chat
             user={this.props.user}
             path={this.state.path}
             host={this.state.host}
           />
-
+          </div>
         </div>
+
       </Layout>
     )
   }
