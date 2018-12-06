@@ -242,9 +242,11 @@ router.get('/following', (req, res) => {
         res.status(404).end(err);
       } else {
         if (result === null) {
-          result.following = [];
+          // let result = {following: []};
+          res.send([])
+        } else {
+          res.send(result.following);
         }
-        res.send(result.following);
       }
     }
   )
