@@ -241,7 +241,9 @@ class profile extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-          <h1>Loading...</h1>
+          <div className="ui active inverted dimmer">
+            <div className="ui massive text loader">Loading</div>
+          </div>
         </Layout>
       );
     } else {
