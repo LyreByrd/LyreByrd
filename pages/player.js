@@ -186,6 +186,7 @@ class Player extends React.Component {
               host={this.state.host}
             />
           </div>
+          <style jsx>{``}</style>
         </div>
       </Layout>
     );

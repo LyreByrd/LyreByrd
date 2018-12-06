@@ -17,6 +17,7 @@ const Layout = props => (
       />
     </Head>
 
+
     <style jsx global>{`
       *,
       *::after,
