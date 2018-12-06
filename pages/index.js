@@ -21,9 +21,9 @@ class Index extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-            <div className="ui active inverted dimmer">
-              <div className="ui massive text loader">Loading</div>
-            </div>
+          <div className="ui active inverted dimmer">
+            <div className="ui massive text loader">Loading</div>
+          </div>
         </Layout>
       );
     }
@@ -45,20 +45,20 @@ class Index extends React.Component {
                     Spotify sessions brought to you instantly
                   </h3>
                   <p className="paragraph">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Molestiae voluptates tenetur, asperiores quaerat laboriosam,
-                    accusamus assumenda quibusdam sapiente maiores suscipit
-                    quidem doloribus quis quae! Laborum enim esse quibusdam
-                    ipsam dolores?
+                    Join in the love of music from different genres all accross
+                    the board. Upload your playlist and chat with followers
+                    about your choices. Find new friends discover new music, and
+                    create memories.
                   </p>
 
                   <h3 className="heading-tertiary u-margin-bottom-small">
                     Expirence Youtube like you neve have before
                   </h3>
                   <p className="paragraph">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Doloremque, dolor beatae maxime modi autem fugiat odit, esse
-                    eius libero in officia.
+                    Stream your favorite playlist with friends and meet new
+                    people along the way. Have a video you want to chat about,
+                    want to rock out to some music, or even just share your own
+                    creations and invite people in.
                   </p>
                 </div>
                 <div className="pics">
