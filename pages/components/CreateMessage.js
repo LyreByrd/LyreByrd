@@ -18,7 +18,7 @@ class CreateMessage extends react.Component {
 
   submitMessage = e => {
     e.preventDefault();
-    const socket = io(`${config.PROXY_IP}:8000`, {secure: true});
+    const socket = io(`${config.PROXY_IP}:8000`, { secure: true });
     const now = moment();
     this.setState({
       newMessage: {
@@ -61,7 +61,7 @@ class CreateMessage extends react.Component {
   render() {
     return (
       <div>
-        {/* <form onSubmit={e => this.submitMessage(e)}>
+        <form onSubmit={e => this.submitMessage(e)}>
           <input
             className="input-msg"
             type="text"
@@ -70,7 +70,7 @@ class CreateMessage extends react.Component {
             onChange={e => this.handleMessageChange(e)}
           />
           <input type="submit" value="Submit" />
-        </form> */}
+        </form>
         <style jsx>{`
           .input-msg {
             grid-column-start: 2;
