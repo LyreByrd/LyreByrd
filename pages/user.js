@@ -12,12 +12,23 @@ class user extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
+      username: '',
       avatarSrc: null,
       url: null,
       followers: null,
+      isFollowing: false,
       done: false,
     };
+    this.followUser = this.followUser.bind(this);
+    this.getFollowers = this.getFollowers.bind(this);
+    this.checkIfFollowing = this.checkIfFollowing.bind(this);
+    this.unFollowUser = this.unFollowUser.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.isFollowing === this.state.isFollowing) {
+      this.getFollowers();
+    }
   }
 
   componentDidMount() {
@@ -25,25 +36,97 @@ class user extends React.Component {
     let username = sessionStorage.getItem('searchUser');
     let avatarSrc = sessionStorage.getItem('searchUserAvatar');
     let url = sessionStorage.getItem('searchUserUrl');
-    let followers = sessionStorage.getItem('searchUserFollowers');
     if (!username) {
       return Router.push('/login');
     }
-    this.setState(
-      {
-        username,
-        avatarSrc,
-        url,
-        followers,
-        done: true,
-      }
-    );
+    this.setState({
+      username,
+      avatarSrc,
+      url,
+      done: true,
+    }, () => {
+      this.getFollowers();
+      this.checkIfFollowing()
+    });
   }
 
+  followUser() {
+    let user = localStorage.getItem('username');
+    let host = this.state.username;
+    axios.post('/user/followHost', {
+      user,
+      host, 
+    })
+    .then(res => {
+      this.setState({
+        isFollowing: true
+      }, () => {
+        this.getFollowers();
+      })
+    })
+    .catch(err => {
+      console.log('error following user :', err);
+    })
+  }
+
+  unFollowUser() {
+    let user = localStorage.getItem('username');
+    let host = this.state.username;
+    axios.post('/user/unFollowHost', {
+      user,
+      host,
+    })
+    .then(res => {
+      this.setState({
+        isFollowing: false,
+      }, () => {
+        this.getFollowers();
+      })
+    })
+    .catch(err => {
+      console.log('err :', err);
+    })
+  }
+
+  getFollowers() {
+    let user = this.state.username;
+    axios.get('/user/followers', {
+      params: {
+        user
+      }
+    })
+    .then(res => {
+      this.setState({
+        followers: res.data,
+      })
+    })
+    .catch(err => {
+      console.log('error getting user followers :', err);
+    })
+  }
+
+  checkIfFollowing() {
+    let user = localStorage.getItem('username');
+    let host = this.state.username;
+    axios.get('/user/following', {
+      params: {
+        user: user,
+      }
+    })
+    .then(followingArray => {
+      if (followingArray.data.includes(host)) {
+        this.setState({
+          isFollowing: true,
+        })
+      }
+    })
+    .catch(err => {
+      console.log('error getting follows :', err);
+    })
+  }
 
   render() {
-    let spotifyRndr;
-    // console.log(this.state.spotifyName);
+    // let spotifyRndr;
     if (!this.state.done) {
       return (
         <Layout>
@@ -65,19 +148,32 @@ class user extends React.Component {
                         width="200"
                         height="200"
                       />
-                      <div className="icon-position">
-                        <div className="camera">
-                          <label htmlFor="file">
-                          </label>
-                        </div>
-                      </div>
                       <div />
                     </div>
-                    <div className="profile-name">{this.state.username}</div>
-                  <button className="ui active button">
-                    <i className="user icon"></i>
-                    Follow
-                  </button>
+                    <div className="profile-name">
+                      {this.state.username}
+                      <div className='followers'>
+                        {this.state.followers ? `Followers: ${this.state.followers.length}` : ''}
+                      </div>
+                    </div>
+                  <div>
+                    {this.state.isFollowing ?
+                      <button 
+                        className="ui active button"
+                        onClick={this.unFollowUser}>
+                        <i className="user icon"></i>
+                        Unfollow
+                      </button>
+                      :
+                      <button 
+                        className="ui active button"
+                        onClick={this.followUser}>
+                        <i className="user icon"></i>
+                        Follow
+                      </button>
+
+                    }
+                  </div>  
                   </div>
                 </div>
                 <div className="links">
@@ -174,6 +270,15 @@ class user extends React.Component {
               width: 100%;
               font-size: 2.4rem;
               font-weight: 10rem;
+              line-height: 3.7rem;
+              text-transform: uppercase;
+              letter-spacing: 0.1rem;
+            }
+
+            .followers {
+              color: #eee;
+              font-size: 1.4rem;
+              font-weight: 4rem;
               line-height: 3.7rem;
               text-transform: uppercase;
               letter-spacing: 0.1rem;

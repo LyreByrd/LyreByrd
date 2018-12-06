@@ -157,7 +157,6 @@ router.get('/getSpotInfo', (req,res) => {
 });
 
 router.get('/searchProfiles', (req, res) => {
-  console.log(req.query.username)
   User.findOne({username:req.query.username})
   .then(data => {
     res.status(200).send({
@@ -182,21 +181,20 @@ router.post('/followHost', (req, res) => {
         console.log('err pushing host to following in User :', err);
         res.status(404).end(err);
       } else {
-        res.end()
-      }
-    }
-  )
-  //updates host followers list
-  User.findOneAndUpdate(
-    {username: host},
-    {$addToSet: {followers: username}},
-    {upsert: true},
-    (err, result) => {
-      if (err) {
-        console.log('err pushing host to following in User :', err);
-        res.status(404).end(err);
-      } else {
-        res.end();
+        //updates host followers list
+        User.findOneAndUpdate(
+          {username: host},
+          {$addToSet: {followers: username}},
+          {upsert: true},
+          (err, result) => {
+            if (err) {
+              console.log('err pushing host to following in User :', err);
+              res.status(404).end(err);
+            } else {
+              res.end();
+            }
+          }
+        )
       }
     }
   )
@@ -206,7 +204,7 @@ router.post('/unFollowHost', (req, res) => {
   //updates user unfollowing host
   let username = req.body.user;
   let host = req.body.host;
-  User.update(
+  User.updateOne(
     {username}, 
     { $pull: { following: host } },
     // { multi: true },
@@ -215,24 +213,23 @@ router.post('/unFollowHost', (req, res) => {
         console.log('err updating host to unfollowing in User :', err);
         res.status(404).end(err);
       } else {
-        res.end();
+        //updates host followers list
+        User.updateOne(
+          {username: host},
+          { $pull: { followers: username } },
+          // { multi: true },
+          (err, result) => {
+            if (err) {
+              console.log('err updating host to unfollowing in User :', err);
+              res.status(404).end(err);
+            } else {
+              res.end();
+            }
+          }
+        )
       }
     }
-  )
-  //updates host followers list
-  User.update(
-    {username: host},
-    { $pull: { following: username } },
-    // { multi: true },
-    (err, result) => {
-      if (err) {
-        console.log('err updating host to unfollowing in User :', err);
-        res.status(404).end(err);
-      } else {
-        res.end();
-      }
-    }
-  )
+    )
 })
 
 router.get('/following', (req, res) => {
@@ -249,6 +246,28 @@ router.get('/following', (req, res) => {
           let result = {following: []};
         }
         res.send(result.following);
+      }
+    }
+  )
+})
+
+router.get('/followers', (req, res) => {
+  let username = req.query.user;
+  User.findOne({
+      username
+    },
+    'followers',
+    (err, result) => {
+      if (err) {
+        console.log('err getting follows in User :', err);
+        res.status(404).end(err);
+      } else {
+        if (result === null) {
+          let result = {
+            following: []
+          };
+        }
+        res.send(result.followers);
       }
     }
   )
