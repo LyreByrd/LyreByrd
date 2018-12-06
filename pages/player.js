@@ -6,6 +6,7 @@ import ClientWindow from './components/ClientWindow.js';
 import axios from 'axios';
 import Chat from './components/chat.js'
 import io from 'socket.io-client';
+let config = require('./config/config.js')
 
 const playerContainer = {
   display: 'flex',
@@ -29,7 +30,6 @@ class Player extends React.Component {
     this.state = {
       user: '',
       host: props.router.query.host,
-      //host: this.props.user
       service: props.router.query.service,
       isReady: false,
       initialMountDone: false,
@@ -124,8 +124,7 @@ class Player extends React.Component {
   }
 
   socketFeed() {
-    const socket = io('http://localhost:8080'); //todo change to production.env host
-    
+    const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); 
     const feedData = {
       host: this.state.user,
       path: this.state.path,

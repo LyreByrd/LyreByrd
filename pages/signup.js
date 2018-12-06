@@ -69,8 +69,8 @@ class Signup extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-            <div class="ui active inverted dimmer">
-              <div class="ui massive text loader">Loading</div>
+            <div className="ui active inverted dimmer">
+              <div className="ui massive text loader">Loading</div>
             </div>
         </Layout>
       )

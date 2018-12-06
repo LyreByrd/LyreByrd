@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import Block from './components/block';
 import io from 'socket.io-client';
+let config = require('./config/config.js')
 
 
 export default class Feed extends React.Component {
@@ -23,17 +24,22 @@ export default class Feed extends React.Component {
     this.getFeeds();
     this.setState({
       done: true
-    }, () => {
     })
   }
   
-  componentDidUpdate() {
-    this.getFollowingFeeds();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.followingFeeds === this.state.followingFeeds) {
+      this.getFollowingFeeds();
+    }
   }
 
   getFeeds() {
-    const socket = io('http://localhost:8080'); //todo change to production.env host
-    const chatSocket = io('http://localhost:8000');
+    const socket = io(`${config.PROXY_IP}:8080`,
+      // {secure: true}
+    );
+    const chatSocket = io(`${config.PROXY_IP}:8000`,
+      // {secure: true}
+    );
 
     socket.on('connect', () => {
 
@@ -62,8 +68,6 @@ export default class Feed extends React.Component {
         })
         this.setState({
           feeds: feedsArray
-        }, () => {
-          this.getFollowingFeeds();
         })
       })
     })
@@ -91,8 +95,8 @@ export default class Feed extends React.Component {
     if (!this.state.done) {
       return (
         <Layout>
-            <div class="ui active inverted dimmer">
-              <div class="ui massive text loader">Loading</div>
+            <div className="ui active inverted dimmer">
+              <div className="ui massive text loader">Loading</div>
             </div>
         </Layout>
       )
@@ -101,12 +105,14 @@ export default class Feed extends React.Component {
       <div className="body">
         <Layout>
           <div className="container">
-            <div className="feed heading popular">
+            <div className="feed heading all">
               <Block
                 title={'All Feeds'}
                 subtitle={'Currently Playing'}
                 feeds={this.state.feeds}
               />
+            </div>
+            <div className="feed heading following">
               <Block
                 title={'Following'}
                 subtitle={'Currently Playing'}
@@ -117,6 +123,7 @@ export default class Feed extends React.Component {
           </div>
         </Layout>
         <style jsx>{`
+          
           * {
           margin: 0;
           padding: 0;
@@ -130,24 +137,35 @@ export default class Feed extends React.Component {
 
           .container {
             display: grid;
-            grid-template-columns: 8fr 2fr;
+            grid-template-columns: 9fr 1.8fr;
+            grid-auto-flow: column;
             background-color: white;
-            height: 2000.75px;
+            height: 100vh;
             margin: 0 100px 0 100px;
             padding: 46px 30px 0 30px;
           }
 
           .feed {
             display: grid;
+            grid-template-columns: 4fr;
+            grid-template-rows: 2;
             grid-row-start: 1;
-            grid-auto-rows: 327px;
+            grid-auto-rows: repeat(auto);
             width: 100%;
+            height: auto;
             padding: 10px;
             grid-gap 5px;
           }
 
           .sidebar {
             border-left: 1px solid #dfdcd4;
+            grid-column-start: 2;
+            grid-row: 1 / span 2;
+          }
+
+          .following {
+            grid-column-start: 1;
+            grid-row-start: 2;
           }
         `}</style>
       </div>

@@ -3,6 +3,7 @@ import Layout from './components/Layout.js';
 import axios from 'axios';
 import FormData from 'form-data';
 import FeedBlock from './components/feedBlock';
+import { withRouter } from 'next/router'
 
 import Router from 'next/router';
 
@@ -22,11 +23,12 @@ class profile extends React.Component {
       spotifyName: null,
       spotifyAvtr: null,
       done: false,
-      followers: [],
+      followers: null,
       following: [],
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
+    this.getFollowers = this.getFollowers.bind(this);
   }
 
 
@@ -43,88 +45,83 @@ class profile extends React.Component {
       spotifyName,
       spotifyAvtr,
       done: true
-    }, () => this.getUserAvatar());
+    }, () => {
+      this.getUserAvatar();
+      this.getFollowers();
+    });
   }
 
   //shows preview of avatar
   handleFileUpload(e) {
     let file = e.target.files[0];
 
-    if (!file.type.match(/image.*/)) { //todo these two if checks are no longer needed
-      window.alert('please choose an image file');
-      e.target.value = null;
-    } else if (file > 500000) {
-      window.alert('please select an image file 500 KB or less');
-      e.target.value = null;
-    } else {
-      //resize file
-      const reader = new FileReader();
-      reader.onload = readerEvent => {
-        const img = new Image();
-        img.onload = imgEvent => {
-          let canvas = document.createElement('canvas');
-          let maxSize = 400;
-          let width = img.width;
-          let height = img.height;
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height;
-              height = maxSize;
-            }
+    //resize file
+    const reader = new FileReader();
+    reader.onload = readerEvent => {
+      const img = new Image();
+      img.onload = imgEvent => {
+        let canvas = document.createElement('canvas');
+        let maxSize = 400;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxSize) {
+            height *= maxSize / width;
+            width = maxSize;
           }
-          canvas.width = width;
-          canvas.height = height;
-          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-          const dataUrl = canvas.toDataURL('image/jpeg');
-          const resizedImg = dataUrl.replace(
-            /^data:image\/(png|jpg);base64,/,
-            '',
-          );
-          this.setState({
-            avatarPreviewURL: dataUrl,
-            avatarPreviewFile: resizedImg,
-          });
+        } else {
+          if (height > maxSize) {
+            width *= maxSize / height;
+            height = maxSize;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        const resizedImg = dataUrl.replace(
+          /^data:image\/(png|jpg);base64,/,
+          '',
+        );
+        this.setState({
+          avatarPreviewURL: dataUrl,
+          avatarPreviewFile: resizedImg,
+        });
 
-          canvas = document.createElement('canvas');
-          let tinySize = 100;
-          let tinyWidth = img.width;
-          let tinyHeight = img.height;
-          if (tinyWidth > tinyHeight) {
-            if (tinyWidth > tinySize) {
-              tinyHeight *= tinySize / tinyWidth;
-              tinyWidth = tinySize;
-            }
-          } else {
-            if (tinyHeight > tinySize) {
-              tinyWidth *= tinySize / tinyHeight;
-              tinyHeight = tinySize;
-            }
+        canvas = document.createElement('canvas');
+        let tinySize = 100;
+        let tinyWidth = img.width;
+        let tinyHeight = img.height;
+        if (tinyWidth > tinyHeight) {
+          if (tinyWidth > tinySize) {
+            tinyHeight *= tinySize / tinyWidth;
+            tinyWidth = tinySize;
           }
-          canvas.width = tinyWidth;
-          canvas.height = tinyHeight;
-          canvas.getContext('2d').drawImage(img, 0, 0, tinyWidth, tinyHeight);
-          const dataUrlTiny = canvas.toDataURL('image/jpeg');
-          const resizedImgTiny = dataUrlTiny.replace(
-            /^data:image\/(png|jpg);base64,/,
-            '',
-          );
-          console.log('resizedImgTiny :', resizedImgTiny);
-          this.setState({
-            avatarTinyUrl: dataUrlTiny,
-            avatarTinyFile: resizedImgTiny,
-          }, () => {
-            this.handleFileSubmit();
-          });
-        };
-        img.src = readerEvent.target.result;
+        } else {
+          if (tinyHeight > tinySize) {
+            tinyWidth *= tinySize / tinyHeight;
+            tinyHeight = tinySize;
+          }
+        }
+        canvas.width = tinyWidth;
+        canvas.height = tinyHeight;
+        canvas.getContext('2d').drawImage(img, 0, 0, tinyWidth, tinyHeight);
+        const dataUrlTiny = canvas.toDataURL('image/jpeg');
+        const resizedImgTiny = dataUrlTiny.replace(
+          /^data:image\/(png|jpg);base64,/,
+          '',
+        );
+        console.log('resizedImgTiny :', resizedImgTiny);
+        this.setState({
+          avatarTinyUrl: dataUrlTiny,
+          avatarTinyFile: resizedImgTiny,
+        }, () => {
+          this.handleFileSubmit();
+        });
       };
-      reader.readAsDataURL(file);
-    }
+      img.src = readerEvent.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   //posts avatar to db
@@ -156,7 +153,6 @@ class profile extends React.Component {
   getUserAvatar() {
     axios
       .get('/user/profile/avatar', {
-        // responseType: 'arraybuffer',
         params: {
           username: this.state.username,
         },
@@ -172,30 +168,44 @@ class profile extends React.Component {
       });
   }
 
-  getPlaylist() {
-    axios
-      .get('/user/getspotify')
-      .then(data => {
-        console.log(data.data);
-        if (data.data.message) {
-          alert('hook your spotify account first');
-        }
+  getFollowers() {
+    let user = this.state.username;
+    axios.get('/user/followers', {
+      params: {
+        user
+      }
+    })
+    .then(res => {
+      this.setState({
+        followers: res.data,
       })
-      .catch(err => console.log(err));
+    })
+    .catch(err => {
+      console.log('error getting user followers :', err);
+    })
+  }
+
+  getPlaylist() {
+    axios.get('/user/getspotify')
+    .then(data => {
+      console.log(data.data);
+      if (data.data.message) {
+        alert('hook your spotify account first');
+      }
+    })
+    .catch(err => console.log(err));
   }
 
   refreshToken() {
-    axios
-      .post('user/refresh')
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+    axios.post('user/refresh')
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
   }
 
   player() {
-    axios
-      .post('user/player')
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+    axios.post('user/player')
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
   }
 
   popUp(username) {
@@ -226,14 +236,16 @@ class profile extends React.Component {
     );
   }
 
+
+
   render() {
     let spotifyRndr;
-    // console.log(this.state.spotifyName);
+    
     if (!this.state.done) {
       return (
         <Layout>
-            <div class="ui active inverted dimmer">
-              <div class="ui massive text loader">Loading</div>
+            <div className="ui active inverted dimmer">
+              <div className="ui massive text loader">Loading</div>
             </div>
         </Layout>
       );
@@ -293,7 +305,12 @@ class profile extends React.Component {
                       </div>
                       <div />
                     </div>
-                    <div className="profile-name">{this.state.username}</div>
+                    <div className="profile-name">
+                      {this.state.username}
+                      <div className='followers'>
+                        {this.state.followers ? `Followers: ${this.state.followers.length}` : ''}
+                      </div>
+                    </div>
                     <button className="ui button" onClick={() => this.popUp(this.state.username)}>
                       hookup with spotify
                     </button>
@@ -401,6 +418,15 @@ class profile extends React.Component {
               width: 100%;
               font-size: 2.4rem;
               font-weight: 10rem;
+              line-height: 3.7rem;
+              text-transform: uppercase;
+              letter-spacing: 0.1rem;
+            }
+
+            .followers {
+              color: #eee;
+              font-size: 1.4rem;
+              font-weight: 4rem;
               line-height: 3.7rem;
               text-transform: uppercase;
               letter-spacing: 0.1rem;
