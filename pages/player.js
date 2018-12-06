@@ -34,6 +34,7 @@ class Player extends React.Component {
       isReady: false,
       initialMountDone: false,
       usersInRoom: 0,
+      hostTimestamp: null,
     }
     this.resetToLobby = this.resetToLobby.bind(this);
   }
@@ -85,16 +86,22 @@ class Player extends React.Component {
       //axios.post('/host', {hostingName: this.state.hostingName})
         .then((res) => {
           //console.log('host claim response: ', res);
+          let newState = {isReady: true}
+          //console.log(res.data.sync);
+          if (res.data && res.data.sync) {
+            newState.hostTimestamp = res.data.sync.hostTimestamp;
+          }
           if(true) {
-            this.setState({isReady: true});
+            this.setState(newState);
           }
         })
         .catch((err) => {
-          if(err.response.status === 403) {
-            alert('Host claimed or in dispute');
-          } else {
+          console.log(err)
+          //if(err.response.status === 403) {
+          //  alert('Host claimed or in dispute');
+          //} else {
             console.error(err);
-          }
+          //}
         });
     } else {
       this.setState({isReady: true})
@@ -145,7 +152,7 @@ class Player extends React.Component {
     let playerElement;
     if (this.state.initialMountDone) {
       playerElement = this.state.host === this.state.user ? 
-        <HostWindow isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
+        <HostWindow hostTimestamp ={this.state.hostTimestamp} isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
         <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service} user={this.state.user}/>
     } else {
       playerElement = <span>Loading...</span>
