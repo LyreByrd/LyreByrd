@@ -22,11 +22,12 @@ class profile extends React.Component {
       spotifyName: null,
       spotifyAvtr: null,
       done: false,
-      followers: [],
+      followers: null,
       following: [],
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
+    this.getFollowers = this.getFollowers.bind(this);
   }
 
 
@@ -43,7 +44,10 @@ class profile extends React.Component {
       spotifyName,
       spotifyAvtr,
       done: true
-    }, () => this.getUserAvatar());
+    }, () => {
+      this.getUserAvatar();
+      this.getFollowers();
+    });
   }
 
   //shows preview of avatar
@@ -163,6 +167,23 @@ class profile extends React.Component {
       });
   }
 
+  getFollowers() {
+    let user = this.state.username;
+    axios.get('/user/followers', {
+      params: {
+        user
+      }
+    })
+    .then(res => {
+      this.setState({
+        followers: res.data,
+      })
+    })
+    .catch(err => {
+      console.log('error getting user followers :', err);
+    })
+  }
+
   getPlaylist() {
     axios.get('/user/getspotify')
     .then(data => {
@@ -208,6 +229,8 @@ class profile extends React.Component {
       },
     );
   }
+
+
 
   render() {
     let spotifyRndr;
@@ -274,7 +297,12 @@ class profile extends React.Component {
                       </div>
                       <div />
                     </div>
-                    <div className="profile-name">{this.state.username}</div>
+                    <div className="profile-name">
+                      {this.state.username}
+                      <div className='followers'>
+                        {this.state.followers ? `Followers: ${this.state.followers.length}` : ''}
+                      </div>
+                    </div>
                     <button className="ui button" onClick={() => this.popUp(this.state.username)}>
                       hookup with spotify
                     </button>
@@ -382,6 +410,15 @@ class profile extends React.Component {
               width: 100%;
               font-size: 2.4rem;
               font-weight: 10rem;
+              line-height: 3.7rem;
+              text-transform: uppercase;
+              letter-spacing: 0.1rem;
+            }
+
+            .followers {
+              color: #eee;
+              font-size: 1.4rem;
+              font-weight: 4rem;
               line-height: 3.7rem;
               text-transform: uppercase;
               letter-spacing: 0.1rem;
