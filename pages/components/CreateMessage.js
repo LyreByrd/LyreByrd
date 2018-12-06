@@ -63,13 +63,27 @@ class CreateMessage extends react.Component {
       <div>
         <br />
         <form onSubmit={(e) => this.submitMessage(e)}>
-          <input type='text' 
+          {/* <input type='text' 
             placeholder='Enter New Message'
             value={this.state.newMessage.message} 
             onChange={(e) => this.handleMessageChange(e)}/>
           <input type='submit'
             value='Submit'
-          />
+          /> */}
+          <div className="ui action input">
+            <input 
+            type="text" 
+            placeholder="Enter New Message"
+            value={this.state.newMessage.message} 
+            onChange={(e) => this.handleMessageChange(e)}
+            />
+            <button 
+            type='submit'
+            className='ui button'
+            >
+            Submit
+            </button>
+          </div>
         </form>
       </div>
     )

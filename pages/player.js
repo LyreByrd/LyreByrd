@@ -19,8 +19,8 @@ const chatStyle = {
 }
 const contentStyle = {
   'marginBottom': 'auto',
-  color : 'white',
-  'backgroundColor': 'rgb(27, 26, 26)',
+  color : 'black',
+  minWidth: '45em'
 }
 
 class Player extends React.Component {
