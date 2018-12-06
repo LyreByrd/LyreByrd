@@ -242,7 +242,7 @@ router.get('/following', (req, res) => {
         res.status(404).end(err);
       } else {
         if (result === null) {
-          let result = {following: []};
+          result.following = [];
         }
         res.send(result.following);
       }
@@ -262,9 +262,7 @@ router.get('/followers', (req, res) => {
         res.status(404).end(err);
       } else {
         if (result === null) {
-          let result = {
-            following: []
-          };
+          result.followers = [];
         }
         res.send(result.followers);
       }
