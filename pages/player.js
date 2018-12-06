@@ -1,32 +1,32 @@
 import Layout from './components/Layout.js';
-import react from 'react';
-import {withRouter} from 'next/router';
+import React from 'react';
+import { withRouter } from 'next/router';
 import HostWindow from './components/HostWindow.js';
 import ClientWindow from './components/ClientWindow.js';
 import axios from 'axios';
-import Chat from './components/chat.js'
+import Chat from './components/chat.js';
 import io from 'socket.io-client';
-let config = require('./config/config.js')
+let config = require('./config/config.js');
 
 const playerContainer = {
   display: 'flex',
   flexDirection: 'row',
   flexBasis: 'auto',
   justifyContent: 'space-around',
-}
+};
 
 const chatStyle = {
-  'marginBottom': 'auto'
-}
+  marginBottom: 'auto',
+};
 const contentStyle = {
-  'marginBottom': 'auto',
-  color : 'white',
-  'backgroundColor': 'rgb(27, 26, 26)',
-}
+  marginBottom: 'auto',
+  color: 'white',
+  backgroundColor: 'rgb(27, 26, 26)',
+};
 
 class Player extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       user: '',
       host: props.router.query.host,
@@ -35,76 +35,84 @@ class Player extends React.Component {
       initialMountDone: false,
       usersInRoom: 0,
       hostTimestamp: null,
-    }
+      done: false
+    };
     this.resetToLobby = this.resetToLobby.bind(this);
   }
 
   resetToLobby(error) {
-    console.log('error in lobby reset', error)
+    console.log('error in lobby reset', error);
     console.log('Make this do something useful!');
-    this.setState({isReady: false}, () => {
+    this.setState({ isReady: false }, () => {
       setTimeout(() => this.regenSession(), 5000);
     });
   }
 
-  getInitialProps() {
-
-  }
+  getInitialProps() {}
 
   componentDidMount() {
     let currentHost = this.props.router.query.host;
     let currentUser = localStorage.getItem('username');
-    this.setState({
-      // host: currentHost,
-      user: currentUser,
-      path: `/player?host=${currentHost}&service=${this.state.service}`,
-      initialMountDone: true,
-    }, () => {
-      if (this.state.host === this.state.user) {
-        this.tryClaimHost();
+    this.setState(
+      {
+        // host: currentHost,
+        user: currentUser,
+        path: `/player?host=${currentHost}&service=${this.state.service}`,
+        initialMountDone: true,
+        done: true 
+      },
+      () => {
+        if (this.state.host === this.state.user) {
+          this.tryClaimHost();
 
-        //sends a new host feed object through socket to feed server
-        this.socketFeed();
+          //sends a new host feed object through socket to feed server
+          this.socketFeed();
 
-      } else {
-        this.setState({isReady: true});
-      }
-    })
+          //sends a new host feed object through socket to feed server
+          this.socketFeed();
+        } else {
+          this.setState({ 
+            isReady: true
+          });
+        }
+      },
+    );
   }
 
   regenSession() {
     // console.log('checking to see if user should be host');
     //console.log('this.state.host :', this.state.host);
     //console.log('this.state.user :', this.state.user);
-    if (this.state.host === this.state.user) { 
+    if (this.state.host === this.state.user) {
       // console.log('attempting to recreate sync session');
-      axios.post('api/player/create', {
-        host: this.state.user,
-        path: `/player?host=${this.state.user}`,
-        service: this.state.service,
-      })
-      //axios.post('/host', {hostingName: this.state.hostingName})
-        .then((res) => {
+      axios
+        .post('api/player/create', {
+          host: this.state.user,
+          path: `/player?host=${this.state.user}`,
+          service: this.state.service,
+        })
+        //axios.post('/host', {hostingName: this.state.hostingName})
+        .then(res => {
           //console.log('host claim response: ', res);
-          let newState = {isReady: true}
+          let newState = { isReady: true };
           //console.log(res.data.sync);
           if (res.data && res.data.sync) {
             newState.hostTimestamp = res.data.sync.hostTimestamp;
           }
-          if(true) {
+          if (true) {
             this.setState(newState);
           }
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(err => {
+          console.log(err);
           //if(err.response.status === 403) {
           //  alert('Host claimed or in dispute');
           //} else {
-            console.error(err);
+          console.error(err);
           //}
         });
     } else {
-      this.setState({isReady: true})
+      this.setState({ isReady: true });
     }
   }
 
@@ -131,48 +139,71 @@ class Player extends React.Component {
   }
 
   socketFeed() {
-    const socket = io(`${config.PROXY_IP}:8080`, {secure: true}); 
+    const socket = io(`${config.PROXY_IP}:8080`, { secure: true });
     const feedData = {
       host: this.state.user,
       path: this.state.path,
       usersInRoom: this.state.usersInRoom,
       service: this.state.service,
-    }
+    };
 
     socket.on('connect', () => {
-      socket.emit('new feed', feedData)
+      socket.emit('new feed', feedData);
       socket.emit('join player');
-    })
-
-    
+    });
   }
 
   render() {
     let playerElement;
+    if(!this.state.done) {
+      return (
+
+        <Layout>
+          <div className="ui active inverted dimmer">
+            <div className="ui massive text loader">Loading</div>
+          </div>
+        </Layout>
+      )
+    }
     if (this.state.initialMountDone) {
-      playerElement = this.state.host === this.state.user ? 
-        <HostWindow hostTimestamp ={this.state.hostTimestamp} isActive={this.state.isReady} hostingName={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service}/> : 
-        <ClientWindow isActive={this.state.isReady} sessionHost={this.state.host} resetToLobby={this.resetToLobby} service={this.state.service} user={this.state.user}/>
+      playerElement =
+        this.state.host === this.state.user ? (
+          <HostWindow
+            hostTimestamp={this.state.hostTimestamp}
+            isActive={this.state.isReady}
+            hostingName={this.state.host}
+            resetToLobby={this.resetToLobby}
+            service={this.state.service}
+          />
+        ) : (
+          <ClientWindow
+            isActive={this.state.isReady}
+            sessionHost={this.state.host}
+            resetToLobby={this.resetToLobby}
+            service={this.state.service}
+            user={this.state.user}
+          />
+        );
     } else {
-      playerElement = <span>Loading...</span>
+      playerElement = <span id="lak">Loading...</span>;
     }
     return (
       <Layout>
-        <div className='player-container' style={playerContainer}>
-          <div className='content-container' style={contentStyle}>
+        <div className="player-container" style={playerContainer}>
+          <div className="content-container" style={contentStyle}>
             {playerElement}
           </div>
-          <div className='chat-container' style={chatStyle}>
-          <Chat
-            user={this.props.user}
-            path={this.state.path}
-            host={this.state.host}
-          />
+          <div className="chat-container" style={chatStyle}>
+            <Chat
+              user={this.props.user}
+              path={this.state.path}
+              host={this.state.host}
+            />
           </div>
+          <style jsx>{``}</style>
         </div>
-
       </Layout>
-    )
+    );
   }
 }
 

@@ -111,14 +111,18 @@ class ClientWindow extends React.Component {
         props.sessionHost = props.hostingName;
       }
       return (
-        <div>
+        <div style={{padding: '1em'}}>
           {this.state.hasLoaded ? <ClientPlayer {...props} /> : 'Loading...'}
           {!this.state.isFollowing ?
           <button
+          style={{marginTop: '1em'}}
+          className='ui button'
             onClick={() => this.followHost()}
           >Follow Host</button>
           :
           <button
+          style={{marginTop: '1em'}}
+          className='ui button'
             onClick={() => this.unFollowHost()}
           >Unfollow Host</button>
           }

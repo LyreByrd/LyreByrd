@@ -55,8 +55,8 @@ router.get('/feeds', (req, res) => {
       // console.log('data', data);
       res.json(data);
     }
-  })
-})
+  });
+});
 
 router.post('/create', (req, res) => {
   let host = req.body.host;
