@@ -2,6 +2,11 @@ import react from 'react';
 import io from 'socket.io-client';
 import moment from 'moment';
 let config = require('../config/config.js');
+
+
+const msgStyle = {
+  width: '380px'
+}
 class CreateMessage extends react.Component {
   constructor(props) {
     super(props);
@@ -60,9 +65,9 @@ class CreateMessage extends react.Component {
 
   render() {
     return (
-      <div>
+      <div >
         <form onSubmit={e => this.submitMessage(e)}>
-        <div className='ui action input'>
+        <div className='ui action input' style={msgStyle}>
           <input
             className="input-msg"
             type="text"
