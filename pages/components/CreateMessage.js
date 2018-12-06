@@ -62,6 +62,7 @@ class CreateMessage extends react.Component {
     return (
       <div>
         <form onSubmit={e => this.submitMessage(e)}>
+        <div className='ui action input'>
           <input
             className="input-msg"
             type="text"
@@ -69,7 +70,8 @@ class CreateMessage extends react.Component {
             value={this.state.newMessage.message}
             onChange={e => this.handleMessageChange(e)}
           />
-          <input type="submit" value="Submit" />
+          <button className='ui button' type="submit" value="Submit">Send</button>
+        </div>
         </form>
         <style jsx>{`
           .input-msg {
