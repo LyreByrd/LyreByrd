@@ -16,7 +16,7 @@ const Layout = props => (
         href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
       />
     </Head>
-    <NavBar />
+
     <style jsx global>{`
       *,
       *::after,
@@ -25,9 +25,14 @@ const Layout = props => (
         padding-right: 0;
         box-sizing: inheritt;
       }
-      html {
-        font-size: 62.5%; /*This defines what 1 rem should be */
+
+      .ui.menu {
+        font-size: 14px;
       }
+      html {
+        font-size: 62.5%;
+      }
+
       body {
         box-sizing: border-box;
         background-color: #dfdcd4; /*changes box model so border and padding are not added */
