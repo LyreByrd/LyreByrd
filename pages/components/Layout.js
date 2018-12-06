@@ -16,7 +16,6 @@ const Layout = props => (
         href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"
       />
     </Head>
-    <NavBar />
     <style jsx global>{`
       *,
       *::after,

@@ -10,7 +10,6 @@ const messagesContainer = {
   display: 'flex',
   flexDirection: 'column',
   width: '390px',
-  // border: '1px solid black',
 }
 
 const timeStampStyle = {
