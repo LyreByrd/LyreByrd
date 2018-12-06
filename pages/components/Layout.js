@@ -1,6 +1,10 @@
 import NavBar from './NavBar';
 import Head from 'next/head';
 
+const navBarStyle = {
+  marginBottom: '1%',
+};
+
 const Layout = props => (
   <div>
     <Head>
@@ -29,6 +33,9 @@ const Layout = props => (
         background-color: #dfdcd4; /*changes box model so border and padding are not added */
       }
     `}</style>
+    <div style={navBarStyle}>
+      <NavBar />
+    </div>
     {props.children}
   </div>
 );

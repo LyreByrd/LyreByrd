@@ -4,11 +4,26 @@ import CreateMessage from './CreateMessage';
 import Messages from './Messages';
 import axios from 'axios';
 const placeholderData = require('../../static/placeholderAvatar.js').default;
+let config = require('../config/config.js');
 
 const container = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
+};
+
+const messagesStyle = {
+  border: '3px #919191 solid',
+  background: '#cfcfcf',
+  display: 'flex',
+  flex: '1 1 auto',
+  height: '500px',
+  width: '400px',
+  overflowY: 'scroll',
+  overflowX: 'hidden',
+  float: 'right',
+  // boxShadow: 'inset 0px 0px 20px 10px #919191',
+  // filter: 'drop-shadow(0 10px 0.7rem #919191)',
 };
 
 const onlineUsersStyle = {
@@ -57,14 +72,21 @@ class Chat extends react.Component {
 
   socketConnect() {
     //socket.io connection
-    const socket = io('http://localhost:8000'); //todo change to production.env host
-    const feedSocket = io('http://localhost:8080');
+    const socket = io(
+      `${config.PROXY_IP}:8000`,
+      // {secure: true}
+    );
+    const feedSocket = io(
+      `${config.PROXY_IP}:8080`,
+      // {secure: true}
+    );
+
     //on user connect
     socket.on('connect', () => {
       // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
-      // socket.emit('user avatar', this.state.usersAvatars);
+      socket.emit('user avatar', this.state.usersAvatars);
       socket.on('fetch messages', messages => {
         this.setState({
           messages: [...messages],
