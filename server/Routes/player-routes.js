@@ -74,7 +74,6 @@ router.post('/create', (req, res) => {
       res.sendStatus(500)
     } else {
       console.log('attempting to create sync session')
-      console.log(req.body.host);
       axios.post(`https://${syncServerUrl}:${syncServerPort}/host`, {hostingName: req.body.host, service: req.body.service})
         .then(response => {
           if (response.status === 403) {
