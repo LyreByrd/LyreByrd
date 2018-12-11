@@ -42,7 +42,7 @@ class Login extends React.Component {
       console.log(res.data);
       localStorage.setItem('jwt', res.data.token);
       localStorage.setItem("username", res.data.username);
-      Router.push('/player');
+      Router.push('/streamType');
     })
     .catch((err) => {
       err = err.response;

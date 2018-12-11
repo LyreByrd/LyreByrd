@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './card';
 
-const Block = ({ title, subtitle, host, name, feeds }) => (
+const Block = ({ title, subtitle, feeds }) => (
   <div>
     <div className="titlebox">
       <p className="title">{title}</p>
