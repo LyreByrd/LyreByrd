@@ -35,6 +35,7 @@ class Player extends React.Component {
       initialMountDone: false,
       usersInRoom: 0,
       hostTimestamp: null,
+      done: false
     };
     this.resetToLobby = this.resetToLobby.bind(this);
   }
@@ -58,6 +59,7 @@ class Player extends React.Component {
         user: currentUser,
         path: `/player?host=${currentHost}&service=${this.state.service}`,
         initialMountDone: true,
+        done: true 
       },
       () => {
         if (this.state.host === this.state.user) {
@@ -69,7 +71,9 @@ class Player extends React.Component {
           //sends a new host feed object through socket to feed server
           this.socketFeed();
         } else {
-          this.setState({ isReady: true });
+          this.setState({ 
+            isReady: true
+          });
         }
       },
     );
@@ -151,6 +155,16 @@ class Player extends React.Component {
 
   render() {
     let playerElement;
+    if(!this.state.done) {
+      return (
+
+        <Layout>
+          <div className="ui active inverted dimmer">
+            <div className="ui massive text loader">Loading</div>
+          </div>
+        </Layout>
+      )
+    }
     if (this.state.initialMountDone) {
       playerElement =
         this.state.host === this.state.user ? (

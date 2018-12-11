@@ -13,8 +13,9 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const MONGO_URL = process.env.MONGO_URL;
 
-mongoose.connect('mongodb://skuzbot:clavious818@cluster0-shard-00-00-chohs.mongodb.net:27017,cluster0-shard-00-01-chohs.mongodb.net:27017,cluster0-shard-00-02-chohs.mongodb.net:27017/lyrebyrddb?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', {
+mongoose.connect(MONGO_URL, {
   useNewUrlParser: true
 })
 .then(() => console.log('connection to db succesful'))
