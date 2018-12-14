@@ -6,36 +6,10 @@ import axios from 'axios';
 const placeholderData = require('../../static/placeholderAvatar.js').default;
 let config = require('../config/config.js');
 
-// const container = {
-//   display: 'flex',
-//   flexDirection: 'row',
-//   justifyContent: 'space-between',
-// };
-
-// const messagesStyle = {
-//   border: '3px #919191 solid',
-//   background: '#cfcfcf',
-//   display: 'flex',
-//   flex: '1 1 auto',
-//   height: '500px',
-//   width: '400px',
-//   overflowY: 'scroll',
-//   overflowX: 'hidden',
-//   float: 'right',
-//   // boxShadow: 'inset 0px 0px 20px 10px #919191',
-//   // filter: 'drop-shadow(0 10px 0.7rem #919191)',
-// };
-
-// const onlineUsersStyle = {
-//   marginLeft: '10px',
-//   marginTop: '10px',
-// };
-
 const avatarStyle = {
   borderRadius: '50%',
   border: '3px solid gray',
   marginLeft: '10px',
-
 };
 
 class Chat extends react.Component {
@@ -85,7 +59,6 @@ class Chat extends react.Component {
 
     //on user connect
     socket.on('connect', () => {
-      // console.log('this.state.user :', this.state.user);
       socket.emit('join room', this.props.host);
       socket.emit('user connected', this.state.user);
       socket.emit('user avatar', this.state.usersAvatars);
@@ -98,7 +71,6 @@ class Chat extends react.Component {
 
     //handles changes in online users
     socket.on('update users', users => {
-      // console.log('users :', users);
       this.setState({
         users: users,
       });
@@ -118,7 +90,6 @@ class Chat extends react.Component {
     });
 
     socket.on('user disconnected', users => {
-      // console.log('user disconnected', usersObj);
       this.setState({
         users: users,
       });
@@ -137,10 +108,8 @@ class Chat extends react.Component {
   };
 
   onlineUsers(users) {
-    // console.log('users in onlineUsers:', users);
     if (Object.keys(users).length > 0) {
       return Object.entries(users).map((user, i) => {
-        // console.log('user :', user);
         return (
           <div key={i}>
             <img
@@ -161,7 +130,6 @@ class Chat extends react.Component {
       resolve(
         axios
           .get('/user/profile/tinyAvatar', {
-            // responseType: 'arraybuffer',
             params: {
               username: username,
             },

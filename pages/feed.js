@@ -15,10 +15,6 @@ export default class Feed extends React.Component {
       done: false
     };
   }
-
-  componentWillMount() {
-
-  }
   
   componentDidMount() {
     this.getFeeds();

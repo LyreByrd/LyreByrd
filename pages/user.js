@@ -33,7 +33,6 @@ class user extends React.Component {
   }
 
   componentDidMount() {
-    // let name = this.props.url.query.name;
     let username = sessionStorage.getItem('searchUser');
     let avatarSrc = sessionStorage.getItem('searchUserAvatar');
     let url = sessionStorage.getItem('searchUserUrl');

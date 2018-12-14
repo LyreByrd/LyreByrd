@@ -42,20 +42,16 @@ class Player extends React.Component {
 
   resetToLobby(error) {
     console.log('error in lobby reset', error);
-    console.log('Make this do something useful!');
     this.setState({ isReady: false }, () => {
       setTimeout(() => this.regenSession(), 5000);
     });
   }
-
-  getInitialProps() {}
 
   componentDidMount() {
     let currentHost = this.props.router.query.host;
     let currentUser = localStorage.getItem('username');
     this.setState(
       {
-        // host: currentHost,
         user: currentUser,
         path: `/player?host=${currentHost}&service=${this.state.service}`,
         initialMountDone: true,
@@ -80,22 +76,15 @@ class Player extends React.Component {
   }
 
   regenSession() {
-    // console.log('checking to see if user should be host');
-    //console.log('this.state.host :', this.state.host);
-    //console.log('this.state.user :', this.state.user);
     if (this.state.host === this.state.user) {
-      // console.log('attempting to recreate sync session');
       axios
         .post('api/player/create', {
           host: this.state.user,
           path: `/player?host=${this.state.user}`,
           service: this.state.service,
         })
-        //axios.post('/host', {hostingName: this.state.hostingName})
         .then(res => {
-          //console.log('host claim response: ', res);
           let newState = { isReady: true };
-          //console.log(res.data.sync);
           if (res.data && res.data.sync) {
             newState.hostTimestamp = res.data.sync.hostTimestamp;
           }
@@ -104,12 +93,7 @@ class Player extends React.Component {
           }
         })
         .catch(err => {
-          console.log(err);
-          //if(err.response.status === 403) {
-          //  alert('Host claimed or in dispute');
-          //} else {
           console.error(err);
-          //}
         });
     } else {
       this.setState({ isReady: true });
@@ -117,25 +101,7 @@ class Player extends React.Component {
   }
 
   tryClaimHost() {
-    //let token = localStorage.getItem('jwt');
-    //console.log('JWT: ', token);
-    //maybe host definitely has been created once we navigate here?
-    //console.log('trying to claim with state: ', this.state);
     this.regenSession();
-    // axios.post('/host', {hostingName: this.state.hostingName})
-    // .then((res) => {
-    //   //console.log('host claim response: ', res);
-    //   if(res.data.hostName === this.state.hostingName) {
-    //     this.setState({inSession: true, isHost: true});
-    //   }
-    // })
-    // .catch((err) => {
-    //   if(err.response.status === 403) {
-    //     alert('Host claimed or in dispute');
-    //   } else {
-    //     console.error(err);
-    //   }
-    // });
   }
 
   socketFeed() {

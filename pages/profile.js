@@ -53,7 +53,6 @@ class profile extends React.Component {
     let file = e.target.files[0];
 
     if (!file.type.match(/image.*/)) {
-      //todo these two if checks are no longer needed
       window.alert('please choose an image file');
       e.target.value = null;
     } else if (file > 500000) {
@@ -214,11 +213,8 @@ class profile extends React.Component {
       {},
       (err, user) => {
         if (err) {
-          // alert(err.message);
           console.log(err);
         } else {
-          // save the returned user in localStorage/cookie or something
-          // console.log(user);
           setInterval(()=> {
             console.log('refresh token called');
             this.refreshToken();
@@ -237,7 +233,6 @@ class profile extends React.Component {
 
   render() {
     let spotifyRndr;
-    // console.log(this.state.spotifyName);
     if (!this.state.done) {
       return (
         <Layout>
@@ -257,9 +252,6 @@ class profile extends React.Component {
       } else {
         spotifyRndr = (
           <div>
-            {/* <div>
-          <a href={`/auth/spotify?user=${this.state.username}`}>hookup with spotify</a>
-        </div> */}
             <button onClick={() => this.popUp(this.state.username)}>
               hook up spotify
             </button>

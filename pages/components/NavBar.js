@@ -18,7 +18,6 @@ class NavBar extends React.Component {
     this.searchProfile = this.searchProfile.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
   }
-  // this.handleItemClick = this.handleItemClick.bind(this);
 
   componentDidMount() {
     if (localStorage.getItem('spotifyAuth')) {
@@ -41,10 +40,6 @@ class NavBar extends React.Component {
   }
 
   handleItemClick(e, { name }) {
-    console.log(name);
-    // this.setState({
-    //   activeItem: name,
-    // });
     if (name === 'create player stream') {
       axios
         .post('/player/create', {
@@ -221,7 +216,6 @@ class NavBar extends React.Component {
   }
 
   render() {
-    // const { activeItem } = this.state;
 
     return (
       <div>
